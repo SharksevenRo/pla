@@ -10,9 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pla</groupId>
-    <artifactId>pla-core</artifactId>
+    <artifactId>pla-web-demo</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>com.pla</groupId>
+            <artifactId>pla-core</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 </project>
