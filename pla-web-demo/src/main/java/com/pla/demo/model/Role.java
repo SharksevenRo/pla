@@ -1,24 +1,31 @@
 package com.pla.demo.model;
 
-
+import com.pla.model.FactoryBeanId;
 import com.pla.model.Model;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
 
-/**
- * Created by chey on 2015/9/15.
- */
-@SuppressWarnings("serial")
 @Entity
-@Table(name = "ROLE")
-public class Role extends Model<Role> {
-    private Long id;
-    private String name;
-    private String alias;
+@Table(name = "T_ROLE")
+@FactoryBeanId("sessionFactory")
+public class Role extends Model<Role> implements Serializable {
+	private static final long serialVersionUID = 3834031244408575341L;
+	private Long id;
+    private String roleName;
+    private Date creationDate;
+
+    private Set<Menu> menuList;
+
+    @Override
+    protected void init() {
+        creationDate = new Date();
+    }
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
     public Long getId() {
         return id;
     }
@@ -27,21 +34,30 @@ public class Role extends Model<Role> {
         this.id = id;
     }
 
-    @Column(name = "NAME")
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    @Column(name = "ALIAS")
-    public String getAlias() {
-        return alias;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "T_ROLE_MENU", joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "menu_id")})
+    public Set<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(Set<Menu> menuList) {
+        this.menuList = menuList;
     }
 }

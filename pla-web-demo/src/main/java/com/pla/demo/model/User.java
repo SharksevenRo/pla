@@ -1,29 +1,34 @@
 package com.pla.demo.model;
 
+import com.pla.model.FactoryBeanId;
 import com.pla.model.Model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by chey on 2015/9/15.
- */
-@SuppressWarnings("serial")
 @Entity
-@Table(name = "USER")
-public class User extends Model<User> {
-    private Long id;
+@Table(name = "T_USER")
+@FactoryBeanId("sessionFactory")
+public class User extends Model<User> implements Serializable {
+	private static final long serialVersionUID = 4786827237092328470L;
+	private Long id;
+    private Role role;
     private String userName;
-    private String password;
+    private String pwd;
     private String email;
-    private String tel;
+    private String realName;
+    private String address;
+    private Date birth;
     private Date creationDate;
 
-    private Role role;
+    @Override
+    protected void init() {
+        creationDate = new Date();
+    }
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
     public Long getId() {
         return id;
     }
@@ -32,7 +37,16 @@ public class User extends Model<User> {
         this.id = id;
     }
 
-    @Column(name = "USER_NAME")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -41,16 +55,14 @@ public class User extends Model<User> {
         this.userName = userName;
     }
 
-    @Column(name = "PASSWORD")
-    public String getPassword() {
-        return password;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
-    @Column(name = "EMAIL")
     public String getEmail() {
         return email;
     }
@@ -59,31 +71,35 @@ public class User extends Model<User> {
         this.email = email;
     }
 
-    @Column(name = "TEL")
-    public String getTel() {
-        return tel;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
-    @Column(name = "CREATION_DATE")
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
     public Date getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ROLE_ID")
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }

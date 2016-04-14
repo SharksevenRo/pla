@@ -1,34 +1,44 @@
 package com.pla.demo.model;
 
+import com.pla.model.FactoryBeanId;
 import com.pla.model.Model;
+import com.pla.utils.ModelUtil;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by shiro on 2015/7/8.
- */
 @Entity
-@Table(name = "DIC")
-public class Dic extends Model<Dic> {
+@Table(name = "T_DIC")
+@FactoryBeanId("sessionFactoryRes")
+public class Dic extends Model<Dic> implements Serializable {
+    private static final long serialVersionUID = -7843097306817462952L;
+
+    @Override
+    protected void init() {
+        creationDate = new Date();
+    }
+
     private Long id; //数据字典主键
     private String dicKey; //数据键
     private String dicValue; //数据值
     private String dicContent; //数据内容
     private String keyDesc; //数据类型描述
-    private Integer sort; //排序
+    private int sort; //排序
     private Date creationDate; //创建时间
 
-    @Override
-    public void init() {
-        sort = 0;
-        creationDate = new Date();
-    }
+    private String test1;
+    private byte[] test2;
+    private Double test3;
+    private Boolean test4;
 
     @Id
     @GeneratedValue
-    @Column(name = "ID")
     public Long getId() {
         return id;
     }
@@ -37,7 +47,7 @@ public class Dic extends Model<Dic> {
         this.id = id;
     }
 
-    @Column(name = "DIC_KEY")
+    @NotEmpty
     public String getDicKey() {
         return dicKey;
     }
@@ -46,7 +56,7 @@ public class Dic extends Model<Dic> {
         this.dicKey = dicKey;
     }
 
-    @Column(name = "DIC_VALUE")
+    @NotEmpty
     public String getDicValue() {
         return dicValue;
     }
@@ -55,7 +65,6 @@ public class Dic extends Model<Dic> {
         this.dicValue = dicValue;
     }
 
-    @Column(name = "DIC_CONTENT")
     public String getDicContent() {
         return dicContent;
     }
@@ -64,7 +73,6 @@ public class Dic extends Model<Dic> {
         this.dicContent = dicContent;
     }
 
-    @Column(name = "KEY_DESC")
     public String getKeyDesc() {
         return keyDesc;
     }
@@ -73,18 +81,16 @@ public class Dic extends Model<Dic> {
         this.keyDesc = keyDesc;
     }
 
-    @Column(name = "SORT")
-    public Integer getSort() {
+    public int getSort() {
         return sort;
     }
 
-    public void setSort(Integer sort) {
+    public void setSort(int sort) {
         this.sort = sort;
     }
 
 
     @NotNull
-    @Column(name = "CREATION_DATE")
     public Date getCreationDate() {
         return creationDate;
     }
@@ -93,5 +99,47 @@ public class Dic extends Model<Dic> {
         this.creationDate = creationDate;
     }
 
+    public static void main(String[] args) {
 
+        System.out.println(ModelUtil.getFactoryBeanId(Dic.class));
+
+    }
+
+    public String getTest1() {
+        return test1;
+    }
+
+    public void setTest1(String test1) {
+        this.test1 = test1;
+    }
+
+    public byte[] getTest2() {
+        return test2;
+    }
+
+    public void setTest2(byte[] test2) {
+        this.test2 = test2;
+    }
+
+    public Double getTest3() {
+        return test3;
+    }
+
+    public void setTest3(Double test3) {
+        this.test3 = test3;
+    }
+
+    public Boolean getTest4() {
+        return test4;
+    }
+
+    public void setTest4(Boolean test4) {
+        this.test4 = test4;
+    }
+
+    @Override
+    public String toString() {
+        return "id:" + id + " dicKey:" + dicKey + " dicValue:" + dicValue + " dicContent:" + dicContent +
+                " keyDesc:" + keyDesc + " sort:" + sort + " creationDate:" + creationDate;
+    }
 }

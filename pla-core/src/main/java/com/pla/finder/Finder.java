@@ -30,7 +30,7 @@ public class Finder<T> extends QueryByModelImpl<T> implements Query<T> {
     public QueryByClass<T> from(Class<T> clazz) {
         this.clazz = clazz;
         init(this.clazz);
-        return (QueryByClass<T>) this;
+        return this;
     }
 
     public QueryByModel<T> from(T t) {
@@ -40,7 +40,7 @@ public class Finder<T> extends QueryByModelImpl<T> implements Query<T> {
         this.t = t;
         this.clazz = (Class<T>) t.getClass();
         init(this.clazz);
-        return (QueryByModel<T>) this;
+        return this;
     }
 
     @Override
