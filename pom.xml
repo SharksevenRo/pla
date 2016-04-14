@@ -11,7 +11,7 @@
     <modules>
         <module>pla-core</module>
         <module>pla-web-demo</module>
-        <module>pla-querydsl-core</module>
+        <module>pla-querydsl</module>
     </modules>
 
     <properties>

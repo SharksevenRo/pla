@@ -9,7 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pla-querydsl-core</artifactId>
+    <artifactId>pla-querydsl</artifactId>
+    <version>4.1.1</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -21,8 +22,9 @@
         <cglib.version>2.2.2</cglib.version>
         <bridge-method.version>1.13</bridge-method.version>
 
-    </properties>
+        <codegen.version>0.6.8</codegen.version>
 
+    </properties>
 
     <dependencies>
         <dependency>
@@ -68,55 +70,24 @@
             <optional>true</optional>
         </dependency>
 
-        <!--  test -->
         <dependency>
-            <groupId>jdepend</groupId>
-            <artifactId>jdepend</artifactId>
-            <version>2.9.1</version>
-            <scope>test</scope>
+            <groupId>com.mysema.codegen</groupId>
+            <artifactId>codegen</artifactId>
+            <version>${codegen.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9</version>
         </dependency>
     </dependencies>
-
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.infradna.tool</groupId>
-                <artifactId>bridge-method-injector</artifactId>
-                <version>${bridge-method.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.infradna.tool</groupId>
-                        <artifactId>bridge-method-annotation</artifactId>
-                        <version>${bridge-method.version}</version>
-                        <optional>true</optional>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>org.jenkins-ci</groupId>
-                                <artifactId>annotation-indexer</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jvnet.hudson</groupId>
-                        <artifactId>annotation-indexer</artifactId>
-                        <version>1.2</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
 
 
 </project>
