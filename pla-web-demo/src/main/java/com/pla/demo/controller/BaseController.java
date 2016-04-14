@@ -39,5 +39,6 @@ public class BaseController {
         this.request = request;
         this.response = response;
         this.modelMap = modelMap;
+        this.model = model;
     }
 }

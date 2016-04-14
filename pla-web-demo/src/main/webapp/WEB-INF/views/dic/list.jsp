@@ -67,9 +67,9 @@
                                 操作 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">修改</a></li>
+                                <li><a href="${ctx}/dic/edit/${dic.id}">修改</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#">删除</a></li>
+                                <li><a href="javascript:;" onclick="if(confirm('确认删除？')){location.href='${ctx}/dic/delete/${dic.id}'}">删除</a></li>
                             </ul>
                         </div>
                     </td>

@@ -32,6 +32,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="${ctx}/dic/list">数据字典管理</a></li>
                         <li role="separator" class="divider"></li>
+                        <li><a href="#">菜单管理</a></li>
                         <li><a href="#">角色管理</a></li>
                         <li><a href="#">用户管理</a></li>
                     </ul>

@@ -3,6 +3,7 @@ package com.pla.demo.controller;
 import com.pla.demo.model.Dic;
 import com.pla.query.Pager;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class DicController extends BaseController {
-//    @Autowired
-//    private DicService dicService;
-
     @RequestMapping(value = "/dic/list")
     public String list(Dic dic, @RequestParam(defaultValue = "1") int page) {
         Pager<Dic> pager = dic.finder().eq("dicKey").eq("dicValue").like("dicContent")
@@ -32,6 +30,25 @@ public class DicController extends BaseController {
     @RequestMapping(value = "/dic/save", method = RequestMethod.POST)
     public String save(Dic dic) {
         dic.save();
+        return "redirect:/dic/list";
+    }
+
+    @RequestMapping(value = "/dic/edit/{id}", method = RequestMethod.GET)
+    public String edit(@PathVariable(value = "id") Long id) {
+        Dic dic = Dic.finder(Dic.class).load(id);
+        model.addAttribute("dic", dic);
+        return "/dic/edit";
+    }
+
+    @RequestMapping(value = "/dic/update", method = RequestMethod.POST)
+    public String update(Dic dic) {
+        dic.update("dicKey", "dicValue", "dicContent", "keyDesc", "sort");
+        return "redirect:/dic/list";
+    }
+
+    @RequestMapping(value = "/dic/delete/{id}")
+    public String delete(@PathVariable(value = "id") Long id) {
+        Dic.finder(Dic.class).load(id).delete();
         return "redirect:/dic/list";
     }
 }
