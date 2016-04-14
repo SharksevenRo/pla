@@ -1,7 +1,7 @@
-package com.demo.controller;
+package com.pla.demo.controller;
 
-import com.demo.model.Dic;
-import com.demo.model.User;
+import com.pla.demo.model.Dic;
+import com.pla.demo.model.User;
 import com.pla.query.On;
 import com.pla.query.Pager;
 import org.springframework.stereotype.Controller;

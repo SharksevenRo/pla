@@ -18,38 +18,87 @@
         <property name="ignoreResourceNotFound" value="true"/>
     </bean>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${dataSource.driver}"/>
         <property name="url" value="${dataSource.url}"/>
         <property name="username" value="${dataSource.username}"/>
         <property name="password" value="${dataSource.password}"/>
     </bean>
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.PHibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="hibernateProperties">
             <value>
-                hibernate.dialect=org.hibernate.dialect.H2Dialect
-                hibernate.show_sql=true
+                hibernate.dialect=${dataSource.dialect}
+                hibernate.show_sql=${dataSource.showsql}
             </value>
+        </property>
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
         </property>
         <property name="packagesToScan">
             <list>
-                <value>com.demo.model</value>
+                <value>com.pla.demo.model</value>
             </list>
         </property>
     </bean>
+    <bean id="transactionManager" class="com.pla.transaction.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 使用分布式多事务时需要申明每个事务的 sessionFactoryName -->
+        <property name="sessionFactoryName" value="sessionFactory" />
+    </bean>
 
-    <context:component-scan base-package="com.demo.service"/>
+    <bean id="dataSourceRes"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${dataSource2.driver}"/>
+        <property name="url" value="${dataSource2.url}"/>
+        <property name="username" value="${dataSource2.username}"/>
+        <property name="password" value="${dataSource2.password}"/>
+    </bean>
+    <bean id="sessionFactoryRes"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceRes"/>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=${dataSource2.dialect}
+                hibernate.show_sql=${dataSource2.showsql}
+            </value>
+        </property>
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+        </property>
+        <property name="packagesToScan">
+            <list>
+                <value>com.pla.demo.model</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="transactionManagerRes" class="com.pla.transaction.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactoryRes"/>
+        <property name="dataSource" ref="dataSourceRes"/>
+        <!-- 使用分布式多事务时需要申明每个事务的 sessionFactoryName -->
+        <property name="sessionFactoryName" value="sessionFactoryRes" />
+    </bean>
+
+    <bean id="chainedTransactionManager" class="org.springframework.data.transaction.ChainedTransactionManager">
+        <constructor-arg>
+            <list>
+                <ref bean="transactionManager" />
+                <ref bean="transactionManagerRes" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="chainedTransactionManager" />
+
+    <bean class="com.pla.PLAConfiguration" scope="singleton">
+        <property name="recordNamingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+        </property>
+    </bean>
+
+    <context:component-scan base-package="com.pla.demo.service"/>
 
 </beans>

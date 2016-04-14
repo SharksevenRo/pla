@@ -12,7 +12,7 @@
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 
-    <context:component-scan base-package="com.demo.controller"/>
+    <context:component-scan base-package="com.pla.demo.controller"/>
     <bean
             class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 

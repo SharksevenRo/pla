@@ -1,6 +1,6 @@
-package com.demo.service;
+package com.pla.demo.service;
 
-import com.demo.model.Dic;
+import com.pla.demo.model.Dic;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

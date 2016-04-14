@@ -1,13 +1,22 @@
-package com.demo.controller.customeditor;
+package com.pla.demo.controller.customeditor;
 
 import java.beans.PropertyEditorSupport;
 
 import org.springframework.util.StringUtils;
 
-public class CustomDoubleEditor extends PropertyEditorSupport {
+/**
+ * <p>
+ * Description:
+ * </p>
+ * Copyright: Copyright (c) 2011 Company: WDHL
+ * 
+ * @author machengyuan
+ * @version 1.0 2012-1-4
+ */
+public class CustomLongEditor extends PropertyEditorSupport {
 	private final boolean allowEmpty;
 
-	public CustomDoubleEditor(boolean allowEmpty) {
+	public CustomLongEditor(boolean allowEmpty) {
 		this.allowEmpty = allowEmpty;
 	}
 
@@ -18,7 +27,7 @@ public class CustomDoubleEditor extends PropertyEditorSupport {
 			setValue(null);
 		} else {
 			try {
-				setValue(Double.parseDouble(text));
+				setValue(Long.parseLong(text));
 			} catch (Exception ex) {
 				//throw new IllegalArgumentException("Could not parse date: " + ex.getMessage(), ex);
 			}
@@ -27,7 +36,7 @@ public class CustomDoubleEditor extends PropertyEditorSupport {
 
 	@Override
 	public String getAsText() {
-		Double value = (Double) getValue();
+		Long value = (Long) getValue();
 
 		return value != null ? value.toString() : null;
 	}

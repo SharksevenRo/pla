@@ -1,9 +1,9 @@
-package com.demo.controller;
+package com.pla.demo.controller;
 
-import com.demo.controller.customeditor.CustomDateEditor;
-import com.demo.controller.customeditor.CustomDoubleEditor;
-import com.demo.controller.customeditor.CustomIntegerEditor;
-import com.demo.controller.customeditor.CustomLongEditor;
+import com.pla.demo.controller.customeditor.CustomDateEditor;
+import com.pla.demo.controller.customeditor.CustomDoubleEditor;
+import com.pla.demo.controller.customeditor.CustomIntegerEditor;
+import com.pla.demo.controller.customeditor.CustomLongEditor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.ui.Model;

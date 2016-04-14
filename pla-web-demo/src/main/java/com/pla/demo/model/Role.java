@@ -1,4 +1,4 @@
-package com.demo.model;
+package com.pla.demo.model;
 
 
 import com.pla.model.Model;

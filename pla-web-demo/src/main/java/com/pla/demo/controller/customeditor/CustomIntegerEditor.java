@@ -1,4 +1,4 @@
-package com.demo.controller.customeditor;
+package com.pla.demo.controller.customeditor;
 
 import java.beans.PropertyEditorSupport;
 
@@ -13,10 +13,10 @@ import org.springframework.util.StringUtils;
  * @author machengyuan
  * @version 1.0 2012-1-4
  */
-public class CustomLongEditor extends PropertyEditorSupport {
+public class CustomIntegerEditor extends PropertyEditorSupport {
 	private final boolean allowEmpty;
 
-	public CustomLongEditor(boolean allowEmpty) {
+	public CustomIntegerEditor(boolean allowEmpty) {
 		this.allowEmpty = allowEmpty;
 	}
 
@@ -27,7 +27,7 @@ public class CustomLongEditor extends PropertyEditorSupport {
 			setValue(null);
 		} else {
 			try {
-				setValue(Long.parseLong(text));
+				setValue(Integer.parseInt(text));
 			} catch (Exception ex) {
 				//throw new IllegalArgumentException("Could not parse date: " + ex.getMessage(), ex);
 			}
@@ -36,7 +36,7 @@ public class CustomLongEditor extends PropertyEditorSupport {
 
 	@Override
 	public String getAsText() {
-		Long value = (Long) getValue();
+		Integer value = (Integer) getValue();
 
 		return value != null ? value.toString() : null;
 	}
