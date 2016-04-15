@@ -1,8 +1,9 @@
 package com.pla.demo.controller;
 
-import com.pla.demo.model.Dic;
-import com.pla.demo.model.Dic2;
+import com.pla.demo.model.*;
 import com.pla.query.Pager;
+import com.querydsl.jpa.hibernate.HibernateQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Controller
 public class DicController extends BaseController {
-    @Resource(name = "sessionFactoryRes")
+    @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
     @RequestMapping(value = "/dic/list")
@@ -28,9 +29,14 @@ public class DicController extends BaseController {
 
         modelMap.put("pager", pager);
 
-        Dic2.query(Dic2.class).from(Dic2.entity).where(Dic2._dicKey.ne("")).fetch();
-        List<Dic2> dic2List = Dic2.query(Dic2.class).from(Dic2.entity).where(Dic2._dicContent.like("%TT%")).fetch();
-
+        Session session = sessionFactory.openSession();
+        HibernateQuery<User> query = new HibernateQuery<User>(session);
+        QUser user = QUser.user;
+        QRole role = QRole.role;
+        List<User> users = query.select(user).from(user).leftJoin(user.role, role)
+                .where(role.roleName.eq("aaa")).fetch();
+//        System.out.println();
+        session.close();
         return "/dic/list";
     }
 
