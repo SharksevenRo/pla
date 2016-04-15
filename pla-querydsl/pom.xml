@@ -13,6 +13,13 @@
     <version>4.1.1</version>
     <packaging>jar</packaging>
 
+    <repositories>
+        <repository>
+            <id>spring roo repository</id>
+            <url>http://spring-roo-repository.springsource.org/release</url>
+        </repository>
+    </repositories>
+
     <properties>
         <hibernate.version>4.3.11.Final</hibernate.version>
         <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
@@ -23,6 +30,8 @@
         <codegen.version>0.6.8</codegen.version>
         <slf4j.version>1.6.1</slf4j.version>
         <eclipselink.version>2.6.2</eclipselink.version>
+        <jdo.version>2.3-eb</jdo.version>
+        <morphia.version>0.105</morphia.version>
 
     </properties>
 
@@ -89,11 +98,6 @@
         </dependency>
 
 
-
-
-
-
-
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -139,11 +143,6 @@
             <version>1.2</version>
             <optional>true</optional>
         </dependency>
-
-
-
-
-
 
 
         <dependency>
@@ -208,8 +207,110 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>javax.jdo</groupId>
+            <artifactId>jdo2-api</artifactId>
+            <version>${jdo.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <version>1.0.0.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.roo</groupId>
+            <artifactId>org.springframework.roo.annotations</artifactId>
+            <version>1.2.3.RELEASE</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-codec</groupId>
+                    <artifactId>commons-codec</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb.morphia</groupId>
+            <artifactId>morphia</artifactId>
+            <version>${morphia.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+            </plugin>
 
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>apt-jars</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/general.xml</descriptor>
+                                <descriptor>src/main/hibernate.xml</descriptor>
+                                <descriptor>src/main/jdo.xml</descriptor>
+                                <descriptor>src/main/jpa.xml</descriptor>
+                                <descriptor>src/main/morphia.xml</descriptor>
+                                <descriptor>src/main/roo.xml</descriptor>
+                                <descriptor>src/main/onejar.xml</descriptor>
+                            </descriptors>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>test-process</goal>
+                            <goal>add-test-sources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-test-sources/java</outputDirectory>
+                            <logOnlyOnError>true</logOnlyOnError>
+                            <processors>
+                                <processor>com.querydsl.apt.QuerydslAnnotationProcessor</processor>
+                                <processor>com.querydsl.apt.hibernate.HibernateAnnotationProcessor</processor>
+                                <processor>com.querydsl.apt.jdo.JDOAnnotationProcessor</processor>
+                                <processor>com.querydsl.apt.roo.RooAnnotationProcessor</processor>
+                            </processors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>
