@@ -2,23 +2,35 @@ package com.pla.demo.controller;
 
 import com.pla.demo.model.Dic;
 import com.pla.query.Pager;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
+
 /**
  * Created by chey on 2015/9/14.
  */
 @Controller
 public class DicController extends BaseController {
+    @Resource(name = "sessionFactoryRes")
+    private SessionFactory sessionFactory;
+
     @RequestMapping(value = "/dic/list")
     public String list(Dic dic, @RequestParam(defaultValue = "1") int page) {
         Pager<Dic> pager = dic.finder().eq("dicKey").eq("dicValue").like("dicContent")
                 .asc("id").asc("sort").pager(page, 10);
 
         modelMap.put("pager", pager);
+
+        Session session = sessionFactory.openSession();
+
+        session.close();
+
         return "/dic/list";
     }
 
