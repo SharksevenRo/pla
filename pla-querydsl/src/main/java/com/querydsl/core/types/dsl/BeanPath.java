@@ -124,7 +124,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @param type property type
      * @return property path
      */
-    protected <A, E> ArrayPath<A, E> createArray(String property, Class<? super A> type) {
+    public <A, E> ArrayPath<A, E> createArray(String property, Class<? super A> type) {
         return add(new ArrayPath<A, E>(type, forProperty(property)));
     }
 
@@ -134,7 +134,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @param property property name
      * @return property path
      */
-    protected BooleanPath createBoolean(String property) {
+    public BooleanPath createBoolean(String property) {
         return add(new BooleanPath(forProperty(property)));
     }
 
@@ -147,7 +147,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A, Q extends SimpleExpression<? super A>> CollectionPath<A, Q> createCollection(String property, Class<? super A> type, Class<? super Q> queryType, PathInits inits) {
+    public <A, Q extends SimpleExpression<? super A>> CollectionPath<A, Q> createCollection(String property, Class<? super A> type, Class<? super Q> queryType, PathInits inits) {
         return add(new CollectionPath<A, Q>(type, (Class) queryType, forProperty(property), inits));
     }
 
@@ -160,7 +160,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A extends Comparable> ComparablePath<A> createComparable(String property, Class<? super A> type) {
+    public <A extends Comparable> ComparablePath<A> createComparable(String property, Class<? super A> type) {
         return add(new ComparablePath<A>((Class) type, forProperty(property)));
     }
 
@@ -172,7 +172,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @param type property type
      * @return property path
      */
-    protected <A extends Enum<A>> EnumPath<A> createEnum(String property, Class<A> type) {
+    public <A extends Enum<A>> EnumPath<A> createEnum(String property, Class<A> type) {
         return add(new EnumPath<A>(type, forProperty(property)));
     }
 
@@ -186,7 +186,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A extends Comparable> DatePath<A> createDate(String property, Class<? super A> type) {
+    public <A extends Comparable> DatePath<A> createDate(String property, Class<? super A> type) {
         return add(new DatePath<A>((Class) type, forProperty(property)));
     }
 
@@ -199,7 +199,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A extends Comparable> DateTimePath<A> createDateTime(String property, Class<? super A> type) {
+    public <A extends Comparable> DateTimePath<A> createDateTime(String property, Class<? super A> type) {
         return add(new DateTimePath<A>((Class) type, forProperty(property)));
     }
 
@@ -214,7 +214,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A, E extends SimpleExpression<? super A>> ListPath<A, E> createList(String property, Class<? super A> type, Class<? super E> queryType, PathInits inits) {
+    public <A, E extends SimpleExpression<? super A>> ListPath<A, E> createList(String property, Class<? super A> type, Class<? super E> queryType, PathInits inits) {
         return add(new ListPath<A, E>(type, (Class) queryType, forProperty(property), inits));
     }
 
@@ -231,7 +231,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <K, V, E extends SimpleExpression<? super V>> MapPath<K, V, E> createMap(String property, Class<? super K> key, Class<? super V> value, Class<? super E> queryType) {
+    public <K, V, E extends SimpleExpression<? super V>> MapPath<K, V, E> createMap(String property, Class<? super K> key, Class<? super V> value, Class<? super E> queryType) {
         return add(new MapPath<K, V, E>(key, value, (Class) queryType, forProperty(property)));
     }
 
@@ -244,7 +244,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A extends Number & Comparable<?>> NumberPath<A> createNumber(String property, Class<? super A> type) {
+    public <A extends Number & Comparable<?>> NumberPath<A> createNumber(String property, Class<? super A> type) {
         return add(new NumberPath<A>((Class) type, forProperty(property)));
     }
 
@@ -257,7 +257,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A, E extends SimpleExpression<? super A>> SetPath<A, E> createSet(String property, Class<? super A> type, Class<? super E> queryType, PathInits inits) {
+    public <A, E extends SimpleExpression<? super A>> SetPath<A, E> createSet(String property, Class<? super A> type, Class<? super E> queryType, PathInits inits) {
         return add(new SetPath<A, E>(type, (Class) queryType, forProperty(property), inits));
     }
 
@@ -270,7 +270,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A> SimplePath<A> createSimple(String property, Class<? super A> type) {
+    public <A> SimplePath<A> createSimple(String property, Class<? super A> type) {
         return add(new SimplePath<A>((Class<A>) type, forProperty(property)));
     }
 
@@ -280,7 +280,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @param property property name
      * @return property path
      */
-    protected StringPath createString(String property) {
+    public StringPath createString(String property) {
         return add(new StringPath(forProperty(property)));
     }
 
@@ -293,7 +293,7 @@ public class BeanPath<T> extends SimpleExpression<T> implements Path<T> {
      * @return property path
      */
     @SuppressWarnings("unchecked")
-    protected <A extends Comparable> TimePath<A> createTime(String property, Class<? super A> type) {
+    public <A extends Comparable> TimePath<A> createTime(String property, Class<? super A> type) {
         return add(new TimePath<A>((Class) type, forProperty(property)));
     }
 

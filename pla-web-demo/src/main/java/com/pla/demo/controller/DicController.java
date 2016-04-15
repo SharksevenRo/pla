@@ -2,6 +2,7 @@ package com.pla.demo.controller;
 
 import com.pla.demo.model.Dic;
 import com.pla.query.Pager;
+import com.querydsl.jpa.hibernate.HibernateQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by chey on 2015/9/14.
@@ -28,7 +30,8 @@ public class DicController extends BaseController {
         modelMap.put("pager", pager);
 
         Session session = sessionFactory.openSession();
-
+        HibernateQuery<Dic> query = new HibernateQuery<Dic>(session);
+        List<Dic> dicList = query.from(Dic.entity).where(Dic._dicKey.eq("A1")).fetch();
         session.close();
 
         return "/dic/list";
