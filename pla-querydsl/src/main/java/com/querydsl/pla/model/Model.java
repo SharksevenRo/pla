@@ -1,28 +1,17 @@
 package com.querydsl.pla.model;
 
-import com.pla.finder.Finder;
 import com.pla.model.ModelDao;
 import com.pla.model.ModelDaoFactory;
-import com.pla.query.Or;
-import com.pla.query.QueryByClass;
-import com.pla.query.QueryByModel;
 import com.pla.utils.ModelUtil;
 import com.pla.utils.PojoUtil;
+import com.querydsl.jpa.hibernate.HibernateQuery;
 
 @SuppressWarnings("unchecked")
 public abstract class Model<T> {
-    public QueryByModel<T> finder() {
-        return new Finder<T>().from((T) this);
+    public static <T> HibernateQuery<T> query(Class<T> clazz) {
+        String beanId = ModelUtil.getFactoryBeanId(clazz);
+        return new HibernateQuery<T>(beanId);
     }
-
-    public static <T> QueryByClass<T> finder(Class<T> clazz) {
-        return new Finder<T>().from(clazz);
-    }
-
-    public Or or() {
-        return Or.create(this);
-    }
-
 
     /**
      * It will be called before save data.
@@ -52,7 +41,7 @@ public abstract class Model<T> {
     }
 
     private ModelDao<T> getDao() {
-        Class<T> clazz= PojoUtil.getSuperClassGenricType(getClass());
+        Class<T> clazz = PojoUtil.getSuperClassGenricType(getClass());
         String factoryBeanId = ModelUtil.getFactoryBeanId(clazz);
         return ModelDaoFactory.getModelDao(factoryBeanId);
     }

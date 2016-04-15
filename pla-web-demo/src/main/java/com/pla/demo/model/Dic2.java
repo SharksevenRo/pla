@@ -1,9 +1,9 @@
 package com.pla.demo.model;
 
 import com.pla.model.FactoryBeanId;
-import com.pla.model.Model;
 import com.pla.utils.ModelUtil;
 import com.querydsl.core.types.dsl.*;
+import com.querydsl.pla.model.Model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
@@ -98,12 +98,6 @@ public class Dic2 extends Model<Dic2> implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println(ModelUtil.getFactoryBeanId(Dic2.class));
-
     }
 
     public String getTest1() {

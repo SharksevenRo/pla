@@ -13,6 +13,7 @@
  */
 package com.querydsl.jpa.hibernate;
 
+import com.pla.bean.SessionBean;
 import org.hibernate.Session;
 import org.hibernate.StatelessSession;
 
@@ -28,7 +29,6 @@ import com.querydsl.jpa.JPQLTemplates;
  * {@code HibernateQuery} is the default implementation of the JPQLQuery interface for Hibernate
  *
  * @param <T> result type
- *
  * @author tiwe
  */
 public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<T>> implements JPQLQuery<T> {
@@ -50,6 +50,27 @@ public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<
         super(new DefaultSessionHolder(session), HQLTemplates.DEFAULT, new DefaultQueryMetadata());
     }
 
+    private SessionBean sessionBean;
+
+    /**
+     * Creates a new Session bound query
+     *
+     * @param beanId String
+     */
+    public HibernateQuery(String beanId) {
+        super(new DefaultSessionHolder(new SessionBean(beanId).getSession()),
+                HQLTemplates.DEFAULT, new DefaultQueryMetadata());
+    }
+
+    @Override
+    protected void reset() {
+        super.reset();
+        if (sessionBean != null) {
+            sessionBean.close();
+            sessionBean = null;
+        }
+    }
+
     /**
      * Creates a new Session bound query
      *
@@ -62,7 +83,7 @@ public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<
     /**
      * Creates a new Session bound query
      *
-     * @param session session
+     * @param session   session
      * @param templates templates
      */
     public HibernateQuery(Session session, JPQLTemplates templates) {
@@ -81,7 +102,7 @@ public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<
     /**
      * Creates a new Session bound query
      *
-     * @param session session
+     * @param session   session
      * @param templates templates
      */
     public HibernateQuery(SessionHolder session, JPQLTemplates templates) {
@@ -91,9 +112,9 @@ public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<
     /**
      * Creates a new Session bound query
      *
-     * @param session session
+     * @param session   session
      * @param templates templates
-     * @param metadata query metadata
+     * @param metadata  query metadata
      */
     public HibernateQuery(SessionHolder session, JPQLTemplates templates, QueryMetadata metadata) {
         super(session, templates, metadata);
@@ -111,7 +132,7 @@ public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<
     public <U> HibernateQuery<U> select(Expression<U> expr) {
         queryMixin.setProjection(expr);
         @SuppressWarnings("unchecked") // This is the new type
-        HibernateQuery<U> newType = (HibernateQuery<U>) this;
+                HibernateQuery<U> newType = (HibernateQuery<U>) this;
         return newType;
     }
 
@@ -119,7 +140,7 @@ public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<
     public HibernateQuery<Tuple> select(Expression<?>... exprs) {
         queryMixin.setProjection(exprs);
         @SuppressWarnings("unchecked") // This is the new type
-        HibernateQuery<Tuple> newType = (HibernateQuery<Tuple>) this;
+                HibernateQuery<Tuple> newType = (HibernateQuery<Tuple>) this;
         return newType;
     }
 

@@ -100,12 +100,6 @@ public class Dic extends Model<Dic> implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public static void main(String[] args) {
-
-        System.out.println(ModelUtil.getFactoryBeanId(Dic.class));
-
-    }
-
     public String getTest1() {
         return test1;
     }
@@ -137,31 +131,6 @@ public class Dic extends Model<Dic> implements Serializable {
     public void setTest4(Boolean test4) {
         this.test4 = test4;
     }
-
-
-    public final static EntityPathBase<Dic> entity = new EntityPathBase<Dic>(Dic.class, "dic");
-
-    public final static DateTimePath<Date> _creationDate = entity.createDateTime("creationDate", java.util.Date.class);
-
-    public final static StringPath _dicContent = entity.createString("dicContent");
-
-    public final static StringPath _dicKey = entity.createString("dicKey");
-
-    public final static StringPath _dicValue = entity.createString("dicValue");
-
-    public final static NumberPath<Long> _id = entity.createNumber("id", Long.class);
-
-    public final static StringPath _keyDesc = entity.createString("keyDesc");
-
-    public final static NumberPath<Integer> _sort = entity.createNumber("sort", Integer.class);
-
-    public final static StringPath _test1 = entity.createString("test1");
-
-    public final static ArrayPath<byte[], Byte> _test2 = entity.createArray("test2", byte[].class);
-
-    public final static NumberPath<Double> _test3 = entity.createNumber("test3", Double.class);
-
-    public final static BooleanPath _test4 = entity.createBoolean("test4");
 
 
     @Override
