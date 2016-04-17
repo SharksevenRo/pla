@@ -21,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${ctx}/">Plasticene</a>
+            <a class="navbar-brand" href="${ctx}/">Pla</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -31,10 +31,10 @@
                        aria-expanded="false">模块展示 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="${ctx}/dic/list">数据字典管理</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">菜单管理</a></li>
-                        <li><a href="#">角色管理</a></li>
-                        <li><a href="#">用户管理</a></li>
+                        <%--<li role="separator" class="divider"></li>--%>
+                        <%--<li><a href="#">菜单管理</a></li>--%>
+                        <%--<li><a href="#">角色管理</a></li>--%>
+                        <%--<li><a href="#">用户管理</a></li>--%>
                     </ul>
                 </li>
                 <li class="<%=(type==3?"active":"")%>"><a href="#about">关于</a></li>

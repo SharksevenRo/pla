@@ -51,7 +51,7 @@
         </div>
         <div class="col-md-offset-2">
             <button type="submit" class="btn btn-success">Submit</button>
-            <button type="submit" class="btn btn-warning">Reset</button>
+            <button type="reset" class="btn btn-warning">Reset</button>
         </div>
     </form:form>
 </div>
