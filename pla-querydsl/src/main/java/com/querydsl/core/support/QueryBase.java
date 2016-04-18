@@ -15,6 +15,7 @@ package com.querydsl.core.support;
 
 import javax.annotation.Nonnegative;
 
+import com.pla.query.Pager;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
@@ -153,18 +154,27 @@ public abstract class QueryBase<Q extends QueryBase<Q>> {
     }
 
     private int pageSize = -1;
+    private int pageNo = -1;
 
-    public Q pageSize(int pageSize){
+    public Q pageSize(int pageSize) {
         this.pageSize = pageSize;
+        if (pageNo != -1) {
+            int offset = (pageNo - 1) * pageSize;
+            offset(offset);
+        }
         return limit(pageSize);
     }
 
     public Q pageNo(int pageNo) {
-        if (pageSize < 0) {
-            throw new RuntimeException("please set page size first.");
+        this.pageNo = pageNo;
+        if (pageSize != -1) {
+            int offset = (pageNo - 1) * pageSize;
+            return offset(offset);
+        } else {
+            int offset = (Pager.DEF_PGSIZE - 1) * pageSize;
+            limit(Pager.DEF_PGSIZE);
+            return offset(offset);
         }
-        int offset = (pageNo - 1) * pageSize;
-        return offset(offset);
     }
 
     /**
