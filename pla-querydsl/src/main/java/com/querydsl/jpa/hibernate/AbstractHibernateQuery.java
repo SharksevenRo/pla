@@ -19,6 +19,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import com.pla.query.Pager;
 import org.hibernate.*;
 import org.hibernate.Query;
 import org.slf4j.Logger;
@@ -39,7 +40,6 @@ import com.querydsl.jpa.*;
  *
  * @param <T> result type
  * @param <Q> concrete subtype
- *
  * @author tiwe
  */
 public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery<T, Q>> extends JPAQueryBase<T, Q> {
@@ -54,7 +54,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     protected int fetchSize = 0;
 
-    protected final Map<Path<?>,LockMode> lockModes = new HashMap<Path<?>,LockMode>();
+    protected final Map<Path<?>, LockMode> lockModes = new HashMap<Path<?>, LockMode>();
 
     @Nullable
     protected FlushMode flushMode;
@@ -197,6 +197,13 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
         }
     }
 
+    public Pager<T> fetchPager() {
+        QueryResults<T> results = this.fetchResults();
+        long pageNo = results.getOffset() / results.getLimit() + 1;
+        return new Pager<T>((int) pageNo, (int) results.getLimit(), (int) results.getTotal()
+                , results.getResults());
+    }
+
     protected void logQuery(String queryString, Map<Object, String> parameters) {
         if (logger.isDebugEnabled()) {
             String normalizedQuery = queryString.replace('\n', ' ');
@@ -234,6 +241,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     /**
      * Enable caching of this query result set.
+     *
      * @param cacheable Should the query results be cacheable?
      */
     @SuppressWarnings("unchecked")
@@ -244,8 +252,9 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     /**
      * Set the name of the cache region.
+     *
      * @param cacheRegion the name of a query cache region, or <tt>null</tt>
-     * for the default query cache
+     *                    for the default query cache
      */
     @SuppressWarnings("unchecked")
     public Q setCacheRegion(String cacheRegion) {
@@ -255,6 +264,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     /**
      * Add a comment to the generated SQL.
+     *
      * @param comment comment
      * @return the current object
      */
@@ -266,6 +276,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     /**
      * Set a fetchJoin size for the underlying JDBC query.
+     *
      * @param fetchSize the fetchJoin size
      * @return the current object
      */
@@ -277,6 +288,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     /**
      * Set the lock mode for the given path.
+     *
      * @return the current object
      */
     @SuppressWarnings("unchecked")
@@ -287,6 +299,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     /**
      * Override the current session flush mode, just for this query.
+     *
      * @return the current object
      */
     @SuppressWarnings("unchecked")
@@ -301,7 +314,6 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
      * them or make changes persistent.
      *
      * @return the current object
-     *
      */
     @SuppressWarnings("unchecked")
     public Q setReadOnly(boolean readOnly) {
@@ -311,6 +323,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
 
     /**
      * Set a timeout for the underlying JDBC query.
+     *
      * @param timeout the timeout in seconds
      * @return the current object
      */

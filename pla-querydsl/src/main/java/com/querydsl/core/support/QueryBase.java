@@ -25,7 +25,6 @@ import com.querydsl.core.types.Predicate;
  * {@code QueryBase} provides a stub for Query implementations
  *
  * @param <Q> concrete subtype
- *
  * @author tiwe
  */
 public abstract class QueryBase<Q extends QueryBase<Q>> {
@@ -111,7 +110,7 @@ public abstract class QueryBase<Q extends QueryBase<Q>> {
 
     /**
      * Add the given filter condition
-     *
+     * <p>
      * <p>Skips null arguments</p>
      *
      * @param o filter conditions to be added
@@ -123,7 +122,7 @@ public abstract class QueryBase<Q extends QueryBase<Q>> {
 
     /**
      * Add the given filter conditions
-     *
+     * <p>
      * <p>Skips null arguments</p>
      *
      * @param o filter conditions to be added
@@ -151,6 +150,21 @@ public abstract class QueryBase<Q extends QueryBase<Q>> {
      */
     public Q offset(long offset) {
         return queryMixin.offset(offset);
+    }
+
+    private int pageSize = -1;
+
+    public Q pageSize(int pageSize){
+        this.pageSize = pageSize;
+        return limit(pageSize);
+    }
+
+    public Q pageNo(int pageNo) {
+        if (pageSize < 0) {
+            throw new RuntimeException("please set page size first.");
+        }
+        int offset = (pageNo - 1) * pageSize;
+        return offset(offset);
     }
 
     /**

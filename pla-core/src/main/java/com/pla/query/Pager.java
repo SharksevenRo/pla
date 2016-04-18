@@ -48,9 +48,9 @@ public class Pager<T> {
         if (pageNo <= 0) {
             pageNo = 1;
         }
-        if (totalCount != 0 && (pageNo - 1) * pageSize >= totalCount) {
-            pageNo = totalCount / pageSize;
-        }
+//        if (totalCount != 0 && (pageNo - 1) * pageSize >= totalCount) {
+//            pageNo = totalCount / pageSize;
+//        }
     }
 
     public List<T> getList() {

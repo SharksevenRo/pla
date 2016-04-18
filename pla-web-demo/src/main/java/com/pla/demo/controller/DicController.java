@@ -2,6 +2,7 @@ package com.pla.demo.controller;
 
 import com.pla.demo.model.*;
 import com.pla.query.Pager;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.hibernate.HibernateQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,9 +34,9 @@ public class DicController extends BaseController {
         HibernateQuery<User> query = new HibernateQuery<User>(session);
         QUser user = QUser.user;
         QRole role = QRole.role;
-        List<User> users = query.select(user).from(user).leftJoin(user.role, role)
-                .where(role.roleName.eq("aaa")).fetch();
-//        System.out.println();
+        Pager<User> users = query.select(user).from(user).leftJoin(user.role, role)
+                .where(role.roleName.eq("aaa")).orderBy(user.id.desc()).pageSize(10).pageNo(4).fetchPager();
+        //System.out.println(users.getList().get(0).getUserName() + " " + users.getTotalCount());
         session.close();
         return "/dic/list";
     }
