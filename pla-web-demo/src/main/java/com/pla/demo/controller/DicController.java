@@ -5,16 +5,11 @@ import com.pla.demo.model.QRole;
 import com.pla.demo.model.QUser;
 import com.pla.demo.model.User;
 import com.pla.query.Pager;
-import com.querydsl.jpa.hibernate.HibernateQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.annotation.Resource;
 
 /**
  * Created by chey on 2015/9/14.
@@ -29,13 +24,10 @@ public class DicController extends BaseController {
 
         modelMap.put("pager", pager);
 
-
-
-
-//        QUser user = QUser.user;
-//        QRole role = QRole.role;
-//        Pager<User> pager2 = User.query(User.class).select(user).from(user).leftJoin(user.role, role)
-//                .where(role.roleName.eq("aaa")).orderBy(user.id.desc()).pageSize(10).pageNo(page).fetchPager();
+        QUser user = QUser.user;
+        QRole role = QRole.role;
+        Pager<User> pager2 = User.query(User.class).select(user).from(user).leftJoin(user.role, role)
+                .where(role.roleName.eq("aaa")).orderBy(user.id.desc()).pageSize(10).pageNo(page).fetchPager();
 
         return "/dic/list";
     }
