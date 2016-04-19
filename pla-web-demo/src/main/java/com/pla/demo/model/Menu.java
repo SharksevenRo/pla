@@ -1,7 +1,7 @@
 package com.pla.demo.model;
 
 import com.pla.model.FactoryBeanId;
-import com.pla.model.Model;
+import com.querydsl.pla.model.Model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;

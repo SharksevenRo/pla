@@ -1,8 +1,10 @@
 package com.pla.demo.controller;
 
-import com.pla.demo.model.*;
+import com.pla.demo.model.Dic;
+import com.pla.demo.model.QRole;
+import com.pla.demo.model.QUser;
+import com.pla.demo.model.User;
 import com.pla.query.Pager;
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.hibernate.HibernateQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,15 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * Created by chey on 2015/9/14.
  */
 @Controller
 public class DicController extends BaseController {
-    @Resource(name = "sessionFactory")
-    private SessionFactory sessionFactory;
 
     @RequestMapping(value = "/dic/list")
     public String list(Dic dic, @RequestParam(defaultValue = "1") int page) {
@@ -30,14 +29,14 @@ public class DicController extends BaseController {
 
         modelMap.put("pager", pager);
 
-        Session session = sessionFactory.openSession();
-        HibernateQuery<User> query = new HibernateQuery<User>(session);
-        QUser user = QUser.user;
-        QRole role = QRole.role;
-        Pager<User> users = query.select(user).from(user).leftJoin(user.role, role)
-                .where(role.roleName.eq("aaa")).orderBy(user.id.desc()).pageSize(10).pageNo(4).fetchPager();
-        //System.out.println(users.getList().get(0).getUserName() + " " + users.getTotalCount());
-        session.close();
+
+
+
+//        QUser user = QUser.user;
+//        QRole role = QRole.role;
+//        Pager<User> pager2 = User.query(User.class).select(user).from(user).leftJoin(user.role, role)
+//                .where(role.roleName.eq("aaa")).orderBy(user.id.desc()).pageSize(10).pageNo(page).fetchPager();
+
         return "/dic/list";
     }
 
