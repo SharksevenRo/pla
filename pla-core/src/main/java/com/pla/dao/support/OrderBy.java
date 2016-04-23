@@ -1,8 +1,5 @@
 package com.pla.dao.support;
 
-/**
- * Created by machey on 2016/3/29.
- */
 public class OrderBy {
     String propertyName;
     Order order;

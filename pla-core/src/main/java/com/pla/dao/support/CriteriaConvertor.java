@@ -16,9 +16,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by machey on 2016/3/29.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class CriteriaConvertor {
     private org.hibernate.Criteria criteria;
@@ -26,7 +23,7 @@ public class CriteriaConvertor {
     private ProjectionList projectionList;
     private List<String> aliasList;
 
-    public CriteriaConvertor(org.hibernate.Criteria criteria) {
+    private CriteriaConvertor(org.hibernate.Criteria criteria) {
         this.criteria = criteria;
     }
 
@@ -48,7 +45,7 @@ public class CriteriaConvertor {
         return this.criteria;
     }
 
-	public org.hibernate.Criteria convertWithOutOrder(Criteria criteria) throws Exception {
+    public org.hibernate.Criteria convertWithOutOrder(Criteria criteria) throws Exception {
         Class clazz = this.getClass();
 
         List<Criterion> criterions = criteria.criterions;
@@ -71,7 +68,7 @@ public class CriteriaConvertor {
         List<GroupBy> groupBys = criteria.groupBys;
         if (groupBys != null && !groupBys.isEmpty()) {
             for (GroupBy groupBy : groupBys) {
-				Method method = clazz.getDeclaredMethod(groupBy.getExpression(), GroupBy.class);
+                Method method = clazz.getDeclaredMethod(groupBy.getExpression(), GroupBy.class);
                 method.invoke(this, groupBy);
             }
         }
@@ -79,7 +76,7 @@ public class CriteriaConvertor {
         return this.criteria;
     }
 
-    public void convertOrderBy(Criteria criteria) {
+    private void convertOrderBy(Criteria criteria) {
         List<OrderBy> orderBys = criteria.orderBys;
 
         if (orderBys != null && !orderBys.isEmpty()) {
@@ -373,15 +370,16 @@ public class CriteriaConvertor {
     }
 
     public void distinct(GroupBy groupBy) {
-        if (groupBy.getValue() == null) {
-            /*Field[] fields = ModelUtil.getEntityProperties(this.clazz);
+        /*if (groupBy.getValue() == null) {
+            Field[] fields = ModelUtil.getEntityProperties(this.clazz);
             ProjectionList projectionList = Projections.projectionList();
             for (Field field : fields) {
                 projectionList.add(Projections.property(field.getName()));
                 getAliasList().add(field.getName());
             }
-            this.criteria.setProjection(Projections.distinct(projectionList));*/
-        } else if (groupBy.getValue() != null && groupBy.getValue() instanceof String[]) {
+            this.criteria.setProjection(Projections.distinct(projectionList));
+        } else*/
+        if (groupBy.getValue() != null && groupBy.getValue() instanceof String[]) {
             String[] properties = (String[]) groupBy.getValue();
             ProjectionList projectionList = Projections.projectionList();
             for (String property : properties) {

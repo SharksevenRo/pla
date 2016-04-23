@@ -7,13 +7,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * Created by machey on 2016/3/27.
- */
+
 @SuppressWarnings("rawtypes")
 public class CriteriaClazz extends Criteria {
     public CriteriaClazz idEq(Serializable value) {
-        if (value != null)
             add("idEq", null, value);
         return this;
     }

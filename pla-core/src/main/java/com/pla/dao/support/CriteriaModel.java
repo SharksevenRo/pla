@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * Created by rewerma on 2016/4/6.
- */
 @SuppressWarnings("rawtypes")
 public class CriteriaModel extends CriteriaClazz {
     private Object model;

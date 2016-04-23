@@ -3,9 +3,6 @@ package com.pla.dao.support;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.sql.JoinType;
 
-/**
- * Created by machey on 2016/3/29.
- */
 public class Join {
     String associationPath;
     String alias;

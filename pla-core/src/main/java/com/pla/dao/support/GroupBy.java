@@ -1,12 +1,9 @@
 package com.pla.dao.support;
 
-/**
- * Created by machey on 2016/3/29.
- */
 public class GroupBy {
-    String expression;
-    String propertyName;
-    Object value;
+    private String expression;
+    private String propertyName;
+    private Object value;
 
     public GroupBy(String expression, String propertyName, Object value) {
         this.expression = expression;

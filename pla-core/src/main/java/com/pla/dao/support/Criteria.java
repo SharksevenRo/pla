@@ -5,18 +5,13 @@ import org.hibernate.sql.JoinType;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by machey on 2016/3/27.
- */
 public abstract class Criteria {
     public static CriteriaClazz create() {
-        CriteriaClazz criteriaClazz = new CriteriaClazz();
-        return criteriaClazz;
+        return new CriteriaClazz();
     }
 
     public static CriteriaModel create(Object model) {
-        CriteriaModel criteriaModel = new CriteriaModel(model);
-        return criteriaModel;
+        return new CriteriaModel(model);
     }
 
     List<Criterion> criterions = new ArrayList<Criterion>();
@@ -35,14 +30,14 @@ public abstract class Criteria {
         joins.add(new Join(associationPath, alias, joinType));
     }
 
-    protected void addOrderBy(String properyName, Order order) {
+    void addOrderBy(String properyName, Order order) {
         if (orderBys == null) {
             orderBys = new ArrayList<OrderBy>();
         }
         orderBys.add(new OrderBy(properyName, order));
     }
 
-    protected void addGroupBy(String expression, String propertyName, Object value) {
+    void addGroupBy(String expression, String propertyName, Object value) {
         if (groupBys == null) {
             groupBys = new ArrayList<GroupBy>();
         }
