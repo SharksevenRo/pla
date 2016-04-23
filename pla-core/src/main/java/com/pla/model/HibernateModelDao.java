@@ -10,15 +10,16 @@ import java.io.Serializable;
 
 @SuppressWarnings("unchecked")
 public class HibernateModelDao<T> implements ModelDao<T> {
-    public Session session;
-    public boolean inTransaction = false;
+    private SessionBean sessionBean;
+    private boolean inTransaction = false;
 
-    public HibernateModelDao(SessionBean sessionBean) {
-        this.session = sessionBean.getSession();
+    HibernateModelDao(SessionBean sessionBean) {
+        this.sessionBean = sessionBean;
         this.inTransaction = sessionBean.inTransaction();
     }
 
     public void save(T t) {
+        Session session = sessionBean.getSession();
         if (!inTransaction) {
             Transaction transaction = session.getTransaction();
             try {
@@ -29,7 +30,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.rollback();
                 throw new RuntimeException(e);
             } finally {
-                session.close();
+                sessionBean.close();
             }
         } else {
             session.save(t);
@@ -37,6 +38,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
     }
 
     public void update(T t) {
+        Session session = sessionBean.getSession();
         if (!inTransaction) {
             Transaction transaction = session.getTransaction();
             try {
@@ -47,7 +49,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.rollback();
                 throw new RuntimeException(e);
             } finally {
-                session.close();
+                sessionBean.close();
             }
         } else {
             session.update(t);
@@ -55,6 +57,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
     }
 
     public void update(T t, String... fields) {
+        Session session = sessionBean.getSession();
         if (!inTransaction) {
             Transaction transaction = session.getTransaction();
             try {
@@ -65,14 +68,15 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.rollback();
                 throw new RuntimeException(e);
             } finally {
-                session.close();
+                sessionBean.close();
             }
         } else {
             updateOpration(t, fields);
         }
     }
 
-	private void updateOpration(T t, String... fields) {
+    private void updateOpration(T t, String... fields) {
+        Session session = sessionBean.getSession();
         Serializable id = ModelUtil.getIdValue(t);
         if (id == null)
             return;
@@ -102,7 +106,8 @@ public class HibernateModelDao<T> implements ModelDao<T> {
     }
 
     public void saveOrUpdate(T t) {
-        if (!inTransaction){
+        Session session = sessionBean.getSession();
+        if (!inTransaction) {
             Transaction transaction = session.getTransaction();
             try {
                 transaction.begin();
@@ -112,15 +117,16 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.rollback();
                 throw new RuntimeException(e);
             } finally {
-                session.close();
+                sessionBean.close();
             }
-        }else{
+        } else {
             session.saveOrUpdate(t);
         }
     }
 
 
     public void delete(T t) {
+        Session session = sessionBean.getSession();
         if (!inTransaction) {
             Transaction transaction = session.getTransaction();
             try {
@@ -137,7 +143,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.rollback();
                 throw new RuntimeException(e);
             } finally {
-                session.close();
+                sessionBean.close();
             }
         } else {
             Serializable id = ModelUtil.getIdValue(t);
