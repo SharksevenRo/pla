@@ -1,27 +1,10 @@
 package com.pla.model;
 
-import com.pla.finder.Finder;
-import com.pla.query.Or;
-import com.pla.query.QueryByClass;
-import com.pla.query.QueryByModel;
 import com.pla.utils.ModelUtil;
 import com.pla.utils.PojoUtil;
 
 @SuppressWarnings("unchecked")
-public abstract class Model<T> {
-    public QueryByModel<T> finder() {
-        return new Finder<T>().from((T) this);
-    }
-
-    public static <T> QueryByClass<T> finder(Class<T> clazz) {
-        return new Finder<T>().from(clazz);
-    }
-
-    public Or or() {
-        return Or.create(this);
-    }
-
-
+public abstract class Model<T> extends ModelFinder<T> {
     /**
      * It will be called before save data.
      */
