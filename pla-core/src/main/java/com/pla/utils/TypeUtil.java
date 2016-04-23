@@ -8,7 +8,7 @@ import java.util.Date;
 public class TypeUtil {
 	public static Type getType(Object value) {
         Class clazz = value.getClass();
-        Type type = null;
+        Type type;
         if (value instanceof String) {
             type = StringType.INSTANCE;
         } else if (int.class.isAssignableFrom(clazz) || Integer.class.isAssignableFrom(clazz)) {

@@ -116,8 +116,7 @@ public class RecordFinder {
     public Record uniqueResult(String sql, Object... paras) {
         try {
             Query query = this.sqlQueryMapping(sql, paras);
-            Record record = (Record) query.uniqueResult();
-            return record;
+            return (Record) query.uniqueResult();
         } finally {
             sessionBean.close();
         }
@@ -129,12 +128,14 @@ public class RecordFinder {
 
 
     private String getKey(Record record) {
+        String resKey = null;
         if (record != null && record.keySet().size() == 1) {
+
             for (Object key : record.keySet()) {
-                return (String) key;
+                resKey = (String) key;
             }
         }
-        return null;
+        return resKey;
     }
 
     public String queryStr(String sql, Object... paras) {

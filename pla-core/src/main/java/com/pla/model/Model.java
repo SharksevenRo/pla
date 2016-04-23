@@ -33,7 +33,7 @@ public abstract class Model<T> extends ModelFinder<T> {
     }
 
     private ModelDao<T> getDao() {
-        Class<T> clazz= PojoUtil.getSuperClassGenricType(getClass());
+        Class<T> clazz = PojoUtil.getSuperClassGenricType(getClass());
         String factoryBeanId = ModelUtil.getFactoryBeanId(clazz);
         return ModelDaoFactory.getModelDao(factoryBeanId);
     }

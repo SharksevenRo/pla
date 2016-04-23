@@ -1,23 +1,20 @@
 package com.pla.finder;
 
 
+import com.pla.utils.ConvertUtil;
+import com.pla.utils.PropertyConvert;
+import com.pla.utils.SimplePropertyUtil;
+import org.hibernate.HibernateException;
+import org.hibernate.transform.AliasedTupleSubsetResultTransformer;
+
+import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Blob;
 import java.sql.Clob;
-
-import javax.persistence.Column;
-import javax.persistence.Transient;
-
-import com.pla.utils.ConvertUtil;
-import com.pla.utils.PropertyConvert;
-import org.hibernate.HibernateException;
-import org.hibernate.transform.AliasedTupleSubsetResultTransformer;
-
-import com.pla.utils.SimplePropertyUtil;
-import com.pla.utils.Util;
 
 @SuppressWarnings({"serial", "rawtypes"})
 public class AliasToBeanResultTransformer extends AliasedTupleSubsetResultTransformer {

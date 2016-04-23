@@ -5,6 +5,7 @@ import com.pla.query.Or;
 import com.pla.query.QueryByClass;
 import com.pla.query.QueryByModel;
 
+@SuppressWarnings("unchecked")
 public abstract class ModelFinder<T> {
     public QueryByModel<T> finder() {
         return new Finder<T>().from((T) this);
