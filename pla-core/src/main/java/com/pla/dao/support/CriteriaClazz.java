@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-
-@SuppressWarnings("rawtypes")
 public class CriteriaClazz extends Criteria {
     public CriteriaClazz idEq(Serializable value) {
             add("idEq", null, value);
