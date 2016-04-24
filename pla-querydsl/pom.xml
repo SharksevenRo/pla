@@ -5,12 +5,12 @@
     <parent>
         <artifactId>pla</artifactId>
         <groupId>com.pla</groupId>
-        <version>1.0</version>
+        <version>${pla.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pla-querydsl</artifactId>
-    <version>4.1.1</version>
+    <version>${querydsl.version}</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -32,14 +32,13 @@
         <eclipselink.version>2.6.2</eclipselink.version>
         <jdo.version>2.3-eb</jdo.version>
         <morphia.version>0.105</morphia.version>
-
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.pla</groupId>
             <artifactId>pla-core</artifactId>
-            <version>1.0</version>
+            <version>${pla.version}</version>
         </dependency>
 
         <dependency>
