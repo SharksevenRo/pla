@@ -28,10 +28,10 @@ public class SessionBean {
 			return session;
 
 		String sessionBeanId = beanId == null ? SF_BEANID : beanId;
-		SessionFactory sessionFaoryTran = SessionTransaction.get(sessionBeanId);
-		if (sessionFaoryTran != null) {
+		Session sessionTrans = SessionTransaction.get(sessionBeanId);
+		if (sessionTrans != null) {
 			this.inTransaction = true;
-			return sessionFaoryTran.getCurrentSession();
+			return sessionTrans;
 		}
 
 		if (beanId != null) {

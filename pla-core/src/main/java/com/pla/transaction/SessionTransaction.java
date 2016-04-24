@@ -1,28 +1,28 @@
 package com.pla.transaction;
 
-import org.hibernate.SessionFactory;
+import org.hibernate.Session;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SessionTransaction {
-    private static ThreadLocal<Map<String, SessionFactory>> sessionThreadLocal = new ThreadLocal<Map<String, SessionFactory>>();
+    private static ThreadLocal<Map<String, Session>> sessionThreadLocal = new ThreadLocal<Map<String, Session>>();
 
-    public static void set(String beanId, SessionFactory sessionFactory) {
-        Map<String, SessionFactory> sessionMap = sessionThreadLocal.get();
+    public static void set(String beanId, Session session) {
+        Map<String, Session> sessionMap = sessionThreadLocal.get();
         if (sessionMap == null) {
-            sessionMap = new HashMap<String, SessionFactory>();
+            sessionMap = new HashMap<String, Session>();
         }
-        sessionMap.put(beanId, sessionFactory);
+        sessionMap.put(beanId, session);
         sessionThreadLocal.set(sessionMap);
     }
 
-    public static SessionFactory get(String beanId) {
-        Map<String, SessionFactory> sessionMap = sessionThreadLocal.get();
+    public static Session get(String beanId) {
+        Map<String, Session> sessionMap = sessionThreadLocal.get();
         if (sessionMap != null) {
-            SessionFactory sessionFactory = sessionMap.get(beanId);
-            if (sessionFactory != null)
-                return sessionFactory;
+            Session session = sessionMap.get(beanId);
+            if (session != null)
+                return session;
             else if (!sessionMap.isEmpty())
                 return sessionMap.get("");
         }
@@ -30,7 +30,7 @@ public class SessionTransaction {
     }
 
     public static void remove(String beanId) {
-        Map<String, SessionFactory> sessionMap = sessionThreadLocal.get();
+        Map<String, Session> sessionMap = sessionThreadLocal.get();
         if (sessionMap != null && !sessionMap.isEmpty()) {
             sessionMap.remove(beanId);
         }
@@ -40,7 +40,7 @@ public class SessionTransaction {
     }
 
     public static void cleanAll() {
-        Map<String, SessionFactory> sessionMap = sessionThreadLocal.get();
+        Map<String, Session> sessionMap = sessionThreadLocal.get();
         if (sessionMap != null && !sessionMap.isEmpty()) {
             for (String key : sessionMap.keySet()) {
                 sessionMap.remove(key);
