@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-@SuppressWarnings("rawtypes")
 public class CriteriaModel extends CriteriaClazz {
     private Object model;
 
