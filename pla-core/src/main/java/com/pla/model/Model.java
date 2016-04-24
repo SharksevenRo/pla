@@ -1,9 +1,5 @@
 package com.pla.model;
 
-import com.pla.utils.ModelUtil;
-import com.pla.utils.PojoUtil;
-
-@SuppressWarnings("unchecked")
 public abstract class Model<T> extends ModelFinder<T> {
     /**
      * It will be called before save data.
@@ -11,30 +7,33 @@ public abstract class Model<T> extends ModelFinder<T> {
     protected void init() {
     }
 
+    @SuppressWarnings("unchecked")
     public void save() {
         init();
         getDao().save((T) this);
     }
 
+    @SuppressWarnings("unchecked")
     public void update() {
         getDao().update((T) this);
     }
 
+    @SuppressWarnings("unchecked")
     public void update(String... fields) {
         getDao().update((T) this, fields);
     }
 
+    @SuppressWarnings("unchecked")
     public void saveOrUpdate() {
         getDao().saveOrUpdate((T) this);
     }
 
+    @SuppressWarnings("unchecked")
     public void delete() {
         getDao().delete((T) this);
     }
 
     private ModelDao<T> getDao() {
-        Class<T> clazz = PojoUtil.getSuperClassGenricType(getClass());
-        String factoryBeanId = ModelUtil.getFactoryBeanId(clazz);
-        return ModelDaoFactory.getModelDao(factoryBeanId);
+        return ModelDaoFactory.getModelDao(getClass());
     }
 }
