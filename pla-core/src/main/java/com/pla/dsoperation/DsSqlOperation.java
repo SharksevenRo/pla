@@ -2,11 +2,12 @@ package com.pla.dsoperation;
 
 import com.pla.transaction.IAtom;
 import com.pla.utils.SpringUtil;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-class DsSqlOperation {
+public class DsSqlOperation {
     private String dsId;
 
     public DsSqlOperation() {
@@ -17,7 +18,31 @@ class DsSqlOperation {
         this.dsId = dsId;
     }
 
-    private final ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
+    public static DsSqlOperation create() {
+        return new DsSqlOperation();
+    }
+
+    public static DsSqlOperation create(String dsId) {
+        return new DsSqlOperation(dsId);
+    }
+
+    public DsSqlExecutor executor() {
+        return new DsSqlExecutor(this);
+    }
+
+    public DsSqlExecutor executor(String dsId) {
+        return new DsSqlExecutor(dsId, this);
+    }
+
+    public DsSqlExecutor finder() {
+        return new DsSqlExecutor(this);
+    }
+
+    public DsSqlExecutor finder(String dsId) {
+        return new DsSqlExecutor(dsId, this);
+    }
+
+    private static final ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
 
     public DataSource getDataSource() {
         return SpringUtil.getBean(dsId);
@@ -47,30 +72,6 @@ class DsSqlOperation {
             if (conn != null)
                 conn.close();
     }
-
-    public static DsSqlOperation create() {
-        return new DsSqlOperation();
-    }
-
-    public static DsSqlOperation create(String dsId) {
-        return new DsSqlOperation(dsId);
-    }
-
-//    public DSSQLExecutor executor() {
-//        return new DSSQLExecutor(this);
-//    }
-//
-//    public DSSQLExecutor executor(String dsId) {
-//        return new DSSQLExecutor(dsId, this);
-//    }
-//
-//    public DSSQLFinder finder() {
-//        return new DSSQLFinder(this);
-//    }
-//
-//    public DSSQLFinder finder(String dsId) {
-//        return new DSSQLFinder(dsId, this);
-//    }
 
     /**
      * Execute transaction with default transaction level.

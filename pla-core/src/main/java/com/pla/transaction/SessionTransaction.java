@@ -8,7 +8,7 @@ import java.util.Map;
 public class SessionTransaction {
     private static ThreadLocal<Map<String, SessionFactory>> sessionThreadLocal = new ThreadLocal<Map<String, SessionFactory>>();
 
-    public static void setSession(String beanId, SessionFactory sessionFactory) {
+    public static void set(String beanId, SessionFactory sessionFactory) {
         Map<String, SessionFactory> sessionMap = sessionThreadLocal.get();
         if (sessionMap == null) {
             sessionMap = new HashMap<String, SessionFactory>();
@@ -17,7 +17,7 @@ public class SessionTransaction {
         sessionThreadLocal.set(sessionMap);
     }
 
-    public static SessionFactory getSession(String beanId) {
+    public static SessionFactory get(String beanId) {
         Map<String, SessionFactory> sessionMap = sessionThreadLocal.get();
         if (sessionMap != null) {
             SessionFactory sessionFactory = sessionMap.get(beanId);

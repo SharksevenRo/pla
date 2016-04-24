@@ -28,7 +28,7 @@ public class SessionBean {
 			return session;
 
 		String sessionBeanId = beanId == null ? SF_BEANID : beanId;
-		SessionFactory sessionFaoryTran = SessionTransaction.getSession(sessionBeanId);
+		SessionFactory sessionFaoryTran = SessionTransaction.get(sessionBeanId);
 		if (sessionFaoryTran != null) {
 			this.inTransaction = true;
 			return sessionFaoryTran.getCurrentSession();

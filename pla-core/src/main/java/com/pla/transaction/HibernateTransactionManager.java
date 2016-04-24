@@ -10,15 +10,15 @@ public class HibernateTransactionManager extends org.springframework.orm.hiberna
         implements ResourceTransactionManager, BeanFactoryAware, InitializingBean {
     @Override
     protected void doBegin(Object transaction, TransactionDefinition definition) {
-        SessionTransaction.setSession(sessionFactoryName == null ? "" : sessionFactoryName,
-                this.getSessionFactory());
         super.doBegin(transaction, definition);
+        SessionTransaction.set(sessionFactoryName == null ? "" : sessionFactoryName,
+                this.getSessionFactory());
     }
 
     @Override
     protected void doCleanupAfterCompletion(Object transaction) {
-        SessionTransaction.remove(sessionFactoryName == null ? "" : sessionFactoryName);
         super.doCleanupAfterCompletion(transaction);
+        SessionTransaction.remove(sessionFactoryName == null ? "" : sessionFactoryName);
     }
 
     private String sessionFactoryName;
