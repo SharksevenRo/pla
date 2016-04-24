@@ -14,10 +14,10 @@ public abstract class Criteria {
         return new CriteriaModel(model);
     }
 
-    List<Criterion> criterions = new ArrayList<Criterion>();
-    List<Join> joins;
-    List<OrderBy> orderBys;
-    List<GroupBy> groupBys;
+    protected List<Criterion> criterions = new ArrayList<Criterion>();
+    protected List<Join> joins;
+    protected List<OrderBy> orderBys;
+    protected List<GroupBy> groupBys;
 
     protected void add(String expression, String propertyName, Object value) {
         criterions.add(new Criterion(expression, propertyName, value));
@@ -30,14 +30,14 @@ public abstract class Criteria {
         joins.add(new Join(associationPath, alias, joinType));
     }
 
-    void addOrderBy(String properyName, Order order) {
+    protected void addOrderBy(String properyName, Order order) {
         if (orderBys == null) {
             orderBys = new ArrayList<OrderBy>();
         }
         orderBys.add(new OrderBy(properyName, order));
     }
 
-    void addGroupBy(String expression, String propertyName, Object value) {
+    protected void addGroupBy(String expression, String propertyName, Object value) {
         if (groupBys == null) {
             groupBys = new ArrayList<GroupBy>();
         }
