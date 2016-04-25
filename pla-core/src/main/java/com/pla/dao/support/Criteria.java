@@ -14,13 +14,13 @@ public abstract class Criteria {
         return new CriteriaModel(model);
     }
 
-    protected List<Criterion> criterions = new ArrayList<Criterion>();
+    protected List<Criterion> criteria = new ArrayList<Criterion>();
     protected List<Join> joins;
     protected List<OrderBy> orderBys;
     protected List<GroupBy> groupBys;
 
     protected void add(String expression, String propertyName, Object value) {
-        criterions.add(new Criterion(expression, propertyName, value));
+        criteria.add(new Criterion(expression, propertyName, value));
     }
 
     protected void addJoin(String associationPath, String alias, JoinType joinType) {

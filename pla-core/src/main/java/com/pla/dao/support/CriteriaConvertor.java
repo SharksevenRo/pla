@@ -48,8 +48,8 @@ public class CriteriaConvertor {
     public org.hibernate.Criteria convertWithOutOrder(Criteria criteria) throws Exception {
         Class clazz = this.getClass();
 
-        List<Criterion> criterions = criteria.criterions;
-        for (Criterion criterion : criterions) {
+        List<Criterion> criteriaTmp = criteria.criteria;
+        for (Criterion criterion : criteriaTmp) {
             Method method = clazz.getDeclaredMethod(criterion.getExpression(), Criterion.class);
             method.invoke(this, criterion);
         }
