@@ -1,10 +1,9 @@
 package com.pla.bean;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import com.pla.transaction.SessionTransaction;
 import com.pla.utils.SpringUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class SessionBean {
 	public static final String SF_BEANID = "sessionFactory";
@@ -28,10 +27,10 @@ public class SessionBean {
 			return session;
 
 		String sessionBeanId = beanId == null ? SF_BEANID : beanId;
-		Session sessionTrans = SessionTransaction.get(sessionBeanId);
-		if (sessionTrans != null) {
+		SessionFactory sfTrans = SessionTransaction.get(sessionBeanId);
+		if (sfTrans != null) {
 			this.inTransaction = true;
-			return sessionTrans;
+			return sfTrans.getCurrentSession();
 		}
 
 		if (beanId != null) {

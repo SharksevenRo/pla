@@ -12,7 +12,7 @@ public class HibernateTransactionManager extends org.springframework.orm.hiberna
     protected void doBegin(Object transaction, TransactionDefinition definition) {
         super.doBegin(transaction, definition);
         SessionTransaction.set(sessionFactoryName == null ? "" : sessionFactoryName,
-                this.getSessionFactory().getCurrentSession());
+                this.getSessionFactory());
     }
 
     @Override
