@@ -3,6 +3,7 @@ package com.pla.dao.support;
 import com.pla.query.Or;
 import com.pla.query.SQLCriterion;
 import com.pla.utils.TypeUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -39,41 +40,45 @@ public class CriteriaConvertor {
         this.criteria = criteria;
     }
 
-    public org.hibernate.Criteria convert(Criteria criteria) throws Exception {
+    public org.hibernate.Criteria convert(Criteria criteria) {
         this.convertWithOutOrder(criteria);
         this.convertOrderBy(criteria);
         return this.criteria;
     }
 
-    public org.hibernate.Criteria convertWithOutOrder(Criteria criteria) throws Exception {
-        Class clazz = this.getClass();
+    public org.hibernate.Criteria convertWithOutOrder(Criteria criteria) {
+        try {
+            Class clazz = this.getClass();
 
-        List<Criterion> criteriaTmp = criteria.criteria;
-        for (Criterion criterion : criteriaTmp) {
-            Method method = clazz.getDeclaredMethod(criterion.getExpression(), Criterion.class);
-            method.invoke(this, criterion);
-        }
+            List<Criterion> criteriaTmp = criteria.criteria;
+            for (Criterion criterion : criteriaTmp) {
+                Method method = clazz.getDeclaredMethod(criterion.getExpression(), Criterion.class);
+                method.invoke(this, criterion);
+            }
 
-        List<Join> joins = criteria.joins;
-        if (joins != null && !joins.isEmpty()) {
-            for (Join join : joins) {
-                if (join.criterion == null) {
-                    this.criteria.createAlias(join.associationPath, join.alias, join.joinType);
-                } else {
-                    this.criteria.createAlias(join.associationPath, join.alias, join.joinType, join.criterion);
+            List<Join> joins = criteria.joins;
+            if (joins != null && !joins.isEmpty()) {
+                for (Join join : joins) {
+                    if (join.criterion == null) {
+                        this.criteria.createAlias(join.associationPath, join.alias, join.joinType);
+                    } else {
+                        this.criteria.createAlias(join.associationPath, join.alias, join.joinType, join.criterion);
+                    }
                 }
             }
-        }
 
-        List<GroupBy> groupBys = criteria.groupBys;
-        if (groupBys != null && !groupBys.isEmpty()) {
-            for (GroupBy groupBy : groupBys) {
-                Method method = clazz.getDeclaredMethod(groupBy.getExpression(), GroupBy.class);
-                method.invoke(this, groupBy);
+            List<GroupBy> groupBys = criteria.groupBys;
+            if (groupBys != null && !groupBys.isEmpty()) {
+                for (GroupBy groupBy : groupBys) {
+                    Method method = clazz.getDeclaredMethod(groupBy.getExpression(), GroupBy.class);
+                    method.invoke(this, groupBy);
+                }
             }
-        }
 
-        return this.criteria;
+            return this.criteria;
+        } catch (Exception e) {
+            throw new HibernateException("Failed to convert pla criteria.");
+        }
     }
 
     private void convertOrderBy(Criteria criteria) {
