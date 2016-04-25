@@ -27,32 +27,20 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     protected abstract Session getSession();
 
     public T load(Serializable id) {
-        try {
-            Criteria criteria = Criteria.create().idEq(id);
-            return (T) CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz)).convert(criteria).uniqueResult();
-        } catch (Exception e) {
-            throw new HibernateException(e);
-        }
+        Criteria criteria = Criteria.create().idEq(id);
+        return (T) CriteriaConvertor.getInstance(getSession()
+                .createCriteria(this.clazz)).convert(criteria).uniqueResult();
     }
 
     public List<T> list(Criteria criteria) {
-        try {
-            return CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz)).convert(criteria).list();
-        } catch (Exception e) {
-            throw new HibernateException(e);
-        }
+        return CriteriaConvertor.getInstance(getSession()
+                .createCriteria(this.clazz)).convert(criteria).list();
     }
 
     public List<T> list(Criteria criteria, int offset, int size) {
-        try {
-            return CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz)).convert(criteria).setFirstResult(offset)
-                    .setMaxResults(size).list();
-        } catch (Exception e) {
-            throw new HibernateException(e);
-        }
+        return CriteriaConvertor.getInstance(getSession()
+                .createCriteria(this.clazz)).convert(criteria).setFirstResult(offset)
+                .setMaxResults(size).list();
     }
 
     public T first(Criteria criteria) {
@@ -65,37 +53,25 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     }
 
     public int count(Criteria criteria) {
-        try {
-            Long count = (Long) CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz)).convertWithOutOrder(criteria)
-                    .setProjection(Projections.rowCount()).uniqueResult();
-            return count.intValue();
-        } catch (Exception e) {
-            throw new HibernateException(e);
-        }
+        Long count = (Long) CriteriaConvertor.getInstance(getSession()
+                .createCriteria(this.clazz)).convertWithOutOrder(criteria)
+                .setProjection(Projections.rowCount()).uniqueResult();
+        return count.intValue();
     }
 
     public T uniqueResult(Criteria criteria) {
-        try {
-            return (T) CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz)).convert(criteria).uniqueResult();
-        } catch (Exception e) {
-            throw new HibernateException(e);
-        }
+        return (T) CriteriaConvertor.getInstance(getSession()
+                .createCriteria(this.clazz)).convert(criteria).uniqueResult();
     }
 
     public Pager<T> pager(Criteria criteria, int pageNo, int pageSize) {
-        try {
-            Pager<T> pager = new Pager<T>(pageNo, pageSize);
-            int count = this.count(criteria);
-            pager.setTotalCount(count);
+        Pager<T> pager = new Pager<T>(pageNo, pageSize);
+        int count = this.count(criteria);
+        pager.setTotalCount(count);
 
-            List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize());
-            pager.setList(list);
-            return pager;
-        } catch (Exception e) {
-            throw new HibernateException(e);
-        }
+        List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize());
+        pager.setList(list);
+        return pager;
     }
 
     //-------------------------- Query for parts of properties--------------------------
@@ -144,7 +120,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
         return list(criteria, null, null, propertyNames);
     }
 
-	public List<T> list(Criteria criteria, Integer offset, Integer size, String... propertyNames) {
+    public List<T> list(Criteria criteria, Integer offset, Integer size, String... propertyNames) {
         try {
             if (propertyNames == null || propertyNames.length == 0)
                 return null;
@@ -185,20 +161,17 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     }
 
     public Pager<T> pager(Criteria criteria, int pageNo, int pageSize, String... propertyNames) {
-        try {
-            if (propertyNames == null || propertyNames.length == 0)
-                return null;
 
-            Pager<T> pager = new Pager<T>(pageNo, pageSize);
+        if (propertyNames == null || propertyNames.length == 0)
+            return null;
 
-            int count = this.count(criteria);
-            pager.setTotalCount(count);
-            List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize(), propertyNames);
-            pager.setList(list);
-            return pager;
-        } catch (Exception e) {
-            throw new HibernateException(e);
-        }
+        Pager<T> pager = new Pager<T>(pageNo, pageSize);
+
+        int count = this.count(criteria);
+        pager.setTotalCount(count);
+        List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize(), propertyNames);
+        pager.setList(list);
+        return pager;
     }
 
     //-------------------------- Query for record --------------------------
