@@ -117,14 +117,33 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
     }
 
     // -------------------------- QueryOp4Parts --------------------------
+    private void addPorjectionList(String... propertyNames) {
+        for (String propertyName : propertyNames) {
+            int idx = propertyName.indexOf(" as ");
+            if (idx > 0) {
+                propertyName = propertyName.substring(0, idx).trim();
+            }
+
+            getProjectionList().add(Projections.property(propertyName));
+        }
+    }
+
+    private void setPropertites(Object obj, T t, String propertyName) throws Exception {
+        int idx = propertyName.indexOf(" as ");
+        if (idx > 0) {
+            propertyName = propertyName.substring(idx + 4).trim();
+        }
+        SimplePropertyUtil.setProperty(t, propertyName, obj);
+    }
+
     private void setPropertites(Object obj, T t, String... propertyNames) throws Exception {
         if (obj instanceof Object[]) {
             Object[] objects = (Object[]) obj;
             for (int i = 0; i < objects.length; i++) {
-                SimplePropertyUtil.setProperty(t, propertyNames[i], objects[i]);
+                setPropertites(objects[i], t, propertyNames[i]);
             }
         } else {
-            SimplePropertyUtil.setProperty(t, propertyNames[0], obj);
+            setPropertites(obj, t, propertyNames[0]);
         }
     }
 
@@ -134,9 +153,7 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             if (propertyNames == null || propertyNames.length == 0)
                 return null;
 
-            for (String propertyName : propertyNames) {
-                getProjectionList().add(Projections.property(propertyName));
-            }
+            addPorjectionList(propertyNames);
 
             getCriteria().setProjection(getProjectionList());
 
@@ -171,9 +188,8 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             generateJoin();
             if (propertyNames == null || propertyNames.length == 0)
                 return null;
-            for (String propertyName : propertyNames) {
-                getProjectionList().add(Projections.property(propertyName));
-            }
+
+            addPorjectionList(propertyNames);
 
             getCriteria().setProjection(getProjectionList());
 
@@ -212,9 +228,9 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             pager.setTotalCount(count.intValue());
 
             ProjectionList projectionList = Projections.projectionList();
-            for (String propertyName : propertyNames) {
-                projectionList.add(Projections.property(propertyName));
-            }
+
+            addPorjectionList(propertyNames);
+
             getCriteria().setProjection(projectionList);
 
             if (ascList != null) {

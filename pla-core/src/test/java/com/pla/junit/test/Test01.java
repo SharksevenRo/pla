@@ -60,6 +60,11 @@ public class Test01 extends BaseHibernateConfiguration {
         for (User user : userList) {
             System.out.println(user.getId() + " " + user.getUserName() + " " + user.getRole().getRoleName());
         }
+
+        List<User> userList2 = User.finder(User.class).join("role").list("userName", "role.roleName as roleName");
+        for (User user : userList2) {
+            System.out.println(user.getUserName() + " " + user.getRoleName());
+        }
     }
 
     /**

@@ -22,6 +22,8 @@ public class User extends Model<User> implements Serializable {
     private Date birth;
     private Date creationDate;
 
+    private String roleName;
+
     @Override
     protected void init() {
         creationDate = new Date();
@@ -101,5 +103,14 @@ public class User extends Model<User> implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Transient
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }
