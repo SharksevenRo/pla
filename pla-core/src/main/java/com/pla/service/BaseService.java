@@ -16,27 +16,27 @@ public class BaseService<T> implements IBaseService<T> {
         this.dao = dao;
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void save(T t) {
         dao.save(t);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void update(T t) {
         dao.update(t);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void update(T t, String... fields) {
         dao.update(t, fields);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void saveOrUpdate(T t) {
         dao.saveOrUpdate(t);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void delete(Serializable id) {
         dao.delete(id);
     }
