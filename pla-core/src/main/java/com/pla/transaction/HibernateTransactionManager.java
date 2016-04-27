@@ -11,14 +11,14 @@ public class HibernateTransactionManager extends org.springframework.orm.hiberna
     @Override
     protected void doBegin(Object transaction, TransactionDefinition definition) {
         super.doBegin(transaction, definition);
-        SessionTransaction.set(sessionFactoryName == null ? "" : sessionFactoryName,
+        SessionFactoryTransaction.set(sessionFactoryName == null ? "" : sessionFactoryName,
                 this.getSessionFactory());
     }
 
     @Override
     protected void doCleanupAfterCompletion(Object transaction) {
         super.doCleanupAfterCompletion(transaction);
-        SessionTransaction.remove(sessionFactoryName == null ? "" : sessionFactoryName);
+        SessionFactoryTransaction.remove(sessionFactoryName == null ? "" : sessionFactoryName);
     }
 
     private String sessionFactoryName;
