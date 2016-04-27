@@ -34,7 +34,7 @@ public class SessionBean {
             return sfTrans.getCurrentSession();
         }
         Session sessionTrans = SessionTransaction.get();
-        if (sessionTrans != null) {
+        if (sessionTrans != null && sessionTrans.isOpen()) {
             this.inTransaction = true;
             return sessionTrans;
         }
