@@ -1,20 +1,17 @@
 package com.pla.dao;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.pla.query.Pager;
+import com.pla.query.Record;
+import com.pla.utils.PojoUtil;
+import com.pla.utils.SimplePropertyUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 
-import com.pla.dao.support.Criteria;
-import com.pla.dao.support.CriteriaConvertor;
-import com.pla.query.Pager;
-import com.pla.query.Record;
-import com.pla.utils.PojoUtil;
-import com.pla.utils.SimplePropertyUtil;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class BaseDAO<T> implements IBaseDAO<T> {
@@ -27,19 +24,18 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     protected abstract Session getSession();
 
     public T load(Serializable id) {
-        Criteria criteria = Criteria.create().idEq(id);
-        return (T) CriteriaConvertor.getInstance(getSession()
-                .createCriteria(this.clazz)).convert(criteria).uniqueResult();
+        Criteria criteria = Criteria.create(clazz).idEq(id);
+        return (T) criteria.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
     }
 
     public List<T> list(Criteria criteria) {
-        return CriteriaConvertor.getInstance(getSession()
-                .createCriteria(this.clazz)).convert(criteria).list();
+        criteria.generateOrderBy();
+        return criteria.getDetachedCriteria().getExecutableCriteria(getSession()).list();
     }
 
     public List<T> list(Criteria criteria, int offset, int size) {
-        return CriteriaConvertor.getInstance(getSession()
-                .createCriteria(this.clazz)).convert(criteria).setFirstResult(offset)
+        criteria.generateOrderBy();
+        return criteria.getDetachedCriteria().getExecutableCriteria(getSession()).setFirstResult(offset)
                 .setMaxResults(size).list();
     }
 
@@ -53,15 +49,13 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     }
 
     public int count(Criteria criteria) {
-        Long count = (Long) CriteriaConvertor.getInstance(getSession()
-                .createCriteria(this.clazz)).convertWithOutOrder(criteria)
+        Long count = (Long) criteria.getDetachedCriteria().getExecutableCriteria(getSession())
                 .setProjection(Projections.rowCount()).uniqueResult();
         return count.intValue();
     }
 
     public T uniqueResult(Criteria criteria) {
-        return (T) CriteriaConvertor.getInstance(getSession()
-                .createCriteria(this.clazz)).convert(criteria).uniqueResult();
+        return (T) criteria.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
     }
 
     public Pager<T> pager(Criteria criteria, int pageNo, int pageSize) {
@@ -69,6 +63,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
         int count = this.count(criteria);
         pager.setTotalCount(count);
 
+        criteria.generateOrderBy();
         List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize());
         pager.setList(list);
         return pager;
@@ -80,16 +75,14 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
             if (propertyNames == null || propertyNames.length == 0)
                 return null;
 
-            CriteriaConvertor cc = CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz));
-
-            ProjectionList projectionList = cc.getProjectionList();
+            ProjectionList projectionList = Projections.projectionList();
 
             for (String propertyName : propertyNames) {
                 projectionList.add(Projections.property(propertyName));
             }
 
-            Object obj = cc.convert(criteria).setProjection(projectionList).uniqueResult();
+            Object obj = criteria.getDetachedCriteria().getExecutableCriteria(getSession())
+                    .setProjection(projectionList).uniqueResult();
             T t = clazz.newInstance();
             if (obj instanceof Object[]) {
                 Object[] objects = (Object[]) obj;
@@ -117,22 +110,22 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     }
 
     public List<T> list(Criteria criteria, String... propertyNames) {
+        criteria.generateOrderBy();
         return list(criteria, null, null, propertyNames);
     }
 
     public List<T> list(Criteria criteria, Integer offset, Integer size, String... propertyNames) {
         try {
+            criteria.generateOrderBy();
             if (propertyNames == null || propertyNames.length == 0)
                 return null;
-            CriteriaConvertor cc = CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz));
-
-            ProjectionList projectionList = cc.getProjectionList();
+            ProjectionList projectionList =Projections.projectionList();
             for (String propertyName : propertyNames) {
                 projectionList.add(Projections.property(propertyName));
             }
 
-            org.hibernate.Criteria cri = cc.convert(criteria).setProjection(projectionList);
+            org.hibernate.Criteria cri = criteria.getDetachedCriteria().getExecutableCriteria(getSession())
+                    .setProjection(projectionList);
 
             if (offset != null)
                 cri.setFirstResult(offset);
@@ -166,9 +159,11 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
             return null;
 
         Pager<T> pager = new Pager<T>(pageNo, pageSize);
-
         int count = this.count(criteria);
         pager.setTotalCount(count);
+
+        criteria.generateOrderBy();
+
         List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize(), propertyNames);
         pager.setList(list);
         return pager;
@@ -177,21 +172,18 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     //-------------------------- Query for record --------------------------
     public Record record(Criteria criteria) {
         try {
-            CriteriaConvertor cc = CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz));
-
-            if (cc.getAliasList().isEmpty()) {
+            if (criteria.getAliasList().isEmpty()) {
                 throw new HibernateException("It is not Object[] result.");
             }
-            Object obj = cc.convert(criteria).uniqueResult();
+            Object obj = criteria.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
             Record record = new Record();
             if (obj instanceof Object[]) {
                 Object[] objects = (Object[]) obj;
                 for (int i = 0; i < objects.length; i++) {
-                    record.put(cc.getAliasList().get(i), objects[i]);
+                    record.put(criteria.getAliasList().get(i), objects[i]);
                 }
             } else {
-                record.put(cc.getAliasList().get(0), obj);
+                record.put(criteria.getAliasList().get(0), obj);
             }
             return record;
         } catch (HibernateException e) {
@@ -207,13 +199,13 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
 
     public List<Record> recordList(Criteria criteria, Integer offset, Integer size) {
         try {
-            CriteriaConvertor cc = CriteriaConvertor.getInstance(getSession()
-                    .createCriteria(this.clazz));
-            if (cc.getAliasList().isEmpty()) {
+            if (criteria.getAliasList().isEmpty()) {
                 throw new HibernateException("It is not Object[] results.");
             }
 
-            org.hibernate.Criteria cri = cc.convert(criteria);
+            criteria.generateOrderBy();
+
+            org.hibernate.Criteria cri = criteria.getDetachedCriteria().getExecutableCriteria(getSession());
 
             if (offset != null)
                 cri.setFirstResult(offset);
@@ -226,10 +218,10 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
                 if (obj instanceof Object[]) {
                     Object[] objects = (Object[]) obj;
                     for (int i = 0; i < objects.length; i++) {
-                        record.put(cc.getAliasList().get(i), objects[i]);
+                        record.put(criteria.getAliasList().get(i), objects[i]);
                     }
                 } else {
-                    record.put(cc.getAliasList().get(0), obj);
+                    record.put(criteria.getAliasList().get(0), obj);
                 }
                 records.add(record);
             }

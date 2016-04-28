@@ -1,6 +1,5 @@
 package com.pla.dao;
 
-import com.pla.dao.support.Criteria;
 import com.pla.query.Pager;
 import com.pla.query.Record;
 

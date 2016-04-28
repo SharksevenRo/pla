@@ -1,4 +1,4 @@
-package com.pla.dao.support;
+package com.pla.dao;
 
 import com.pla.query.Or;
 import com.pla.utils.ModelUtil;
@@ -12,6 +12,7 @@ public class CriteriaModel extends CriteriaClazz {
     private Object model;
 
     public CriteriaModel(Object model) {
+        super(model.getClass());
         this.model = model;
     }
 
