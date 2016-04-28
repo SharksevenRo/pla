@@ -2,10 +2,12 @@ package com.pla.dao;
 
 import com.pla.query.Pager;
 import com.pla.query.Record;
+import com.pla.utils.ModelUtil;
 import com.pla.utils.PojoUtil;
 import com.pla.utils.SimplePropertyUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 
@@ -17,12 +19,76 @@ import java.util.List;
 public abstract class BaseDAO<T> implements IBaseDAO<T> {
     protected Class<T> clazz;
 
+    protected SessionFactory sessionFactory;
+
     public BaseDAO() {
         this.clazz = PojoUtil.getSuperClassGenricType(getClass());
     }
 
-    protected abstract Session getSession();
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
+    protected Session getSession() {
+        if (sessionFactory == null) {
+            throw new RuntimeException("No sessionFactory found. ");
+        }
+        return sessionFactory.getCurrentSession();
+    }
+
+    //-------------------------- Model operation--------------------------
+    public void save(T t) {
+        getSession().save(t);
+    }
+
+    public void update(T t) {
+        getSession().update(t);
+    }
+
+    public void update(T t, String... fields) {
+        Serializable id = ModelUtil.getIdValue(t);
+        if (id == null)
+            return;
+
+        T origT = (T) getSession().load(t.getClass(), id);
+        if (origT == null)
+            return;
+
+        try {
+            for (String fieldName : fields) {
+                //ignore null
+                if (fieldName.endsWith(":INULL")) {
+                    fieldName = fieldName.substring(0, fieldName.length() - 8);
+                    Object value = SimplePropertyUtil.getProperty(t, fieldName);
+                    if (value != null) {
+                        SimplePropertyUtil.setProperty(origT, fieldName, value);
+                    }
+                } else {
+                    Object value = SimplePropertyUtil.getProperty(t, fieldName);
+                    SimplePropertyUtil.setProperty(origT, fieldName, value);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        getSession().update(origT);
+    }
+
+    public void saveOrUpdate(T t) {
+        getSession().saveOrUpdate(t);
+    }
+
+    public void delete(Serializable id) {
+        if (id == null)
+            return;
+        T origT = (T) getSession().load(this.clazz, id);
+        if (origT == null)
+            return;
+        getSession().delete(origT);
+    }
+
+
+    //-------------------------- Query for model--------------------------
     public T load(Serializable id) {
         Criteria criteria = Criteria.create(clazz).idEq(id);
         return (T) criteria.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
@@ -119,7 +185,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
             criteria.generateOrderBy();
             if (propertyNames == null || propertyNames.length == 0)
                 return null;
-            ProjectionList projectionList =Projections.projectionList();
+            ProjectionList projectionList = Projections.projectionList();
             for (String propertyName : propertyNames) {
                 projectionList.add(Projections.property(propertyName));
             }

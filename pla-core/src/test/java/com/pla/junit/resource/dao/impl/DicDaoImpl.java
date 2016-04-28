@@ -1,6 +1,6 @@
 package com.pla.junit.resource.dao.impl;
 
-import com.pla.dao.HibernateDAO;
+import com.pla.dao.BaseDAO;
 import com.pla.junit.resource.dao.DicDao;
 import com.pla.junit.resource.model.Dic;
 import org.hibernate.Query;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class DicDaoImpl extends HibernateDAO<Dic> implements DicDao {
+public class DicDaoImpl extends BaseDAO<Dic> implements DicDao {
     @Resource(name = "sessionFactoryRes")
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
