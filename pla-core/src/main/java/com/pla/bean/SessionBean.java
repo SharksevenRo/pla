@@ -41,19 +41,8 @@ public class SessionBean {
             return sessionTrans;
         }
 
-        if (beanId != null) {
-            Object bean = SpringUtil.getBean(beanId);
-            if (bean != null) {
-                if (bean instanceof SessionFactory) {
-                    session = ((SessionFactory) bean).openSession();
-                    return session;
-                }
-            }
-        } else {
-            SessionFactory sessionFactory = SpringUtil.getBean(SF_BEANID);
-            session = sessionFactory.openSession();
-            return session;
-        }
+        SessionFactory sessionFactory = SpringUtil.getBean(sessionBeanId);
+        session = sessionFactory.openSession();
         return session;
     }
 
