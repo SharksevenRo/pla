@@ -58,8 +58,9 @@ public class HibernateQuery<T> extends AbstractHibernateQuery<T, HibernateQuery<
      * @param beanId String
      */
     public HibernateQuery(String beanId) {
-        super(new DefaultSessionHolder(new SessionBean(beanId).getSession()),
-                HQLTemplates.DEFAULT, new DefaultQueryMetadata());
+        super(null, HQLTemplates.DEFAULT, new DefaultQueryMetadata());
+        sessionBean = new SessionBean(beanId);
+        super.session = new DefaultSessionHolder(sessionBean.getSession());
     }
 
     @Override

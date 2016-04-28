@@ -59,7 +59,7 @@ public abstract class AbstractHibernateQuery<T, Q extends AbstractHibernateQuery
     @Nullable
     protected FlushMode flushMode;
 
-    private final SessionHolder session;
+    protected SessionHolder session;
 
     protected int timeout = 0;
 
