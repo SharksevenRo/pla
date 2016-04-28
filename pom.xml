@@ -15,7 +15,7 @@
     </modules>
 
     <properties>
-        <pla.version>1.1.1</pla.version>
+        <pla.version>1.1.2</pla.version>
         <querydsl.version>4.1.1</querydsl.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
