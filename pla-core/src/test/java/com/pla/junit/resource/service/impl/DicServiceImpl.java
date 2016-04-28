@@ -23,14 +23,15 @@ public class DicServiceImpl extends BaseService<Dic> implements DicService {
     }
 
     public List<Dic> findList(Dic dic) {
-        List<Dic> list = dicDao.findList(dic);
-        for(Dic d:list){
-            System.out.println(d);
-            if(d.getDicValue().equals("2")){
-                d.setDicValue("3");
-//                d.update();
-            }
-        }
+        List<Dic> list =  Dic.finder(Dic.class).list();
+//        List<Dic> list = dicDao.findList(dic);
+//        for(Dic d:list){
+//            System.out.println(d);
+//            if(d.getDicValue().equals("2")){
+//                d.setDicValue("3");
+////                d.update();
+//            }
+//        }
         return list;
     }
 }

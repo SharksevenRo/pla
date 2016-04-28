@@ -43,11 +43,9 @@
             </list>
         </property>
     </bean>
-    <bean id="transactionManager" class="com.pla.transaction.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="dataSource" ref="dataSource"/>
-        <!-- 使用分布式多事务时需要申明每个事务的 sessionFactoryName -->
-        <property name="sessionFactoryName" value="sessionFactory" />
     </bean>
 
     <bean id="dataSourceRes"
@@ -75,11 +73,9 @@
             </list>
         </property>
     </bean>
-    <bean id="transactionManagerRes" class="com.pla.transaction.HibernateTransactionManager">
+    <bean id="transactionManagerRes" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactoryRes"/>
         <property name="dataSource" ref="dataSourceRes"/>
-        <!-- 使用分布式多事务时需要申明每个事务的 sessionFactoryName -->
-        <property name="sessionFactoryName" value="sessionFactoryRes" />
     </bean>
 
     <bean id="chainedTransactionManager" class="org.springframework.data.transaction.ChainedTransactionManager">

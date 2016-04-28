@@ -15,6 +15,7 @@ import com.pla.junit.resource.service.DicService;
 import com.pla.query.HibernateQuery;
 import com.pla.query.QueryByClass;
 import com.pla.query.QueryByModel;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 public class SampleDicTest extends BaseHibernateConfiguration {
     @Resource
@@ -25,23 +26,24 @@ public class SampleDicTest extends BaseHibernateConfiguration {
         Dic dic = new Dic();
         dic.setDicKey("A1");
         List<Dic> list = dicService.findList(dic);
-        for(Dic d:list){
+        for (Dic d : list) {
             System.out.println(d);
         }
     }
 
     @Test
     public void test01() {
-        Criteria criteria = Criteria.create(Dic.class).eq("dicKey", "1").like("dicContent", "test").desc("id");
-        List<Dic> list = dicService.list(criteria);
-        System.out.println(list.size());
+//        Criteria criteria = Criteria.create(Dic.class).eq("dicKey", "1").like("dicContent", "test").desc("id");
+//        List<Dic> list = dicService.list(criteria);
+//        System.out.println(list.size());
 
         Dic dic = new Dic();
         dic.setDicKey("1");
         dic.setDicContent("test");
         Criteria criteria2 = Criteria.create(dic).eq("dicKey").like("dicContent").desc("id");
-        List<Dic> list2 = dicService.list(criteria2);
-        System.out.println(list2.size());
+//        List<Dic> list2 = dicService.list(criteria2);
+//        System.out.println(list2.size());
+        dicService.pager(criteria2, 0, 10);
     }
 
     @Resource(name = "sessionFactoryRes")

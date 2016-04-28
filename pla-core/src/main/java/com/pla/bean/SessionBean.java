@@ -1,10 +1,10 @@
 package com.pla.bean;
 
-import com.pla.transaction.SessionFactoryTransaction;
 import com.pla.transaction.SessionTransaction;
 import com.pla.utils.SpringUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 public class SessionBean {
     public static final String SF_BEANID = "sessionFactory";
@@ -28,8 +28,10 @@ public class SessionBean {
             return session;
 
         String sessionBeanId = beanId == null ? SF_BEANID : beanId;
-        SessionFactory sfTrans = SessionFactoryTransaction.get(sessionBeanId);
-        if (sfTrans != null) {
+
+        //In spring transaction wrap
+        if(TransactionSynchronizationManager.isSynchronizationActive()){
+            SessionFactory sfTrans = SpringUtil.getBean(sessionBeanId);
             this.inTransaction = true;
             return sfTrans.getCurrentSession();
         }
