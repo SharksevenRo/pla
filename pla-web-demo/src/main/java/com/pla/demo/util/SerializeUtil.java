@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerializeUtils {
+public class SerializeUtil {
     public static String serialize(Object obj) throws IOException {
         return serialize(obj, true);
     }
