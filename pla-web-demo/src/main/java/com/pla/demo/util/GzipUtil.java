@@ -16,6 +16,7 @@ public class GzipUtil {
             gzip.write(data);
             gzip.finish();
             b = bos.toByteArray();
+            bos.flush();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -46,10 +47,6 @@ public class GzipUtil {
             }
             b = baos.toByteArray();
             baos.flush();
-            baos.close();
-            gzip.close();
-            bis.close();
-            ;
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

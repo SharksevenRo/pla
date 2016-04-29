@@ -84,7 +84,7 @@ public class SerializeUtil {
         String aa = serialize(list);
         System.out.println(aa.getBytes("ISO-8859-1").length);
 
-        List<Dic> dics = unSerialize(aa, true);
+        List<Dic> dics = unSerialize(aa);
         for (Dic dicTmp:dics){
             System.out.println(dicTmp);
         }
