@@ -24,7 +24,6 @@ public class DicController extends BaseController {
 
     @RequestMapping(value = "/dic/list")
     public String list(Dic dic, @RequestParam(defaultValue = "1") int page) {
-        dicService.save(null);
         Pager<Dic> pager = dic.finder().eq("dicKey").eq("dicValue").like("dicContent")
                 .asc("id").asc("sort").pager(page, 10);
 
