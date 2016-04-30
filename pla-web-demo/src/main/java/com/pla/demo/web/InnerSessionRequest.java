@@ -27,8 +27,6 @@ class InnerSessionHandler implements InvocationHandler {
         this.session = httpSession;
     }
 
-    ;
-
     public static HttpSession getInstance(HttpSession httpSession) {
         InvocationHandler handler = new InnerSessionHandler(httpSession);
         return (HttpSession) Proxy.newProxyInstance(httpSession.getClass().getClassLoader(), httpSession.getClass().getInterfaces(), handler);
