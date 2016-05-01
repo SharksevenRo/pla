@@ -43,6 +43,16 @@ public class Finder<T> extends QueryByModelImpl<T> implements Query<T> {
         return this;
     }
 
+    public QueryByModel<T> from(T t, Class<T> clazz) {
+        if (t == null) {
+            throw new RuntimeException();
+        }
+        this.t = t;
+        this.clazz = clazz;
+        init(this.clazz);
+        return this;
+    }
+
     @Override
     protected void close() {
         sessionBean.close();

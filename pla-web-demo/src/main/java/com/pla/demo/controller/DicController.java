@@ -1,11 +1,10 @@
 package com.pla.demo.controller;
 
-import com.pla.demo.model.Dic;
-import com.pla.demo.model.QRole;
-import com.pla.demo.model.QUser;
-import com.pla.demo.model.User;
+import com.pla.demo.model.*;
 import com.pla.demo.service.DicService;
+import com.pla.model.PModel;
 import com.pla.query.Pager;
+import com.pla.utils.SimplePropertyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by chey on 2015/9/14.
@@ -24,6 +24,13 @@ public class DicController extends BaseController {
 
     @RequestMapping(value = "/dic/list")
     public String list(Dic dic, @RequestParam(defaultValue = "1") int page) {
+
+        PModel<Dic> pdic = PModel.create(dic);
+        PModel.finder(Dic.class).list();
+        List<Dic> list = pdic.finder().eq("dicKey").list();
+        System.out.println(list.size());
+
+
         Pager<Dic> pager = dic.finder().eq("dicKey").eq("dicValue").like("dicContent")
                 .asc("id").asc("sort").pager(page, 10);
 
