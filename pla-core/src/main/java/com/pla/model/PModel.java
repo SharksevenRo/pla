@@ -15,7 +15,7 @@ public class PModel<T> {
         this.t = t;
     }
 
-    public static <T> PModel create(T t) {
+    public static <T> PModel convert(T t) {
         return new PModel<T>(t);
     }
 

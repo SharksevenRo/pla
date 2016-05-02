@@ -25,7 +25,7 @@ public class DicController extends BaseController {
     @RequestMapping(value = "/dic/list")
     public String list(Dic dic, @RequestParam(defaultValue = "1") int page) {
 
-        PModel<Dic> pdic = PModel.create(dic);
+        PModel<Dic> pdic = PModel.convert(dic);
         PModel.finder(Dic.class).list();
         List<Dic> list = pdic.finder().eq("dicKey").list();
         System.out.println(list.size());
