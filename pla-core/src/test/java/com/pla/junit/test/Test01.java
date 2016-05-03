@@ -131,9 +131,12 @@ public class Test01 extends BaseHibernateConfiguration {
 //        dic2.update("dicValue");
 //
 //        dic2.delete();
-        PModel<Dic> pdic = PModel.convert(dic);
-        pdic.save();
+        PModel.create(dic).save();
         System.out.println(dic.getId() + " " + dic.getCreationDate());
+        Dic dic2 = PModel.finder(Dic.class).load(dic.getId());
+        dic2.setDicValue("3");
+        PModel.create(dic2).update();
+        System.out.println(dic2.getId() + " " + dic2.getDicValue());
     }
 
     /**
