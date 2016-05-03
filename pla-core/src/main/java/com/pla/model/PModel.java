@@ -19,6 +19,10 @@ public class PModel<T> {
         return new PModel<T>(t);
     }
 
+    public T getModel() {
+        return t;
+    }
+
     public void save() {
         //invoke init method before save
         try {
