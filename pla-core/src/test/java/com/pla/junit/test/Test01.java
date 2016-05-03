@@ -4,6 +4,7 @@ import com.pla.finder.NativeFinder;
 import com.pla.finder.RecordFinder;
 import com.pla.junit.resource.model.Dic;
 import com.pla.junit.resource.model.User;
+import com.pla.model.PModel;
 import com.pla.query.*;
 import org.junit.Test;
 
@@ -122,14 +123,17 @@ public class Test01 extends BaseHibernateConfiguration {
         dic.setSort(2);
         dic.setKeyDesc("TEST A1");
         //时间参数重写init()方法里初始化
-        dic.save();
+//        dic.save();
+//        System.out.println(dic.getId() + " " + dic.getCreationDate());
+//
+//        Dic dic2 = Dic.finder(Dic.class).load(dic.getId());
+//        dic2.setDicValue("3");
+//        dic2.update("dicValue");
+//
+//        dic2.delete();
+        PModel<Dic> pdic = PModel.convert(dic);
+        pdic.save();
         System.out.println(dic.getId() + " " + dic.getCreationDate());
-
-        Dic dic2 = Dic.finder(Dic.class).load(dic.getId());
-        dic2.setDicValue("3");
-        dic2.update("dicValue");
-
-        dic2.delete();
     }
 
     /**

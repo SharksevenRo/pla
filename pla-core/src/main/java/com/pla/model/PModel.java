@@ -22,7 +22,7 @@ public class PModel<T> {
     public void save() {
         //invoke init method before save
         try {
-            Method[] methods = t.getClass().getMethods();
+            Method[] methods = t.getClass().getDeclaredMethods();
             for (Method method : methods) {
                 if ("init".equals(method.getName())) {
                     method.invoke(t);

@@ -20,7 +20,7 @@ public class Dic extends Model<Dic> implements Serializable {
     private static final long serialVersionUID = -7843097306817462952L;
 
     @Override
-    protected void init() {
+    public void init() {
         creationDate = new Date();
     }
 
