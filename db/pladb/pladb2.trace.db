@@ -1,0 +1,6 @@
+2016-05-09 00:02:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "T_DIC" not found; SQL statement:
+select this_.id as id1_0_0_, this_.creation_date as creation2_0_0_, this_.dic_content as dic3_0_0_, this_.dic_key as dic4_0_0_, this_.dic_value as dic5_0_0_, this_.key_desc as key6_0_0_, this_.sort as sort7_0_0_, this_.test1 as test8_0_0_, this_.test2 as test9_0_0_, this_.test3 as test10_0_0_, this_.test4 as test11_0_0_ from t_dic this_ [42102-191]
+2016-05-09 00:03:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "T_DIC" not found; SQL statement:
+select this_.id as id1_0_0_, this_.creation_date as creation2_0_0_, this_.dic_content as dic3_0_0_, this_.dic_key as dic4_0_0_, this_.dic_value as dic5_0_0_, this_.key_desc as key6_0_0_, this_.sort as sort7_0_0_, this_.test1 as test8_0_0_, this_.test2 as test9_0_0_, this_.test3 as test10_0_0_, this_.test4 as test11_0_0_ from t_dic this_ [42102-191]
