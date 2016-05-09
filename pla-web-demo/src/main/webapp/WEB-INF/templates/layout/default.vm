@@ -1,1 +1,26 @@
-$screen_content
+#set($ctx=$request.contextPath)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href=""$ctx/favicon.ico">-->
+    <title>$!page_title</title>
+    <link href="$ctx/css/bootstrap.min.css" rel="stylesheet">
+    <link href="$ctx/css/theme.css" rel="stylesheet">
+    <link href="$ctx/css/docs.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="$ctx/js/html5shiv.min.js"></script>
+    <script src="$ctx/js/respond.min.js"></script>
+    <![endif]-->
+    <script src="$ctx/js/jquery.min.js"></script>
+</head>
+
+<body>
+    #parse("/header.vm")
+    $screen_content
+</body>
+</html>

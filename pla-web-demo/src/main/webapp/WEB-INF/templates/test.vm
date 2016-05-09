@@ -1,3 +1,2 @@
-<body>
-asdfxxx
-</body>
+#set($page_title="Pla demo")
+Hello Velocity Layout!

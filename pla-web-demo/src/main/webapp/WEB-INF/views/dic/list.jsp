@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!--<link rel="icon" href=""${ctx}/favicon.ico">-->
-    <title>Plasticene demo</title>
+    <title>Pla demo</title>
     <link href="${ctx}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctx}/css/theme.css" rel="stylesheet">
     <link href="${ctx}/css/docs.min.css" rel="stylesheet">
