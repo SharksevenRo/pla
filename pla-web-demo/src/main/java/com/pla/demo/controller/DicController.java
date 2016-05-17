@@ -26,7 +26,7 @@ public class DicController extends BaseController {
     public String test(){
 //        String name = "tester";
 //        model.addAttribute("name", name);
-        return "test";
+        return "/test";
     }
 
     @RequestMapping(value = "/dic/list")
