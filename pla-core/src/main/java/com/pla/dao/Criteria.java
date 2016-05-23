@@ -4,10 +4,13 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Criteria {
+public abstract class Criteria implements Serializable {
+    private static final long serialVersionUID = -1959436287549702712L;
+
     public static CriteriaClazz create(Class clazz) {
         return new CriteriaClazz(clazz);
     }
