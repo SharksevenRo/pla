@@ -43,10 +43,10 @@ public class DicController extends BaseController {
 
         modelMap.put("pager", pager);
 
-//        QUser user = QUser.user;
-//        QRole role = QRole.role;
-//        Pager<User> pager2 = User.query(User.class).select(user).from(user).leftJoin(user.role, role)
-//                .where(role.roleName.eq("aaa")).orderBy(user.id.desc()).pageSize(10).pageNo(page).fetchPager();
+        QUser user = QUser.user;
+        QRole role = QRole.role;
+        Pager<User> pager2 = User.query(User.class).select(user).from(user).leftJoin(user.role, role)
+                .where(role.roleName.eq("aaa")).orderBy(user.id.desc()).pageSize(10).pageNo(page).fetchPager();
 
         return "/dic/list";
     }

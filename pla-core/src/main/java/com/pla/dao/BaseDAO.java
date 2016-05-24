@@ -8,6 +8,7 @@ import com.pla.utils.SimplePropertyUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 
@@ -91,17 +92,19 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     //-------------------------- Query for model--------------------------
     public T load(Serializable id) {
         Criteria criteria = Criteria.create(clazz).idEq(id);
-        return (T) criteria.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
+        return (T) CriteriaUtil.convert(criteria).getExecutableCriteria(getSession()).uniqueResult();
     }
 
     public List<T> list(Criteria criteria) {
-        criteria.generateOrderBy();
-        return criteria.getDetachedCriteria().getExecutableCriteria(getSession()).list();
+        CriteriaUtil criteriaUtil = CriteriaUtil.create(criteria);
+        criteriaUtil.generateOrderBy();
+        return criteriaUtil.getDetachedCriteria().getExecutableCriteria(getSession()).list();
     }
 
     public List<T> list(Criteria criteria, int offset, int size) {
-        criteria.generateOrderBy();
-        return criteria.getDetachedCriteria().getExecutableCriteria(getSession()).setFirstResult(offset)
+        CriteriaUtil criteriaUtil = CriteriaUtil.create(criteria);
+        criteriaUtil.generateOrderBy();
+        return criteriaUtil.getDetachedCriteria().getExecutableCriteria(getSession()).setFirstResult(offset)
                 .setMaxResults(size).list();
     }
 
@@ -115,13 +118,13 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     }
 
     public int count(Criteria criteria) {
-        Long count = (Long) criteria.getDetachedCriteria().getExecutableCriteria(getSession())
+        Long count = (Long) CriteriaUtil.convert(criteria).getExecutableCriteria(getSession())
                 .setProjection(Projections.rowCount()).uniqueResult();
         return count.intValue();
     }
 
     public T uniqueResult(Criteria criteria) {
-        return (T) criteria.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
+        return (T) CriteriaUtil.convert(criteria).getExecutableCriteria(getSession()).uniqueResult();
     }
 
     public Pager<T> pager(Criteria criteria, int pageNo, int pageSize) {
@@ -129,7 +132,6 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
         int count = this.count(criteria);
         pager.setTotalCount(count);
 
-        criteria.generateOrderBy();
         List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize());
         pager.setList(list);
         return pager;
@@ -147,7 +149,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
                 projectionList.add(Projections.property(propertyName));
             }
 
-            Object obj = criteria.getDetachedCriteria().getExecutableCriteria(getSession())
+            Object obj = CriteriaUtil.convert(criteria).getExecutableCriteria(getSession())
                     .setProjection(projectionList).uniqueResult();
             T t = clazz.newInstance();
             if (obj instanceof Object[]) {
@@ -176,13 +178,13 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     }
 
     public List<T> list(Criteria criteria, String... propertyNames) {
-        criteria.generateOrderBy();
         return list(criteria, null, null, propertyNames);
     }
 
     public List<T> list(Criteria criteria, Integer offset, Integer size, String... propertyNames) {
         try {
-            criteria.generateOrderBy();
+            CriteriaUtil criteriaUtil = CriteriaUtil.create(criteria);
+            criteriaUtil.generateOrderBy();
             if (propertyNames == null || propertyNames.length == 0)
                 return null;
             ProjectionList projectionList = Projections.projectionList();
@@ -190,7 +192,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
                 projectionList.add(Projections.property(propertyName));
             }
 
-            org.hibernate.Criteria cri = criteria.getDetachedCriteria().getExecutableCriteria(getSession())
+            org.hibernate.Criteria cri = criteriaUtil.getDetachedCriteria().getExecutableCriteria(getSession())
                     .setProjection(projectionList);
 
             if (offset != null)
@@ -228,8 +230,6 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
         int count = this.count(criteria);
         pager.setTotalCount(count);
 
-        criteria.generateOrderBy();
-
         List<T> list = this.list(criteria, pager.getOffset(), pager.getPageSize(), propertyNames);
         pager.setList(list);
         return pager;
@@ -238,18 +238,19 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
     //-------------------------- Query for record --------------------------
     public Record record(Criteria criteria) {
         try {
-            if (criteria.getAliasList().isEmpty()) {
+            CriteriaUtil criteriaUtil = CriteriaUtil.create(criteria);
+            if (criteriaUtil.getAliasList().isEmpty()) {
                 throw new HibernateException("It is not Object[] result.");
             }
-            Object obj = criteria.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
+            Object obj = criteriaUtil.getDetachedCriteria().getExecutableCriteria(getSession()).uniqueResult();
             Record record = new Record();
             if (obj instanceof Object[]) {
                 Object[] objects = (Object[]) obj;
                 for (int i = 0; i < objects.length; i++) {
-                    record.put(criteria.getAliasList().get(i), objects[i]);
+                    record.put(criteriaUtil.getAliasList().get(i), objects[i]);
                 }
             } else {
-                record.put(criteria.getAliasList().get(0), obj);
+                record.put(criteriaUtil.getAliasList().get(0), obj);
             }
             return record;
         } catch (HibernateException e) {
@@ -265,13 +266,14 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
 
     public List<Record> recordList(Criteria criteria, Integer offset, Integer size) {
         try {
-            if (criteria.getAliasList().isEmpty()) {
+            CriteriaUtil criteriaUtil = CriteriaUtil.create(criteria);
+            if (criteriaUtil.getAliasList().isEmpty()) {
                 throw new HibernateException("It is not Object[] results.");
             }
 
-            criteria.generateOrderBy();
+            criteriaUtil.generateOrderBy();
 
-            org.hibernate.Criteria cri = criteria.getDetachedCriteria().getExecutableCriteria(getSession());
+            org.hibernate.Criteria cri = criteriaUtil.getDetachedCriteria().getExecutableCriteria(getSession());
 
             if (offset != null)
                 cri.setFirstResult(offset);
@@ -284,10 +286,10 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
                 if (obj instanceof Object[]) {
                     Object[] objects = (Object[]) obj;
                     for (int i = 0; i < objects.length; i++) {
-                        record.put(criteria.getAliasList().get(i), objects[i]);
+                        record.put(criteriaUtil.getAliasList().get(i), objects[i]);
                     }
                 } else {
-                    record.put(criteria.getAliasList().get(0), obj);
+                    record.put(criteriaUtil.getAliasList().get(0), obj);
                 }
                 records.add(record);
             }

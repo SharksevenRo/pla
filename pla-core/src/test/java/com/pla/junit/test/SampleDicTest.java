@@ -37,13 +37,13 @@ public class SampleDicTest extends BaseHibernateConfiguration {
 //        List<Dic> list = dicService.list(criteria);
 //        System.out.println(list.size());
 
-        Dic dic = new Dic();
-        dic.setDicKey("1");
-        dic.setDicContent("test");
-        Criteria criteria2 = Criteria.create(dic).eq("dicKey").like("dicContent").desc("id");
+//        Dic dic = new Dic();
+//        dic.setDicKey("1");
+//        dic.setDicContent("test");
+//        Criteria criteria2 = Criteria.create(dic).eq("dicKey").like("dicContent").desc("id");
 //        List<Dic> list2 = dicService.list(criteria2);
 //        System.out.println(list2.size());
-        dicService.pager(criteria2, 0, 10);
+//        dicService.pager(criteria2, 0, 10);
     }
 
     @Resource(name = "sessionFactoryRes")
