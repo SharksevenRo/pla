@@ -63,7 +63,7 @@ public class Criteria implements Serializable {
         criterionList.add(criterion);
     }
 
-    private void set(String expression, String propertyName, String otherPropertyName) {
+    private void setProperties(String expression, String propertyName, String otherPropertyName) {
         if (propertyName == null || otherPropertyName == null)
             return;
         Criterion criterion = Criterion.create();
@@ -171,32 +171,32 @@ public class Criteria implements Serializable {
     }
 
     public Criteria eqProperty(String propertyName, String otherPropertyName) {
-        set("eqProperty", propertyName, otherPropertyName);
+        setProperties("eqProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Criteria neProperty(String propertyName, String otherPropertyName) {
-        set("neProperty", propertyName, otherPropertyName);
+        setProperties("neProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Criteria ltProperty(String propertyName, String otherPropertyName) {
-        set("ltProperty", propertyName, otherPropertyName);
+        setProperties("ltProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Criteria leProperty(String propertyName, String otherPropertyName) {
-        set("leProperty", propertyName, otherPropertyName);
+        setProperties("leProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Criteria gtProperty(String propertyName, String otherPropertyName) {
-        set("gtProperty", propertyName, otherPropertyName);
+        setProperties("gtProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Criteria geProperty(String propertyName, String otherPropertyName) {
-        set("geProperty", propertyName, otherPropertyName);
+        setProperties("geProperty", propertyName, otherPropertyName);
         return this;
     }
 
@@ -256,6 +256,7 @@ public class Criteria implements Serializable {
 
     public Criteria or(Or or) {
         Criterion criterion = Criterion.create();
+        criterion.setExpression("or");
         criterion.setOr(or);
         criterionList.add(criterion);
         return this;

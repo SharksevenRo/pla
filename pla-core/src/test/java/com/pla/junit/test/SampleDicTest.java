@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.pla.dao.Or;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Test;
@@ -33,9 +34,11 @@ public class SampleDicTest extends BaseHibernateConfiguration {
 
     @Test
     public void test01() {
-//        Criteria criteria = Criteria.create(Dic.class).eq("dicKey", "1").like("dicContent", "test").desc("id");
-//        List<Dic> list = dicService.list(criteria);
-//        System.out.println(list.size());
+        Criteria criteria = Criteria.create(Dic.class).eq("dicKey", "1").like("dicContent", "test")
+                .or(Or.create().eq("dicKey", "2").eq("dicKey", "3"))
+                .desc("id");
+        List<Dic> list = dicService.list(criteria);
+        System.out.println(list.size());
 
 //        Dic dic = new Dic();
 //        dic.setDicKey("1");

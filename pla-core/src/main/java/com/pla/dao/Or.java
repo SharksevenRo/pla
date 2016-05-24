@@ -13,6 +13,10 @@ public class Or implements Serializable {
         return orCriterionList;
     }
 
+    public static Or create(){
+        return new Or();
+    }
+
     private void set(String expression, String propertyName) {
         if (propertyName == null)
             return;
@@ -42,7 +46,7 @@ public class Or implements Serializable {
         orCriterionList.add(orCriterion);
     }
 
-    private void set(String expression, String propertyName, String otherPropertyName) {
+    private void setProperties(String expression, String propertyName, String otherPropertyName) {
         if (propertyName == null || otherPropertyName == null)
             return;
         OrCriterion orCriterion = OrCriterion.create();
@@ -150,32 +154,32 @@ public class Or implements Serializable {
     }
 
     public Or eqProperty(String propertyName, String otherPropertyName) {
-        set("eqProperty", propertyName, otherPropertyName);
+        setProperties("eqProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Or neProperty(String propertyName, String otherPropertyName) {
-        set("neProperty", propertyName, otherPropertyName);
+        setProperties("neProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Or ltProperty(String propertyName, String otherPropertyName) {
-        set("ltProperty", propertyName, otherPropertyName);
+        setProperties("ltProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Or leProperty(String propertyName, String otherPropertyName) {
-        set("leProperty", propertyName, otherPropertyName);
+        setProperties("leProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Or gtProperty(String propertyName, String otherPropertyName) {
-        set("gtProperty", propertyName, otherPropertyName);
+        setProperties("gtProperty", propertyName, otherPropertyName);
         return this;
     }
 
     public Or geProperty(String propertyName, String otherPropertyName) {
-        set("geProperty", propertyName, otherPropertyName);
+        setProperties("geProperty", propertyName, otherPropertyName);
         return this;
     }
 
