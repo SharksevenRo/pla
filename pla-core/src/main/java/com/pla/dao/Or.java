@@ -9,6 +9,10 @@ public class Or implements Serializable {
 
     private List<OrCriterion> orCriterionList = new ArrayList<OrCriterion>();
 
+    public List<OrCriterion> getOrCriterionList() {
+        return orCriterionList;
+    }
+
     private void set(String expression, String propertyName) {
         if (propertyName == null)
             return;
@@ -185,7 +189,7 @@ public class Or implements Serializable {
     }
 
     public Or sqlRestriction(String sql) {
-        sqlRestriction(sql, null);
+        sqlRestriction(sql, (Object[]) null);
         return this;
     }
 

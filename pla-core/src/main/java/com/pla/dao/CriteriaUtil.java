@@ -36,7 +36,7 @@ public class CriteriaUtil {
             }
             return criteriaUtil.getDetachedCriteria();
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException("Failed to convert criteria.");
         }
     }
 
@@ -50,7 +50,7 @@ public class CriteriaUtil {
             }
             return criteriaUtil;
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException("Failed to convert criteria.");
         }
     }
 
@@ -261,17 +261,18 @@ public class CriteriaUtil {
         detachedCriteria.add(Restrictions.sizeLe(criterion.getPropertyName(), (Integer) criterion.getValue()));
         return this;
     }
-    //TODO
-//    public CriteriaUtil or(Criterion criterion) {
-//        Or or = criterion.getOr();
-//
-//        List<org.hibernate.criterion.Criterion> list = criterion.getOr().getOrList();
-//        if (list != null && !list.isEmpty()) {
-//            detachedCriteria.add(Restrictions.or(list.toArray(new org.hibernate.criterion.Criterion[0])));
-//        }
-//        return this;
-//    }
-//
+
+    public CriteriaUtil or(Criterion criterion) {
+        Or or = criterion.getOr();
+        if (or != null) {
+            List<org.hibernate.criterion.Criterion> list = OrUtil.convert(or);
+            if (list != null && !list.isEmpty()) {
+                detachedCriteria.add(Restrictions.or(list.toArray(new org.hibernate.criterion.Criterion[0])));
+            }
+        }
+        return this;
+    }
+
     //-------------------------- Join --------------------------
 
     public CriteriaUtil join(Criterion criterion) {
