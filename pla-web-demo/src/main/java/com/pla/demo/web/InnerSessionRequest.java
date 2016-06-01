@@ -17,37 +17,38 @@ public class InnerSessionRequest extends HttpServletRequestWrapper {
     public HttpSession getSession() {
         return InnerSessionHandler.getInstance(super.getSession());
     }
-}
 
+    private static class InnerSessionHandler implements InvocationHandler {
+        private HttpSession session = null;
 
-class InnerSessionHandler implements InvocationHandler {
-    private HttpSession session = null;
-
-    private InnerSessionHandler(HttpSession httpSession) {
-        this.session = httpSession;
-    }
-
-    public static HttpSession getInstance(HttpSession httpSession) {
-        InvocationHandler handler = new InnerSessionHandler(httpSession);
-        return (HttpSession) Proxy.newProxyInstance(httpSession.getClass().getClassLoader(), httpSession.getClass().getInterfaces(), handler);
-    }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if ("setAttribute".equals(method.getName())) {
-            //TODO to do something
-            return null;
-        } else if ("getAttribute".equals(method.getName())) {
-            //TODO to do something
-            return null;
-        } else if ("removeAttribute".equals(method.getName())) {
-            //TODO to do something
-            return null;
-        } else if ("invalidate".equals(method.getName())) {
-            //TODO to do something
-            return null;
+        private InnerSessionHandler(HttpSession httpSession) {
+            this.session = httpSession;
         }
-        return method.invoke(session, args);
-    }
 
+        public static HttpSession getInstance(HttpSession httpSession) {
+            InvocationHandler handler = new InnerSessionHandler(httpSession);
+            return (HttpSession) Proxy.newProxyInstance(httpSession.getClass().getClassLoader(), httpSession.getClass().getInterfaces(), handler);
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            if ("setAttribute".equals(method.getName())) {
+                //TODO to do something
+                return null;
+            } else if ("getAttribute".equals(method.getName())) {
+                //TODO to do something
+                return null;
+            } else if ("removeAttribute".equals(method.getName())) {
+                //TODO to do something
+                return null;
+            } else if ("invalidate".equals(method.getName())) {
+                //TODO to do something
+                return null;
+            }
+            return method.invoke(session, args);
+        }
+
+    }
 }
+
+
