@@ -26,7 +26,7 @@ public abstract class Model<T> extends ModelFinder<T> {
         getDao().delete((T) this);
     }
 
-    private ModelDao<T> getDao() {
+    private final ModelDao<T> getDao() {
         return ModelDaoFactory.getModelDao(getClass());
     }
 }

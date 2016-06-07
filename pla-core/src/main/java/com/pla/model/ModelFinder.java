@@ -7,11 +7,11 @@ import com.pla.query.QueryByModel;
 
 public abstract class ModelFinder<T> {
     @SuppressWarnings("unchecked")
-    public QueryByModel<T> finder() {
+    public final QueryByModel<T> finder() {
         return new Finder<T>().from((T) this);
     }
 
-    public static <T> QueryByClass<T> finder(Class<T> clazz) {
+    public final static <T> QueryByClass<T> finder(Class<T> clazz) {
         return new Finder<T>().from(clazz);
     }
 

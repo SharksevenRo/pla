@@ -55,15 +55,15 @@ public class PModel<T> {
         getDao().delete(t);
     }
 
-    private ModelDao<T> getDao() {
+    private final ModelDao<T> getDao() {
         return ModelDaoFactory.getModelDao(t.getClass());
     }
 
-    public QueryByModel<T> finder() {
+    public final QueryByModel<T> finder() {
         return new Finder<T>().from(t);
     }
 
-    public static <T> QueryByClass<T> finder(Class<T> clazz) {
+    public final static <T> QueryByClass<T> finder(Class<T> clazz) {
         return new Finder<T>().from(clazz);
     }
 
