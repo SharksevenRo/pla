@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("unchecked")
 public class CommonServiceImpl implements CommonService {
-    public <M> void save(M m) {
+    public <M> M save(M m) {
         //invoke init method before save
         try {
             Method[] methods = m.getClass().getDeclaredMethods();
@@ -24,6 +24,7 @@ public class CommonServiceImpl implements CommonService {
         } catch (Exception e) {
         }
         getDao((Class<M>) m.getClass()).save(m);
+        return m;
     }
 
     public <M> void update(M m) {

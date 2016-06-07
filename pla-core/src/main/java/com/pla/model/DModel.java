@@ -22,8 +22,8 @@ public class DModel<M> {
         return m;
     }
 
-    public void save() {
-        getService().save(m);
+    public M save() {
+         return getService().save(m);
     }
 
     public void update() {

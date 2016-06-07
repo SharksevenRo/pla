@@ -5,7 +5,7 @@ import com.pla.query.QueryByClass;
 import com.pla.query.QueryByModel;
 
 public interface CommonService {
-    <M> void save(M m);
+    <M> M save(M m);
 
     <M> void update(M m);
 
