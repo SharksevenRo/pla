@@ -414,38 +414,6 @@ public class Criteria implements Serializable {
         return this;
     }
 
-    //    public static Criteria create(Class clazz) {
-//        return new Criteria(clazz);
-//    }
-//
-//    public static CriteriaModel create(Object model) {
-//        return new CriteriaModel(model);
-//    }
-//
-//    protected DetachedCriteria detachedCriteria;
-//
-//    private List<String> aliasList;
-//    private ProjectionList projectionList;
-//    protected List<String> ascList;
-//    protected List<String> descList;
-//
-//    public DetachedCriteria getDetachedCriteria() {
-//        return detachedCriteria;
-//    }
-//
-//    public List<String> getAliasList() {
-//        if (aliasList == null)
-//            aliasList = new ArrayList<String>();
-//        return aliasList;
-//    }
-//
-//    public ProjectionList getProjectionList() {
-//        if (projectionList == null)
-//            projectionList = Projections.projectionList();
-//        return projectionList;
-//    }
-//
-//    abstract void generateOrderBy();
 }
 
 

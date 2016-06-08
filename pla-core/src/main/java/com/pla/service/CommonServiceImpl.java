@@ -1,5 +1,6 @@
 package com.pla.service;
 
+import com.pla.finder.DFinder;
 import com.pla.finder.Finder;
 import com.pla.model.ModelDao;
 import com.pla.model.ModelDaoFactory;
@@ -47,12 +48,8 @@ public class CommonServiceImpl implements CommonService {
         return ModelDaoFactory.getModelDao(clazz);
     }
 
-    public final <M> QueryByModel<M> finder(M m) {
-        return new Finder<M>().from(m);
-    }
-
-    public final <M> QueryByClass<M> finder(Class<M> clazz) {
-        return new Finder<M>().from(clazz);
+    public final <M> DFinder<M> finder(Class<M> clazz) {
+        return DFinder.createDFinder(clazz);
     }
 
     public <M> Or or(M m) {

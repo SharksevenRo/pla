@@ -1,9 +1,11 @@
 package com.pla.junit.test;
 
+import com.pla.finder.DFinder;
 import com.pla.finder.NativeFinder;
 import com.pla.finder.RecordFinder;
 import com.pla.junit.resource.model.Dic;
 import com.pla.junit.resource.model.User;
+import com.pla.model.DModel;
 import com.pla.model.PModel;
 import com.pla.query.*;
 import org.junit.Test;
@@ -16,19 +18,21 @@ public class Test01 extends BaseHibernateConfiguration {
      */
     @Test
     public void test01() {
-        List<Dic> dicList = Dic.finder(Dic.class).eq("dicKey", "A1").startLike("dicContent", "TTT")
-                .desc("id").list() /*.count() .uniqueResult() .first()*/;
-        for (Dic dic : dicList) {
-            System.out.println(dic.getId() + " " + dic.getDicKey() + " " + dic.getDicValue() + " " + dic.getDicContent());
-        }
-
-        Dic dic = new Dic();
-        dic.setDicKey("A1");
-        dic.setDicContent("TTT");
-        dicList = dic.finder().eq("dicKey").like("dicContent").desc("id").list();
-        for (Dic dic2 : dicList) {
-            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
-        }
+//        List<Dic> dicList = Dic.finder(Dic.class).eq("dicKey", "A1").startLike("dicContent", "TTT")
+//                .desc("id").list() /*.count() .uniqueResult() .first()*/;
+//        for (Dic dic : dicList) {
+//            System.out.println(dic.getId() + " " + dic.getDicKey() + " " + dic.getDicValue() + " " + dic.getDicContent());
+//        }
+//
+//        Dic dic = new Dic();
+//        dic.setDicKey("A1");
+//        dic.setDicContent("TTT");
+//        dicList = dic.finder().eq("dicKey").like("dicContent").desc("id").list();
+//        for (Dic dic2 : dicList) {
+//            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
+//        }
+        Dic.finder(Dic.class).list();
+        List<Dic> dics = DModel.finder(Dic.class).eq("dicKey","123").list();
     }
 
     /**

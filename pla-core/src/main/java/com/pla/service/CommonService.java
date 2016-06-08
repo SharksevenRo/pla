@@ -1,8 +1,7 @@
 package com.pla.service;
 
+import com.pla.finder.DFinder;
 import com.pla.query.Or;
-import com.pla.query.QueryByClass;
-import com.pla.query.QueryByModel;
 
 public interface CommonService {
     <M> M save(M m);
@@ -15,9 +14,7 @@ public interface CommonService {
 
     <M> void delete(M m);
 
-    <M> QueryByModel<M> finder(M m);
-
-    <M> QueryByClass<M> finder(Class<M> clazz);
+    <M> DFinder<M> finder(Class<M> clazz);
 
     <M> Or or(M m);
 }

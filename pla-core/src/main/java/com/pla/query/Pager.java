@@ -1,8 +1,11 @@
 package com.pla.query;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Pager<T> {
+public class Pager<T> implements Serializable {
+    private static final long serialVersionUID = -58294325990807084L;
+
     public static final int DEF_PGSIZE = 20;
 
     private int pageSize = DEF_PGSIZE;

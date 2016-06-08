@@ -19,13 +19,18 @@ import java.util.Map;
 public class Or {
     private Object model;
 
-    private List<Criterion> orList = new ArrayList<Criterion>();
+    private List<Criterion> orList;
 
     public List<Criterion> getOrList() {
         return orList;
     }
 
     public Or() {
+        orList = new ArrayList<Criterion>();
+    }
+
+    public Or(List<Criterion> orList) {
+        this.orList = orList;
     }
 
     public Or(Object model) {

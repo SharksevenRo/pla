@@ -96,4 +96,5 @@
         </property>
     </bean>
 
+    <bean id="commonService" class="com.pla.service.CommonServiceImpl" />
 </beans>

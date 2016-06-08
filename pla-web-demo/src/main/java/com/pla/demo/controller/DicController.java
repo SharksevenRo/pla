@@ -2,6 +2,7 @@ package com.pla.demo.controller;
 
 import com.pla.demo.model.*;
 import com.pla.demo.service.DicService;
+import com.pla.model.DModel;
 import com.pla.model.PModel;
 import com.pla.query.Pager;
 import com.pla.utils.SimplePropertyUtil;
@@ -23,9 +24,11 @@ public class DicController extends BaseController {
     private DicService dicService;
 
     @RequestMapping(value = "/test")
-    public String test(){
+    public String test() {
 //        String name = "tester";
 //        model.addAttribute("name", name);
+        List<Dic> dics = DModel.create(Dic.class).finder().list();
+
         return "/test";
     }
 
