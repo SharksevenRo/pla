@@ -2,6 +2,7 @@ package com.pla.model;
 
 
 import com.pla.finder.DFinder;
+import com.pla.finder.DFinderByModel;
 import com.pla.query.Or;
 import com.pla.query.QueryByClass;
 import com.pla.query.QueryByModel;
@@ -48,9 +49,9 @@ public class DModel<M> {
         getService().delete(m);
     }
 
-//    public final QueryByModel<M> finder() {
-//        return getService().finder(m);
-//    }
+    public final DFinderByModel<M> finder() {
+        return DFinderByModel.createDFByModel(m);
+    }
 
     public final static <M> DFinder<M> finder(Class<M> clazz) {
         return DFinder.createDFinder(clazz);

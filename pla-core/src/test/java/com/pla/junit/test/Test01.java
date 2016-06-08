@@ -1,5 +1,6 @@
 package com.pla.junit.test;
 
+import com.pla.dao.Criteria;
 import com.pla.finder.DFinder;
 import com.pla.finder.NativeFinder;
 import com.pla.finder.RecordFinder;
@@ -33,6 +34,7 @@ public class Test01 extends BaseHibernateConfiguration {
 //        }
         Dic.finder(Dic.class).list();
         DModel.finder(Dic.class).load(1l);
+        Criteria.create(Dic.class).idEq(1l);
     }
 
     /**
