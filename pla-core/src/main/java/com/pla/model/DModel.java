@@ -53,7 +53,7 @@ public class DModel<M> {
         return DFinderByModel.createDFByModel(m);
     }
 
-    public final static <M> DFinder<M> finder(Class<M> clazz) {
+    public final static <M> DFinder finder(Class<M> clazz) {
         return DFinder.createDFinder(clazz);
     }
 

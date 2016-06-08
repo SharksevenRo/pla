@@ -51,7 +51,7 @@ public class CommonServiceImpl implements CommonService {
         return ModelDaoFactory.getModelDao(clazz);
     }
 
-    public final <M> DFinder<M> finder(Class<M> clazz) {
+    public final <M> DFinder finder(Class<M> clazz) {
         return DFinder.createDFinder(clazz);
     }
 

@@ -20,7 +20,7 @@ public interface CommonService {
 
     <M> void delete(M m);
 
-    <M> DFinder<M> finder(Class<M> clazz);
+    <M> DFinder finder(Class<M> clazz);
 
     <M> Or or(M m);
 
