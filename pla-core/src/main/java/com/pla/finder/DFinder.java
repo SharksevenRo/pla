@@ -3,8 +3,9 @@ package com.pla.finder;
 import com.pla.dao.Criteria;
 import com.pla.dao.Or;
 import com.pla.query.Pager;
-import com.pla.query.QueryByClass;
 import com.pla.query.Record;
+import com.pla.service.CommonService;
+import com.pla.utils.SpringUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,83 +14,87 @@ import java.util.List;
 public class DFinder<M> extends Criteria implements Serializable {
     private static final long serialVersionUID = 3638237321915801747L;
 
+    private Class<M> clazz;
+
     public DFinder(Class<M> clazz) {
         super(clazz);
+        this.clazz = clazz;
+    }
+
+    private final CommonService getService(){
+        CommonService commonService = SpringUtil.getBean("commonService");
+        return commonService;
     }
 
     public static <M> DFinder<M> createDFinder(Class<M> clazz) {
         return new DFinder<M>(clazz);
     }
 
-    private QueryByClass<M> getQuery() {
-        return DFinderUtil.create().convert(this, getClazz());
-    }
-
     public M load(Serializable id) {
-        return getQuery().load(id);
+        return getService().load(this, clazz, id);
     }
 
     public M first() {
-        return getQuery().first();
+        return getService().first(this, clazz);
     }
 
     public List<M> list() {
-        return getQuery().list();
+        return getService().list(this, clazz);
     }
 
     public List<M> list(int offset, int size) {
-        return getQuery().list(offset, size);
+        return getService().list(this, clazz, offset, size);
     }
 
     public int count() {
-        return getQuery().count();
+        return getService().count(this, clazz);
     }
 
     public M uniqueResult() {
-        return getQuery().uniqueResult();
+        return getService().uniqueResult(this, clazz);
     }
 
     public Pager<M> pager(int pageNo, int pageSize) {
-        return getQuery().pager(pageNo, pageSize);
+        return getService().pager(this, clazz, pageNo, pageSize);
     }
 
     // -------------------------- QueryOp4Parts --------------------------
     public M uniqueResult(String... propertyNames) {
-        return getQuery().uniqueResult(propertyNames);
+        return getService().uniqueResult(this, clazz, propertyNames);
     }
 
     public M first(String... propertyNames) {
-        return getQuery().first(propertyNames);
+        return getService().first(this, clazz, propertyNames);
     }
 
     public List<M> list(String... propertyNames) {
-        return getQuery().list(propertyNames);
+        return getService().list(this, clazz, propertyNames);
     }
 
     public List<M> list(Integer offset, Integer size, String... propertyNames) {
-        return getQuery().list(offset, size, propertyNames);
+        return getService().list(this, clazz, offset, size, propertyNames);
     }
 
     public Pager<M> pager(int pageNo, int pageSize, String... propertyNames) {
-        return getQuery().pager(pageNo, pageSize, propertyNames);
+        return getService().pager(this, clazz, pageNo, pageSize, propertyNames);
     }
 
 
     // -------------------------- Group By --------------------------
     public Record record() {
-        return getQuery().record();
+        return getService().record(this, clazz);
     }
 
     public List<Record> recordList() {
-        return getQuery().recordList(null, null);
+        return getService().recordList(this, clazz, null, null);
     }
 
     public List<Record> recordList(Integer offset, Integer size) {
-        return getQuery().recordList(offset, size);
+        return getService().recordList(this, clazz, offset, size);
     }
 
     public Record recordFirst() {
-        return getQuery().recordFirst();
+        return getService().recordFirst(this, clazz);
     }
 
 

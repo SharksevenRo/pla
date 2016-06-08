@@ -27,7 +27,7 @@ public class DicController extends BaseController {
     public String test() {
 //        String name = "tester";
 //        model.addAttribute("name", name);
-        List<Dic> dics = DModel.create(Dic.class).finder().list();
+        DModel.finder(Dic.class).load(1l);
 
         return "/test";
     }

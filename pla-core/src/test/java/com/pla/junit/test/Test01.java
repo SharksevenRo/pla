@@ -32,7 +32,7 @@ public class Test01 extends BaseHibernateConfiguration {
 //            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
 //        }
         Dic.finder(Dic.class).list();
-        List<Dic> dics = DModel.finder(Dic.class).eq("dicKey","123").list();
+        DModel.finder(Dic.class).load(1l);
     }
 
     /**

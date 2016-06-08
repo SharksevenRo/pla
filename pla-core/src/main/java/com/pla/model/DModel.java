@@ -29,7 +29,7 @@ public class DModel<M> {
     }
 
     public M save() {
-         return getService().save(m);
+        return getService().save(m);
     }
 
     public void update() {
@@ -48,12 +48,12 @@ public class DModel<M> {
         getService().delete(m);
     }
 
-    public final QueryByModel<M> finder() {
-        return getService().finder(m);
-    }
+//    public final QueryByModel<M> finder() {
+//        return getService().finder(m);
+//    }
 
     public final static <M> DFinder<M> finder(Class<M> clazz) {
-        return  getService().finder(clazz);
+        return DFinder.createDFinder(clazz);
     }
 
     public Or or() {

@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@SuppressWarnings({"serial", "rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class Record extends HashMap implements Map, Cloneable, Serializable {
+    private static final long serialVersionUID = 6832994289712256070L;
+
     public Record() {
         super();
     }
