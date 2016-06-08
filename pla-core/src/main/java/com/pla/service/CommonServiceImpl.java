@@ -1,5 +1,6 @@
 package com.pla.service;
 
+import com.pla.dao.Criteria;
 import com.pla.finder.DFinder;
 import com.pla.finder.DFinderUtil;
 import com.pla.model.ModelDao;
@@ -59,75 +60,75 @@ public class CommonServiceImpl implements CommonService {
         return Or.create(m);
     }
 
-    private final <M> QueryByClass<M> getQuery(DFinder dFinder, Class<M> clazz) {
+    private final <M> QueryByClass<M> getQuery(Criteria criteria, Class<M> clazz) {
         DFinderUtil<M> du = new DFinderUtil<M>();
-        return du.convert(dFinder, clazz);
+        return du.convert(criteria, clazz);
     }
 
-    public <M> M load(DFinder dFinder, Class<M> clazz, Serializable id) {
-        return getQuery(dFinder, clazz).load(id);
+    public <M> M load(Criteria criteria, Class<M> clazz, Serializable id) {
+        return getQuery(criteria, clazz).load(id);
     }
 
-    public <M> M first(DFinder dFinder, Class<M> clazz) {
-        return getQuery(dFinder, clazz).first();
+    public <M> M first(Criteria criteria, Class<M> clazz) {
+        return getQuery(criteria, clazz).first();
     }
 
-    public <M> List<M> list(DFinder dFinder, Class<M> clazz) {
-        return getQuery(dFinder, clazz).list();
+    public <M> List<M> list(Criteria criteria, Class<M> clazz) {
+        return getQuery(criteria, clazz).list();
     }
 
-    public <M> List<M> list(DFinder dFinder, Class<M> clazz, int offset, int size) {
-        return getQuery(dFinder, clazz).list(offset, size);
+    public <M> List<M> list(Criteria criteria, Class<M> clazz, int offset, int size) {
+        return getQuery(criteria, clazz).list(offset, size);
     }
 
-    public <M> int count(DFinder dFinder, Class<M> clazz) {
-        return getQuery(dFinder, clazz).count();
+    public <M> int count(Criteria criteria, Class<M> clazz) {
+        return getQuery(criteria, clazz).count();
     }
 
-    public <M> M uniqueResult(DFinder dFinder, Class<M> clazz) {
-        return getQuery(dFinder, clazz).uniqueResult();
+    public <M> M uniqueResult(Criteria criteria, Class<M> clazz) {
+        return getQuery(criteria, clazz).uniqueResult();
     }
 
-    public <M> Pager<M> pager(DFinder dFinder, Class<M> clazz, int pageNo, int pageSize) {
-        return getQuery(dFinder, clazz).pager(pageNo, pageSize);
+    public <M> Pager<M> pager(Criteria criteria, Class<M> clazz, int pageNo, int pageSize) {
+        return getQuery(criteria, clazz).pager(pageNo, pageSize);
     }
 
     // -------------------------- QueryOp4Parts --------------------------
-    public <M> M uniqueResult(DFinder dFinder, Class<M> clazz, String... propertyNames) {
-        return getQuery(dFinder, clazz).uniqueResult(propertyNames);
+    public <M> M uniqueResult(Criteria criteria, Class<M> clazz, String... propertyNames) {
+        return getQuery(criteria, clazz).uniqueResult(propertyNames);
     }
 
-    public <M> M first(DFinder dFinder, Class<M> clazz, String... propertyNames) {
-        return getQuery(dFinder, clazz).first(propertyNames);
+    public <M> M first(Criteria criteria, Class<M> clazz, String... propertyNames) {
+        return getQuery(criteria, clazz).first(propertyNames);
     }
 
-    public <M> List<M> list(DFinder dFinder, Class<M> clazz, String... propertyNames) {
-        return getQuery(dFinder, clazz).list(propertyNames);
+    public <M> List<M> list(Criteria criteria, Class<M> clazz, String... propertyNames) {
+        return getQuery(criteria, clazz).list(propertyNames);
     }
 
-    public <M> List<M> list(DFinder dFinder, Class<M> clazz, Integer offset, Integer size, String... propertyNames) {
-        return getQuery(dFinder, clazz).list(offset, size, propertyNames);
+    public <M> List<M> list(Criteria criteria, Class<M> clazz, Integer offset, Integer size, String... propertyNames) {
+        return getQuery(criteria, clazz).list(offset, size, propertyNames);
     }
 
-    public <M> Pager<M> pager(DFinder dFinder, Class<M> clazz, int pageNo, int pageSize, String... propertyNames) {
-        return getQuery(dFinder, clazz).pager(pageNo, pageSize, propertyNames);
+    public <M> Pager<M> pager(Criteria criteria, Class<M> clazz, int pageNo, int pageSize, String... propertyNames) {
+        return getQuery(criteria, clazz).pager(pageNo, pageSize, propertyNames);
     }
 
 
     // -------------------------- Group By --------------------------
-    public <M> Record record(DFinder dFinder, Class<M> clazz) {
-        return getQuery(dFinder, clazz).record();
+    public <M> Record record(Criteria criteria, Class<M> clazz) {
+        return getQuery(criteria, clazz).record();
     }
 
-    public <M> List<Record> recordList(DFinder dFinder, Class<M> clazz) {
-        return getQuery(dFinder, clazz).recordList(null, null);
+    public <M> List<Record> recordList(Criteria criteria, Class<M> clazz) {
+        return getQuery(criteria, clazz).recordList(null, null);
     }
 
-    public <M> List<Record> recordList(DFinder dFinder, Class<M> clazz, Integer offset, Integer size) {
-        return getQuery(dFinder, clazz).recordList(offset, size);
+    public <M> List<Record> recordList(Criteria criteria, Class<M> clazz, Integer offset, Integer size) {
+        return getQuery(criteria, clazz).recordList(offset, size);
     }
 
-    public <M> Record recordFirst(DFinder dFinder, Class<M> clazz) {
-        return getQuery(dFinder, clazz).recordFirst();
+    public <M> Record recordFirst(Criteria criteria, Class<M> clazz) {
+        return getQuery(criteria, clazz).recordFirst();
     }
 }

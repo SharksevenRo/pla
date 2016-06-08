@@ -25,16 +25,17 @@ public class Test01 extends BaseHibernateConfiguration {
 //            System.out.println(dic.getId() + " " + dic.getDicKey() + " " + dic.getDicValue() + " " + dic.getDicContent());
 //        }
 //
-//        Dic dic = new Dic();
-//        dic.setDicKey("A1");
+        Dic dic = new Dic();
+        dic.setDicKey("A1");
+        DModel.create(dic).finder().list();
 //        dic.setDicContent("TTT");
 //        dicList = dic.finder().eq("dicKey").like("dicContent").desc("id").list();
 //        for (Dic dic2 : dicList) {
 //            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
 //        }
-        Dic.finder(Dic.class).list();
-        DModel.finder(Dic.class).load(1l);
-        Criteria.create(Dic.class).idEq(1l);
+//        Dic.finder(Dic.class).list();
+//        DModel.finder(Dic.class).load(1l);
+//        Criteria.create(Dic.class).idEq(1l);
     }
 
     /**

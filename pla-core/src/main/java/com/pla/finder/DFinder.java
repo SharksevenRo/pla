@@ -19,7 +19,7 @@ public class DFinder extends Criteria implements Serializable {
         super(clazz);
     }
 
-    private final CommonService getService() {
+    protected final CommonService getService() {
         CommonService commonService = SpringUtil.getBean("commonService");
         return commonService;
     }

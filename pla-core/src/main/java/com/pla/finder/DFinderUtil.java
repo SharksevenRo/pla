@@ -1,6 +1,7 @@
 package com.pla.finder;
 
 
+import com.pla.dao.Criteria;
 import com.pla.dao.Criterion;
 import com.pla.dao.Or;
 import com.pla.dao.OrUtil;
@@ -19,10 +20,14 @@ public class DFinderUtil<M> {
         return new DFinderUtil<M>();
     }
 
-    public QueryByClass<M> convert(DFinder dFinder,Class<M> clazz) {
+    public QueryByClass<M> convert(DFinderByModel dFinder, Class<M> clazz) {
+        return this.convert((DFinder) dFinder, clazz);
+    }
+
+    public QueryByClass<M> convert(Criteria criteria, Class<M> clazz) {
         try {
             query = new Finder<M>().from(clazz);
-            List<Criterion> criterionList = dFinder.getCriterionList();
+            List<Criterion> criterionList = criteria.getCriterionList();
             for (Criterion criterion : criterionList) {
                 Method method = this.getClass().getDeclaredMethod(criterion.getExpression(), Criterion.class);
                 method.invoke(this, criterion);

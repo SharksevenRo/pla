@@ -1,5 +1,6 @@
 package com.pla.service;
 
+import com.pla.dao.Criteria;
 import com.pla.finder.DFinder;
 import com.pla.query.Or;
 import com.pla.query.Pager;
@@ -24,39 +25,39 @@ public interface CommonService {
 
     <M> Or or(M m);
 
-    <M> M load(DFinder dFinder, Class<M> clazz, Serializable id);
+    <M> M load(Criteria criteria, Class<M> clazz, Serializable id);
 
 
-    <M> M first(DFinder dFinder, Class<M> clazz);
+    <M> M first(Criteria criteria, Class<M> clazz);
 
-    <M> List<M> list(DFinder dFinder, Class<M> clazz);
+    <M> List<M> list(Criteria criteria, Class<M> clazz);
 
-    <M> List<M> list(DFinder dFinder, Class<M> clazz, int offset, int size);
+    <M> List<M> list(Criteria criteria, Class<M> clazz, int offset, int size);
 
-    <M> int count(DFinder dFinder, Class<M> clazz);
+    <M> int count(Criteria criteria, Class<M> clazz);
 
-    <M> M uniqueResult(DFinder dFinder, Class<M> clazz);
+    <M> M uniqueResult(Criteria criteria, Class<M> clazz);
 
-    <M> Pager<M> pager(DFinder dFinder, Class<M> clazz, int pageNo, int pageSize);
+    <M> Pager<M> pager(Criteria criteria, Class<M> clazz, int pageNo, int pageSize);
 
     // -------------------------- QueryOp4Parts --------------------------
-    <M> M uniqueResult(DFinder dFinder, Class<M> clazz, String... propertyNames);
+    <M> M uniqueResult(Criteria criteria, Class<M> clazz, String... propertyNames);
 
-    <M> M first(DFinder dFinder, Class<M> clazz, String... propertyNames);
+    <M> M first(Criteria criteria, Class<M> clazz, String... propertyNames);
 
-    <M> List<M> list(DFinder dFinder, Class<M> clazz, String... propertyNames);
+    <M> List<M> list(Criteria criteria, Class<M> clazz, String... propertyNames);
 
-    <M> List<M> list(DFinder dFinder, Class<M> clazz, Integer offset, Integer size, String... propertyNames);
+    <M> List<M> list(Criteria criteria, Class<M> clazz, Integer offset, Integer size, String... propertyNames);
 
-    <M> Pager<M> pager(DFinder dFinder, Class<M> clazz, int pageNo, int pageSize, String... propertyNames);
+    <M> Pager<M> pager(Criteria criteria, Class<M> clazz, int pageNo, int pageSize, String... propertyNames);
 
 
     // -------------------------- Group By --------------------------
-    <M> Record record(DFinder dFinder, Class<M> clazz);
+    <M> Record record(Criteria criteria, Class<M> clazz);
 
-    <M> List<Record> recordList(DFinder dFinder, Class<M> clazz);
+    <M> List<Record> recordList(Criteria criteria, Class<M> clazz);
 
-    <M> List<Record> recordList(DFinder dFinder, Class<M> clazz, Integer offset, Integer size);
+    <M> List<Record> recordList(Criteria criteria, Class<M> clazz, Integer offset, Integer size);
 
-    <M> Record recordFirst(DFinder dFinder, Class<M> clazz);
+    <M> Record recordFirst(Criteria criteria, Class<M> clazz);
 }

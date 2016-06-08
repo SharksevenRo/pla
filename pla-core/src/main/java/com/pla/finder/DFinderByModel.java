@@ -1,11 +1,14 @@
 package com.pla.finder;
 
 import com.pla.dao.Or;
+import com.pla.query.Pager;
+import com.pla.query.Record;
 import com.pla.utils.ModelUtil;
 import com.pla.utils.SimplePropertyUtil;
 import org.hibernate.criterion.MatchMode;
 
 import java.io.Serializable;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class DFinderByModel<M> extends DFinder {
@@ -475,5 +478,88 @@ public class DFinderByModel<M> extends DFinder {
     @Override
     public DFinderByModel<M> distinct() {
         return (DFinderByModel<M>) super.distinct();
+    }
+
+    @Override
+    public <M> M load(Serializable id) {
+        return (M) getService().load(this, getClazz(), id);
+    }
+
+    @Override
+    public <M> M first() {
+        return (M) getService().first(this, getClazz());
+    }
+
+    @Override
+    public <M> List<M> list() {
+        return getService().list(this, getClazz());
+    }
+
+    @Override
+    public <M> List<M> list(int offset, int size) {
+        return getService().list(this, getClazz(), offset, size);
+    }
+
+    @Override
+    public int count() {
+        return getService().count(this, getClazz());
+    }
+
+    @Override
+    public <M> M uniqueResult() {
+        return (M) getService().uniqueResult(this, getClazz());
+    }
+
+    @Override
+    public <M> Pager<M> pager(int pageNo, int pageSize) {
+        return getService().pager(this, getClazz(), pageNo, pageSize);
+    }
+
+    // -------------------------- QueryOp4Parts --------------------------
+    @Override
+    public <M> M uniqueResult(String... propertyNames) {
+        return (M) getService().uniqueResult(this, getClazz(), propertyNames);
+    }
+
+    @Override
+    public <M> M first(String... propertyNames) {
+        return (M) getService().first(this, getClazz(), propertyNames);
+    }
+
+    @Override
+    public <M> List<M> list(String... propertyNames) {
+        return getService().list(this, getClazz(), propertyNames);
+    }
+
+    @Override
+    public <M> List<M> list(Integer offset, Integer size, String... propertyNames) {
+        return getService().list(this, getClazz(), offset, size, propertyNames);
+    }
+
+    @Override
+    public <M> Pager<M> pager(int pageNo, int pageSize, String... propertyNames) {
+        return getService().pager(this, getClazz(), pageNo, pageSize, propertyNames);
+    }
+
+
+    // -------------------------- Group By --------------------------
+    @Override
+    public Record record() {
+        return getService().record(this, getClazz());
+    }
+
+    @Override
+    public List<Record> recordList() {
+        return getService().recordList(this, getClazz(), null, null);
+    }
+
+    @Override
+    public List<Record> recordList(Integer offset, Integer size) {
+        return getService().recordList(this, getClazz(), offset, size);
+    }
+
+    @Override
+    public Record recordFirst() {
+        return getService().recordFirst(this, getClazz());
     }
 }
