@@ -4,15 +4,8 @@ package com.pla.model;
 import com.pla.finder.DFinder;
 import com.pla.finder.DFinderByModel;
 import com.pla.query.Or;
-import com.pla.query.QueryByClass;
-import com.pla.query.QueryByModel;
 import com.pla.service.CommonService;
 import com.pla.utils.SpringUtil;
-
-import javax.servlet.http.HttpSession;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 public class DModel<M> {
     private M m;
@@ -21,7 +14,7 @@ public class DModel<M> {
         this.m = m;
     }
 
-    public static <M> DModel create(M m) {
+    public static <M> DModel<M> create(M m) {
         return new DModel<M>(m);
     }
 
@@ -53,7 +46,7 @@ public class DModel<M> {
         return DFinderByModel.createDFByModel(m);
     }
 
-    public final static <M> DFinder finder(Class<M> clazz) {
+    public final static <M> DFinder<M> finder(Class<M> clazz) {
         return DFinder.createDFinder(clazz);
     }
 

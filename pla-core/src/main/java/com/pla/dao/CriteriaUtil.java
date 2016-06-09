@@ -3,6 +3,7 @@ package com.pla.dao;
 import com.pla.query.SQLCriterion;
 import com.pla.utils.ModelUtil;
 import com.pla.utils.TypeUtil;
+
 import org.hibernate.criterion.*;
 import org.hibernate.internal.util.collections.ArrayHelper;
 import org.hibernate.sql.JoinType;
@@ -13,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class CriteriaUtil {
     private DetachedCriteria detachedCriteria;
     private Class clazz;

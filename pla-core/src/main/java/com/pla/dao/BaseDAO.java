@@ -1,20 +1,20 @@
 package com.pla.dao;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+
 import com.pla.query.Pager;
 import com.pla.query.Record;
 import com.pla.utils.ModelUtil;
 import com.pla.utils.PojoUtil;
 import com.pla.utils.SimplePropertyUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class BaseDAO<T> implements IBaseDAO<T> {

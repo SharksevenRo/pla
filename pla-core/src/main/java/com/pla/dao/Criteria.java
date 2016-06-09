@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class Criteria implements Serializable {
     private static final long serialVersionUID = -1959436287549702712L;
 
-    private Class clazz;
+	private Class clazz;
     private List<Criterion> criterionList = new ArrayList<Criterion>();
 
     public Criteria(Class clazz) {

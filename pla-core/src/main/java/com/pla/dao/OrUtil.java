@@ -1,16 +1,16 @@
 package com.pla.dao;
 
-import com.pla.query.SQLCriterion;
-import com.pla.utils.TypeUtil;
-import org.hibernate.criterion.DetachedCriteria;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.internal.util.collections.ArrayHelper;
 import org.hibernate.type.Type;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import com.pla.query.SQLCriterion;
+import com.pla.utils.TypeUtil;
 
 public class OrUtil {
     private List<org.hibernate.criterion.Criterion> orList = new ArrayList<org.hibernate.criterion.Criterion>();

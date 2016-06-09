@@ -36,87 +36,87 @@ public class DFinderUtil<M> {
         }
     }
 
-    private void idEq(Serializable value) {
+    public void idEq(Serializable value) {
         query.idEq(value);
     }
 
-    private void eq(Criterion criterion) {
+    public void eq(Criterion criterion) {
         if (criterion.getValue() != null)
             query.eq(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void eqOrIsNull(Criterion criterion) {
+    public void eqOrIsNull(Criterion criterion) {
         if (criterion.getValue() != null)
             query.eqOrIsNull(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void ne(Criterion criterion) {
+    public void ne(Criterion criterion) {
         if (criterion.getValue() != null)
             query.ne(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void neOrIsNotNull(Criterion criterion) {
+    public void neOrIsNotNull(Criterion criterion) {
         if (criterion.getValue() != null)
             query.neOrIsNotNull(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void like(Criterion criterion) {
+    public void like(Criterion criterion) {
         if (criterion.getValue() != null)
             query.like(criterion.getPropertyName(), (String) criterion.getValue(),
                     MatchMode.ANYWHERE);
     }
 
-    private void startLike(Criterion criterion) {
+    public void startLike(Criterion criterion) {
         if (criterion.getValue() != null)
             query.like(criterion.getPropertyName(), (String) criterion.getValue(),
                     MatchMode.START);
     }
 
-    private void endLike(Criterion criterion) {
+    public void endLike(Criterion criterion) {
         if (criterion.getValue() != null)
             query.like(criterion.getPropertyName(), (String) criterion.getValue(),
                     MatchMode.END);
     }
 
-    private void ilike(Criterion criterion) {
+    public void ilike(Criterion criterion) {
         if (criterion.getValue() != null)
             query.ilike(criterion.getPropertyName(), (String) criterion.getValue(),
                     MatchMode.ANYWHERE);
     }
 
-    private void startIlike(Criterion criterion) {
+    public void startIlike(Criterion criterion) {
         if (criterion.getValue() != null)
             query.ilike(criterion.getPropertyName(), (String) criterion.getValue(),
                     MatchMode.START);
     }
 
-    private void endIlike(Criterion criterion) {
+    public void endIlike(Criterion criterion) {
         if (criterion.getValue() != null)
             query.ilike(criterion.getPropertyName(), (String) criterion.getValue(),
                     MatchMode.END);
     }
 
-    private void gt(Criterion criterion) {
+    public void gt(Criterion criterion) {
         if (criterion.getValue() != null)
             query.gt(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void lt(Criterion criterion) {
+    public void lt(Criterion criterion) {
         if (criterion.getValue() != null)
             query.lt(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void le(Criterion criterion) {
+    public void le(Criterion criterion) {
         if (criterion.getValue() != null)
             query.le(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void ge(Criterion criterion) {
+    public void ge(Criterion criterion) {
         if (criterion.getValue() != null)
             query.ge(criterion.getPropertyName(), criterion.getValue());
     }
 
-    private void between(Criterion criterion) {
+    public void between(Criterion criterion) {
         Object[] values = criterion.getValues();
         if (values == null || values.length != 2)
             return;
@@ -126,44 +126,44 @@ public class DFinderUtil<M> {
             query.between(criterion.getPropertyName(), lo, hi);
     }
 
-    private void in(Criterion criterion) {
+    public void in(Criterion criterion) {
         if (criterion.getValues() != null)
             query.in(criterion.getPropertyName(), criterion.getValues());
     }
 
-    private void isNull(Criterion criterion) {
+    public void isNull(Criterion criterion) {
         query.isNull(criterion.getPropertyName());
     }
 
-    private void isNotNull(Criterion criterion) {
+    public void isNotNull(Criterion criterion) {
         query.isNotNull(criterion.getPropertyName());
     }
 
-    private void eqProperty(Criterion criterion) {
+    public void eqProperty(Criterion criterion) {
         query.eqProperty(criterion.getPropertyName(), criterion.getOtherPropertyName());
     }
 
-    private void neProperty(Criterion criterion) {
+    public void neProperty(Criterion criterion) {
         query.neProperty(criterion.getPropertyName(), criterion.getOtherPropertyName());
     }
 
-    private void ltProperty(Criterion criterion) {
+    public void ltProperty(Criterion criterion) {
         query.ltProperty(criterion.getPropertyName(), criterion.getOtherPropertyName());
     }
 
-    private void leProperty(Criterion criterion) {
+    public void leProperty(Criterion criterion) {
         query.leProperty(criterion.getPropertyName(), criterion.getOtherPropertyName());
     }
 
-    private void gtProperty(Criterion criterion) {
+    public void gtProperty(Criterion criterion) {
         query.gtProperty(criterion.getPropertyName(), criterion.getOtherPropertyName());
     }
 
-    private void geProperty(Criterion criterion) {
+    public void geProperty(Criterion criterion) {
         query.geProperty(criterion.getPropertyName(), criterion.getOtherPropertyName());
     }
 
-    private void sqlRestriction(Criterion criterion) {
+    public void sqlRestriction(Criterion criterion) {
         if (criterion.getValues() != null) {
             query.sqlRestriction(criterion.getSql(), criterion.getValues());
         } else {
@@ -171,39 +171,39 @@ public class DFinderUtil<M> {
         }
     }
 
-    private void isEmpty(Criterion criterion) {
+    public void isEmpty(Criterion criterion) {
         query.isEmpty(criterion.getPropertyName());
     }
 
-    private void isNotEmpty(Criterion criterion) {
+    public void isNotEmpty(Criterion criterion) {
         query.isNotEmpty(criterion.getPropertyName());
     }
 
-    private void sizeEq(Criterion criterion) {
+    public void sizeEq(Criterion criterion) {
         query.sizeEq(criterion.getPropertyName(), (Integer) criterion.getValue());
     }
 
-    private void sizeNe(Criterion criterion) {
+    public void sizeNe(Criterion criterion) {
         query.sizeNe(criterion.getPropertyName(), (Integer) criterion.getValue());
     }
 
-    private void sizeGt(Criterion criterion) {
+    public void sizeGt(Criterion criterion) {
         query.sizeGt(criterion.getPropertyName(), (Integer) criterion.getValue());
     }
 
-    private void sizeLt(Criterion criterion) {
+    public void sizeLt(Criterion criterion) {
         query.sizeLt(criterion.getPropertyName(), (Integer) criterion.getValue());
     }
 
-    private void sizeGe(Criterion criterion) {
+    public void sizeGe(Criterion criterion) {
         query.sizeGe(criterion.getPropertyName(), (Integer) criterion.getValue());
     }
 
-    private void sizeLe(Criterion criterion) {
+    public void sizeLe(Criterion criterion) {
         query.sizeLe(criterion.getPropertyName(), (Integer) criterion.getValue());
     }
 
-    private void or(Criterion criterion) {
+    public void or(Criterion criterion) {
         Or or = criterion.getOr();
         if (or != null) {
             List<org.hibernate.criterion.Criterion> list = OrUtil.convert(or);
@@ -216,32 +216,32 @@ public class DFinderUtil<M> {
 
     //-------------------------- Join --------------------------
 
-    private void join(Criterion criterion) {
+    public void join(Criterion criterion) {
         this.leftJoin(criterion);
     }
 
-    private void leftJoin(Criterion criterion) {
+    public void leftJoin(Criterion criterion) {
         String alias = criterion.getAlias();
         if (alias == null)
             alias = criterion.getPropertyName();
         query.leftJoin(criterion.getPropertyName(), alias);
     }
 
-    private void rightJoin(Criterion criterion) {
+    public void rightJoin(Criterion criterion) {
         String alias = criterion.getAlias();
         if (alias == null)
             alias = criterion.getPropertyName();
         query.rightJoin(criterion.getPropertyName(), alias);
     }
 
-    private void innerJoin(Criterion criterion) {
+    public void innerJoin(Criterion criterion) {
         String alias = criterion.getAlias();
         if (alias == null)
             alias = criterion.getPropertyName();
         query.innerJoin(criterion.getPropertyName(), alias);
     }
 
-    private void fullJoin(Criterion criterion) {
+    public void fullJoin(Criterion criterion) {
         String alias = criterion.getAlias();
         if (alias == null)
             alias = criterion.getPropertyName();
@@ -251,45 +251,45 @@ public class DFinderUtil<M> {
 
     //-------------------------- OrderBy --------------------------
 
-    private void asc(Criterion criterion) {
+    public void asc(Criterion criterion) {
         query.asc(criterion.getPropertyName());
     }
 
-    private void desc(Criterion criterion) {
+    public void desc(Criterion criterion) {
         query.desc(criterion.getPropertyName());
     }
 
     //-------------------------- GroupBy --------------------------
 
-    private void groupBy(Criterion criterion) {
+    public void groupBy(Criterion criterion) {
         query.groupBy(criterion.getPropertyName());
     }
 
-    private void countAll(Criterion criterion) {
+    public void countAll(Criterion criterion) {
         query.countAll(criterion.getAlias());
     }
 
-    private void count(Criterion criterion) {
+    public void count(Criterion criterion) {
         query.count(criterion.getPropertyName(), criterion.getAlias());
     }
 
-    private void max(Criterion criterion) {
+    public void max(Criterion criterion) {
         query.max(criterion.getPropertyName(), criterion.getAlias());
     }
 
-    private void min(Criterion criterion) {
+    public void min(Criterion criterion) {
         query.min(criterion.getPropertyName(), criterion.getAlias());
     }
 
-    private void sum(Criterion criterion) {
+    public void sum(Criterion criterion) {
         query.sum(criterion.getPropertyName(), criterion.getAlias());
     }
 
-    private void avg(Criterion criterion) {
+    public void avg(Criterion criterion) {
         query.avg(criterion.getPropertyName(), criterion.getAlias());
     }
 
-    private void distinct(Criterion criterion) {
+    public void distinct(Criterion criterion) {
         String[] properties = criterion.getPropertyNames();
         if (properties != null) {
             query.distinct(properties);

@@ -21,7 +21,8 @@ public class DFinderByModel<M> {
         return new DFinderByModel<M>(m);
     }
 
-    public DFinderByModel(M m) {
+    @SuppressWarnings("unchecked")
+	public DFinderByModel(M m) {
         this.m = m;
         this.clazz = (Class<M>) m.getClass();
     }
