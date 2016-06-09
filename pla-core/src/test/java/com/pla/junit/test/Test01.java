@@ -27,13 +27,13 @@ public class Test01 extends BaseHibernateConfiguration {
 //
         Dic dic = new Dic();
         dic.setDicKey("A1");
-        DModel.create(dic).finder().list();
+        DModel.create(dic).finder().eq("dicKey").list();
 //        dic.setDicContent("TTT");
 //        dicList = dic.finder().eq("dicKey").like("dicContent").desc("id").list();
 //        for (Dic dic2 : dicList) {
 //            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
 //        }
-//        Dic.finder(Dic.class).list();
+        Dic.finder(Dic.class).eq("dicKey","A1").list();
 //        DModel.finder(Dic.class).load(1l);
 //        Criteria.create(Dic.class).idEq(1l);
     }

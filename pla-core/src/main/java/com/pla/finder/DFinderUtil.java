@@ -20,17 +20,15 @@ public class DFinderUtil<M> {
         return new DFinderUtil<M>();
     }
 
-    public QueryByClass<M> convert(DFinderByModel dFinder, Class<M> clazz) {
-        return this.convert((DFinder) dFinder, clazz);
-    }
-
     public QueryByClass<M> convert(Criteria criteria, Class<M> clazz) {
         try {
             query = new Finder<M>().from(clazz);
-            List<Criterion> criterionList = criteria.getCriterionList();
-            for (Criterion criterion : criterionList) {
-                Method method = this.getClass().getDeclaredMethod(criterion.getExpression(), Criterion.class);
-                method.invoke(this, criterion);
+            if (criteria != null) {
+                List<Criterion> criterionList = criteria.getCriterionList();
+                for (Criterion criterion : criterionList) {
+                    Method method = this.getClass().getDeclaredMethod(criterion.getExpression(), Criterion.class);
+                    method.invoke(this, criterion);
+                }
             }
             return query;
         } catch (Exception e) {

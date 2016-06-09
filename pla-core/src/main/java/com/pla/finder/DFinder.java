@@ -10,410 +10,477 @@ import com.pla.utils.SpringUtil;
 import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
-public class DFinder extends Criteria implements Serializable {
+public class DFinder<M> implements Serializable {
     private static final long serialVersionUID = 3638237321915801747L;
 
+    private Criteria criteria;
+    private Class<M> clazz;
 
-    public DFinder(Class clazz) {
-        super(clazz);
+    public DFinder(Class<M> clazz) {
+        this.clazz = clazz;
     }
 
-    protected final CommonService getService() {
-        CommonService commonService = SpringUtil.getBean("commonService");
-        return commonService;
+    private Criteria getCriteria() {
+        if (criteria == null)
+            criteria = new Criteria(clazz);
+        return criteria;
     }
 
-    public static DFinder createDFinder(Class clazz) {
-        return new DFinder(clazz);
+    private CommonService getService() {
+        return SpringUtil.getBean("commonService");
     }
 
-    public <M> M load(Serializable id) {
-        return (M) getService().load(this, getClazz(), id);
+    public static <M> DFinder<M> createDFinder(Class<M> clazz) {
+        return new DFinder<M>(clazz);
     }
 
-    public <M> M first() {
-        return (M) getService().first(this, getClazz());
+    public M load(Serializable id) {
+        return getService().load(criteria, clazz, id);
     }
 
-    public <M> List<M> list() {
-        return getService().list(this, getClazz());
+    public M first() {
+        return getService().first(criteria, clazz);
     }
 
-    public <M> List<M> list(int offset, int size) {
-        return getService().list(this, getClazz(), offset, size);
+    public List<M> list() {
+        return getService().list(criteria, clazz);
+    }
+
+    public List<M> list(int offset, int size) {
+        return getService().list(criteria, clazz, offset, size);
     }
 
     public int count() {
-        return getService().count(this, getClazz());
+        return getService().count(criteria, clazz);
     }
 
-    public <M> M uniqueResult() {
-        return (M) getService().uniqueResult(this, getClazz());
+    public M uniqueResult() {
+        return getService().uniqueResult(criteria, clazz);
     }
 
-    public <M> Pager<M> pager(int pageNo, int pageSize) {
-        return getService().pager(this, getClazz(), pageNo, pageSize);
+    public Pager<M> pager(int pageNo, int pageSize) {
+        return getService().pager(criteria, clazz, pageNo, pageSize);
     }
 
     // -------------------------- QueryOp4Parts --------------------------
-    public <M> M uniqueResult(String... propertyNames) {
-        return (M) getService().uniqueResult(this, getClazz(), propertyNames);
+    public M uniqueResult(String... propertyNames) {
+        return getService().uniqueResult(criteria, clazz, propertyNames);
     }
 
-    public <M> M first(String... propertyNames) {
-        return (M) getService().first(this, getClazz(), propertyNames);
+    public M first(String... propertyNames) {
+        return getService().first(criteria, clazz, propertyNames);
     }
 
-    public <M> List<M> list(String... propertyNames) {
-        return getService().list(this, getClazz(), propertyNames);
+    public List<M> list(String... propertyNames) {
+        return getService().list(criteria, clazz, propertyNames);
     }
 
-    public <M> List<M> list(Integer offset, Integer size, String... propertyNames) {
-        return getService().list(this, getClazz(), offset, size, propertyNames);
+    public List<M> list(Integer offset, Integer size, String... propertyNames) {
+        return getService().list(criteria, clazz, offset, size, propertyNames);
     }
 
-    public <M> Pager<M> pager(int pageNo, int pageSize, String... propertyNames) {
-        return getService().pager(this, getClazz(), pageNo, pageSize, propertyNames);
+    public Pager<M> pager(int pageNo, int pageSize, String... propertyNames) {
+        return getService().pager(criteria, clazz, pageNo, pageSize, propertyNames);
     }
 
 
     // -------------------------- Group By --------------------------
     public Record record() {
-        return getService().record(this, getClazz());
+        return getService().record(criteria, clazz);
     }
 
     public List<Record> recordList() {
-        return getService().recordList(this, getClazz(), null, null);
+        return getService().recordList(criteria, clazz, null, null);
     }
 
     public List<Record> recordList(Integer offset, Integer size) {
-        return getService().recordList(this, getClazz(), offset, size);
+        return getService().recordList(criteria, clazz, offset, size);
     }
 
     public Record recordFirst() {
-        return getService().recordFirst(this, getClazz());
+        return getService().recordFirst(criteria, clazz);
     }
 
 
     // -------------------------- Criteria --------------------------
-    @Override
-    public DFinder idEq(Serializable value) {
-        return (DFinder) super.idEq(value);
-    }
 
-    @Override
-    public DFinder eq(String propertyName, Object value) {
-        return (DFinder) super.eq(propertyName, value);
-    }
-
-    @Override
-    public DFinder eqOrIsNull(String propertyName, Object value) {
-        return (DFinder) super.eqOrIsNull(propertyName, value);
-    }
-
-    @Override
-    public DFinder ne(String propertyName, Object value) {
-        return (DFinder) super.ne(propertyName, value);
-    }
-
-    @Override
-    public DFinder neOrIsNotNull(String propertyName, Object value) {
-        return (DFinder) super.neOrIsNotNull(propertyName, value);
+    public DFinder<M> idEq(Serializable value) {
+        getCriteria().idEq(value);
+        return this;
     }
 
 
-    @Override
-    public DFinder like(String propertyName, String value) {
-        return (DFinder) super.like(propertyName, value);
-    }
-
-    @Override
-    public DFinder startLike(String propertyName, String value) {
-        return (DFinder) super.startLike(propertyName, value);
-    }
-
-    @Override
-    public DFinder endLike(String propertyName, String value) {
-        return (DFinder) super.endLike(propertyName, value);
-    }
-
-    @Override
-    public DFinder ilike(String propertyName, String value) {
-        return (DFinder) super.ilike(propertyName, value);
-    }
-
-    @Override
-    public DFinder startIlike(String propertyName, String value) {
-        return (DFinder) super.startIlike(propertyName, value);
-    }
-
-    @Override
-    public DFinder endIlike(String propertyName, String value) {
-        return (DFinder) super.endIlike(propertyName, value);
-    }
-
-    @Override
-    public DFinder gt(String propertyName, Object value) {
-        return (DFinder) super.gt(propertyName, value);
-    }
-
-    @Override
-    public DFinder lt(String propertyName, Object value) {
-        return (DFinder) super.lt(propertyName, value);
-    }
-
-    @Override
-    public DFinder le(String propertyName, Object value) {
-        return (DFinder) super.le(propertyName, value);
-    }
-
-    @Override
-    public DFinder ge(String propertyName, Object value) {
-        return (DFinder) super.ge(propertyName, value);
-    }
-
-    @Override
-    public DFinder between(String propertyName, Object lo, Object hi) {
-        return (DFinder) super.between(propertyName, lo, hi);
-    }
-
-    @Override
-    public DFinder in(String propertyName, Object... values) {
-        return (DFinder) super.in(propertyName, values);
-    }
-
-    @Override
-    public DFinder isNull(String propertyName) {
-        return (DFinder) super.isNull(propertyName);
-    }
-
-    @Override
-    public DFinder isNotNull(String propertyName) {
-        return (DFinder) super.isNotNull(propertyName);
-    }
-
-    @Override
-    public DFinder eqProperty(String propertyName, String otherPropertyName) {
-        return (DFinder) super.eqProperty(propertyName, otherPropertyName);
-    }
-
-    @Override
-    public DFinder neProperty(String propertyName, String otherPropertyName) {
-        return (DFinder) super.neProperty(propertyName, otherPropertyName);
-    }
-
-    @Override
-    public DFinder ltProperty(String propertyName, String otherPropertyName) {
-        return (DFinder) super.ltProperty(propertyName, otherPropertyName);
-    }
-
-    @Override
-    public DFinder leProperty(String propertyName, String otherPropertyName) {
-        return (DFinder) super.leProperty(propertyName, otherPropertyName);
-    }
-
-    @Override
-    public DFinder gtProperty(String propertyName, String otherPropertyName) {
-        return (DFinder) super.gtProperty(propertyName, otherPropertyName);
-    }
-
-    @Override
-    public DFinder geProperty(String propertyName, String otherPropertyName) {
-        return (DFinder) super.geProperty(propertyName, otherPropertyName);
+    public DFinder<M> eq(String propertyName, Object value) {
+        getCriteria().eq(propertyName, value);
+        return this;
     }
 
 
-    @Override
-    public DFinder sqlRestriction(String sql, Object... values) {
-        return (DFinder) super.sqlRestriction(sql, values);
+    public DFinder<M> eqOrIsNull(String propertyName, Object value) {
+        getCriteria().eqOrIsNull(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder sqlRestriction(String sql) {
-        return (DFinder) super.sqlRestriction(sql);
+
+    public DFinder<M> ne(String propertyName, Object value) {
+        getCriteria().ne(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder isEmpty(String propertyName) {
-        return (DFinder) super.isEmpty(propertyName);
+
+    public DFinder<M> neOrIsNotNull(String propertyName, Object value) {
+        getCriteria().neOrIsNotNull(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder isNotEmpty(String propertyName) {
-        return (DFinder) super.isNotEmpty(propertyName);
+
+    public DFinder<M> like(String propertyName, String value) {
+        getCriteria().like(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder sizeEq(String propertyName, int size) {
-        return (DFinder) super.sizeEq(propertyName, size);
+
+    public DFinder<M> startLike(String propertyName, String value) {
+        getCriteria().startLike(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder sizeNe(String propertyName, int size) {
-        return (DFinder) super.sizeEq(propertyName, size);
+
+    public DFinder<M> endLike(String propertyName, String value) {
+        getCriteria().endLike(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder sizeGt(String propertyName, int size) {
-        return (DFinder) super.sizeGt(propertyName, size);
+
+    public DFinder<M> ilike(String propertyName, String value) {
+        getCriteria().ilike(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder sizeLt(String propertyName, int size) {
-        return (DFinder) super.sizeLt(propertyName, size);
+
+    public DFinder<M> startIlike(String propertyName, String value) {
+        getCriteria().startIlike(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder sizeGe(String propertyName, int size) {
-        return (DFinder) super.sizeGe(propertyName, size);
+
+    public DFinder<M> endIlike(String propertyName, String value) {
+        getCriteria().endIlike(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder sizeLe(String propertyName, int size) {
-        return (DFinder) super.sizeLe(propertyName, size);
+
+    public DFinder<M> gt(String propertyName, Object value) {
+        getCriteria().gt(propertyName, value);
+        return this;
     }
 
-    @Override
-    public DFinder or(Or or) {
-        return (DFinder) super.or(or);
+
+    public DFinder<M> lt(String propertyName, Object value) {
+        getCriteria().lt(propertyName, value);
+        return this;
+    }
+
+
+    public DFinder<M> le(String propertyName, Object value) {
+        getCriteria().le(propertyName, value);
+        return this;
+    }
+
+
+    public DFinder<M> ge(String propertyName, Object value) {
+        getCriteria().ge(propertyName, value);
+        return this;
+    }
+
+
+    public DFinder<M> between(String propertyName, Object lo, Object hi) {
+        getCriteria().between(propertyName, lo, hi);
+        return this;
+    }
+
+
+    public DFinder<M> in(String propertyName, Object... values) {
+        getCriteria().in(propertyName, values);
+        return this;
+    }
+
+
+    public DFinder<M> isNull(String propertyName) {
+        getCriteria().isNull(propertyName);
+        return this;
+    }
+
+
+    public DFinder<M> isNotNull(String propertyName) {
+        getCriteria().isNotNull(propertyName);
+        return this;
+    }
+
+
+    public DFinder<M> eqProperty(String propertyName, String otherPropertyName) {
+        getCriteria().eqProperty(propertyName, otherPropertyName);
+        return this;
+    }
+
+
+    public DFinder<M> neProperty(String propertyName, String otherPropertyName) {
+        getCriteria().neProperty(propertyName, otherPropertyName);
+        return this;
+    }
+
+
+    public DFinder<M> ltProperty(String propertyName, String otherPropertyName) {
+        getCriteria().ltProperty(propertyName, otherPropertyName);
+        return this;
+    }
+
+
+    public DFinder<M> leProperty(String propertyName, String otherPropertyName) {
+        getCriteria().leProperty(propertyName, otherPropertyName);
+        return this;
+    }
+
+
+    public DFinder<M> gtProperty(String propertyName, String otherPropertyName) {
+        getCriteria().gtProperty(propertyName, otherPropertyName);
+        return this;
+    }
+
+
+    public DFinder<M> geProperty(String propertyName, String otherPropertyName) {
+        getCriteria().geProperty(propertyName, otherPropertyName);
+        return this;
+    }
+
+
+    public DFinder<M> sqlRestriction(String sql, Object... values) {
+        getCriteria().sqlRestriction(sql, values);
+        return this;
+    }
+
+
+    public DFinder<M> sqlRestriction(String sql) {
+        getCriteria().sqlRestriction(sql);
+        return this;
+    }
+
+
+    public DFinder<M> isEmpty(String propertyName) {
+        getCriteria().isEmpty(propertyName);
+        return this;
+    }
+
+
+    public DFinder<M> isNotEmpty(String propertyName) {
+        getCriteria().isNotEmpty(propertyName);
+        return this;
+    }
+
+
+    public DFinder<M> sizeEq(String propertyName, int size) {
+        getCriteria().sizeEq(propertyName, size);
+        return this;
+    }
+
+
+    public DFinder<M> sizeNe(String propertyName, int size) {
+        getCriteria().sizeEq(propertyName, size);
+        return this;
+    }
+
+
+    public DFinder<M> sizeGt(String propertyName, int size) {
+        getCriteria().sizeGt(propertyName, size);
+        return this;
+    }
+
+
+    public DFinder<M> sizeLt(String propertyName, int size) {
+        getCriteria().sizeLt(propertyName, size);
+        return this;
+    }
+
+
+    public DFinder<M> sizeGe(String propertyName, int size) {
+        getCriteria().sizeGe(propertyName, size);
+        return this;
+    }
+
+
+    public DFinder<M> sizeLe(String propertyName, int size) {
+        getCriteria().sizeLe(propertyName, size);
+        return this;
+    }
+
+
+    public DFinder<M> or(Or or) {
+        getCriteria().or(or);
+        return this;
     }
 
     //-------------------------- Join --------------------------
-    @Override
-    public DFinder join(String associationPath) {
-        return (DFinder) super.join(associationPath);
+
+    public DFinder<M> join(String associationPath) {
+        getCriteria().join(associationPath);
+        return this;
     }
 
-    @Override
-    public DFinder join(String associationPath, String alias) {
-        return (DFinder) super.join(associationPath, alias);
+
+    public DFinder<M> join(String associationPath, String alias) {
+        getCriteria().join(associationPath, alias);
+        return this;
     }
 
-    @Override
-    public DFinder leftJoin(String associationPath) {
-        return (DFinder) super.leftJoin(associationPath);
+
+    public DFinder<M> leftJoin(String associationPath) {
+        getCriteria().leftJoin(associationPath);
+        return this;
     }
 
-    @Override
-    public DFinder leftJoin(String associationPath, String alias) {
-        return (DFinder) super.leftJoin(associationPath, alias);
+
+    public DFinder<M> leftJoin(String associationPath, String alias) {
+        getCriteria().leftJoin(associationPath, alias);
+        return this;
     }
 
-    @Override
-    public DFinder rightJoin(String associationPath) {
-        return (DFinder) super.rightJoin(associationPath);
+
+    public DFinder<M> rightJoin(String associationPath) {
+        getCriteria().rightJoin(associationPath);
+        return this;
     }
 
-    @Override
-    public DFinder rightJoin(String associationPath, String alias) {
-        return (DFinder) super.rightJoin(associationPath, alias);
+
+    public DFinder<M> rightJoin(String associationPath, String alias) {
+        getCriteria().rightJoin(associationPath, alias);
+        return this;
     }
 
-    @Override
-    public DFinder innerJoin(String associationPath) {
-        return (DFinder) super.innerJoin(associationPath);
+
+    public DFinder<M> innerJoin(String associationPath) {
+        getCriteria().innerJoin(associationPath);
+        return this;
     }
 
-    @Override
-    public DFinder innerJoin(String associationPath, String alias) {
-        return (DFinder) super.innerJoin(associationPath, alias);
+
+    public DFinder<M> innerJoin(String associationPath, String alias) {
+        getCriteria().innerJoin(associationPath, alias);
+        return this;
     }
 
-    @Override
-    public DFinder fullJoin(String associationPath) {
-        return (DFinder) super.fullJoin(associationPath);
+
+    public DFinder<M> fullJoin(String associationPath) {
+        getCriteria().fullJoin(associationPath);
+        return this;
     }
 
-    @Override
-    public DFinder fullJoin(String associationPath, String alias) {
-        return (DFinder) super.fullJoin(associationPath, alias);
+
+    public DFinder<M> fullJoin(String associationPath, String alias) {
+        getCriteria().fullJoin(associationPath, alias);
+        return this;
     }
 
     //-------------------------- OrderBy --------------------------
-    @Override
-    public DFinder asc(String propertyName) {
-        return (DFinder) super.asc(propertyName);
+
+    public DFinder<M> asc(String propertyName) {
+        getCriteria().asc(propertyName);
+        return this;
     }
 
-    @Override
-    public DFinder desc(String propertyName) {
-        return (DFinder) super.desc(propertyName);
+
+    public DFinder<M> desc(String propertyName) {
+        getCriteria().desc(propertyName);
+        return this;
     }
 
     //-------------------------- GroupBy --------------------------
-    @Override
-    public DFinder groupBy(String propertyName) {
-        return (DFinder) super.groupBy(propertyName);
+
+    public DFinder<M> groupBy(String propertyName) {
+        getCriteria().groupBy(propertyName);
+        return this;
     }
 
-    @Override
-    public DFinder countAll() {
-        return (DFinder) super.countAll();
+
+    public DFinder<M> countAll() {
+        getCriteria().countAll();
+        return this;
     }
 
-    @Override
-    public DFinder countAll(String alias) {
-        return (DFinder) super.countAll(alias);
+
+    public DFinder<M> countAll(String alias) {
+        getCriteria().countAll(alias);
+        return this;
     }
 
-    @Override
-    public DFinder count(String propertyName) {
-        return (DFinder) super.countAll(propertyName);
+
+    public DFinder<M> count(String propertyName) {
+        getCriteria().countAll(propertyName);
+        return this;
     }
 
-    @Override
-    public DFinder count(String propertyName, String alias) {
-        return (DFinder) super.count(propertyName, alias);
+
+    public DFinder<M> count(String propertyName, String alias) {
+        getCriteria().count(propertyName, alias);
+        return this;
     }
 
-    @Override
-    public DFinder max(String propertyName) {
-        return (DFinder) super.max(propertyName);
+
+    public DFinder<M> max(String propertyName) {
+        getCriteria().max(propertyName);
+        return this;
     }
 
-    @Override
-    public DFinder max(String propertyName, String alias) {
-        return (DFinder) super.max(propertyName, alias);
+
+    public DFinder<M> max(String propertyName, String alias) {
+        getCriteria().max(propertyName, alias);
+        return this;
     }
 
-    @Override
-    public DFinder min(String propertyName) {
-        return (DFinder) super.min(propertyName);
+
+    public DFinder<M> min(String propertyName) {
+        getCriteria().min(propertyName);
+        return this;
     }
 
-    @Override
-    public DFinder min(String propertyName, String alias) {
-        return (DFinder) super.min(propertyName, alias);
+
+    public DFinder<M> min(String propertyName, String alias) {
+        getCriteria().min(propertyName, alias);
+        return this;
     }
 
-    @Override
-    public DFinder sum(String propertyName) {
-        return (DFinder) super.sum(propertyName);
+
+    public DFinder<M> sum(String propertyName) {
+        getCriteria().sum(propertyName);
+        return this;
     }
 
-    @Override
-    public DFinder sum(String propertyName, String alias) {
-        return (DFinder) super.sum(propertyName, alias);
+
+    public DFinder<M> sum(String propertyName, String alias) {
+        getCriteria().sum(propertyName, alias);
+        return this;
     }
 
-    @Override
-    public DFinder avg(String propertyName) {
-        return (DFinder) super.avg(propertyName);
+
+    public DFinder<M> avg(String propertyName) {
+        getCriteria().avg(propertyName);
+        return this;
     }
 
-    @Override
-    public DFinder avg(String propertyName, String alias) {
-        return (DFinder) super.avg(propertyName, alias);
+
+    public DFinder<M> avg(String propertyName, String alias) {
+        getCriteria().avg(propertyName, alias);
+        return this;
     }
 
-    @Override
-    public DFinder distinct(String... properties) {
-        return (DFinder) super.distinct(properties);
+
+    public DFinder<M> distinct(String... properties) {
+        getCriteria().distinct(properties);
+        return this;
     }
 
-    @Override
-    public DFinder distinct() {
-        return (DFinder) super.distinct();
+
+    public DFinder<M> distinct() {
+        getCriteria().distinct();
+        return this;
     }
 }
