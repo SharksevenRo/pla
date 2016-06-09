@@ -36,8 +36,8 @@ public class DFinderUtil<M> {
         }
     }
 
-    public void idEq(Serializable value) {
-        query.idEq(value);
+    public void idEq(Criterion criterion) {
+        query.idEq((Serializable) criterion.getValue());
     }
 
     public void eq(Criterion criterion) {
