@@ -5,36 +5,119 @@ import com.pla.finder.DFinder;
 import com.pla.finder.NativeFinder;
 import com.pla.finder.RecordFinder;
 import com.pla.junit.resource.model.Dic;
+import com.pla.junit.resource.model.Menu;
 import com.pla.junit.resource.model.User;
 import com.pla.model.DModel;
 import com.pla.model.PModel;
 import com.pla.query.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Test01 extends BaseHibernateConfiguration {
+    @Resource(name = "sessionFactoryRes")
+    private SessionFactory sessionFactoryRes;
+    @Resource(name = "dataSource")
+    private DataSource dataSource;
+
     /**
      * 普通条件查询
      */
     @Test
-    public void test01() {
+    public void test01() throws Exception {
 //        List<Dic> dicList = Dic.finder(Dic.class).eq("dicKey", "A1").startLike("dicContent", "TTT")
 //                .desc("id").list() /*.count() .uniqueResult() .first()*/;
 //        for (Dic dic : dicList) {
 //            System.out.println(dic.getId() + " " + dic.getDicKey() + " " + dic.getDicValue() + " " + dic.getDicContent());
 //        }
 //
-        Dic dic = new Dic();
-        dic.setDicKey("A1");
-        DModel.create(dic).finder().eq("dicKey").list();
+//        Dic dic = new Dic();
+//        dic.setDicKey("A1");
+//        DModel.create(dic).finder().eq("dicKey").list();
 //        dic.setDicContent("TTT");
 //        dicList = dic.finder().eq("dicKey").like("dicContent").desc("id").list();
 //        for (Dic dic2 : dicList) {
 //            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
 //        }
-        Dic.finder(Dic.class).eq("dicKey","A1").list();
-//        DModel.finder(Dic.class).load(1l);
+//
+
+        long a = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            Menu.finder(Menu.class).list();
+        }
+        long b = System.currentTimeMillis();
+        System.out.println("1: " + (b - a));
+
+        a = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            PModel.finder(Menu.class).list();
+        }
+        b = System.currentTimeMillis();
+        System.out.println("2: " + (b - a));
+
+        a = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            DModel.finder(Menu.class).list();
+        }
+        b = System.currentTimeMillis();
+        System.out.println("3: " + (b - a));
+
+        a = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            Menu.finder(Menu.class).list();
+        }
+        b = System.currentTimeMillis();
+        System.out.println("4: " + (b - a));
+
+        a = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            Connection con = dataSource.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select this_.id, this_.creation_date, this_.level, this_.menu_name, this_.menu_uri from t_menu this_");
+            List<Menu> menus = new ArrayList<Menu>();
+            while (rs.next()) {
+                Menu menu = new Menu();
+                menu.setId(rs.getLong(1));
+                menu.setCreationDate(rs.getDate(2));
+                menu.setLevel(rs.getInt(3));
+                menu.setMenuName(rs.getString(4));
+                menu.setMenuUri(rs.getString(5));
+                menus.add(menu);
+            }
+            con.close();
+        }
+        b = System.currentTimeMillis();
+        System.out.println("5: " + (b - a));
+
+        a = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            Session session = sessionFactoryRes.openSession();
+            String hql = "from Dic dic where dic.id=:id";
+            org.hibernate.Query query = session.createQuery(hql);
+            query.setParameter("id", 2L);
+            query.list();
+            session.close();
+        }
+        b = System.currentTimeMillis();
+        System.out.println("5: " + (b - a));
+//        Menu.finder(Menu.class).list();
+
+//
+
+
+//
+//
+//
+
+
 //        Criteria.create(Dic.class).idEq(1l);
     }
 

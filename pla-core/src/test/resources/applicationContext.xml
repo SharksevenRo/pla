@@ -97,4 +97,10 @@
     </bean>
 
     <bean id="commonService" class="com.pla.service.CommonServiceImpl" />
+
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="mapperLocations" value="classpath:com/tiantian/mybatis/mapper/*.xml"/>-->
+        <!--<property name="typeAliasesPackage" value="com.tiantian.mybatis.model" />-->
+    <!--</bean>-->
 </beans>

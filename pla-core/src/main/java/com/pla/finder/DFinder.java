@@ -43,7 +43,8 @@ public class DFinder<M> implements Serializable {
     }
 
     public List<M> list() {
-        return getService().list(criteria, clazz);
+       return new Finder<M>().from(clazz).list();
+//        return getService().list(criteria, clazz);
     }
 
     public List<M> list(int offset, int size) {
