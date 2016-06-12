@@ -2,9 +2,13 @@ package com.pla.junit.resource.model;
 
 import com.pla.model.FactoryBeanId;
 import com.pla.model.Model;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -72,6 +76,7 @@ public class Menu extends Model<Menu> implements Serializable {
     }
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "menuList")
+    @BatchSize(size = 10)
     public Set<Role> getRoleList() {
         return roleList;
     }
