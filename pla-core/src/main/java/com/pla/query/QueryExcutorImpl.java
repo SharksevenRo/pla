@@ -18,13 +18,25 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
     protected List<String> ascList;
     protected List<String> descList;
 
+    private List<String> batchList;
+
     // -------------------------- Query Opration --------------------------
     protected abstract void close();
+
+    protected List<String> getBatchList() {
+        if (batchList == null)
+            batchList = new ArrayList<String>();
+        return batchList;
+    }
 
     public T load(Serializable id) {
         try {
             generateJoin();
-            return (T) getCriteria().add(Restrictions.idEq(id)).uniqueResult();
+            T t = (T) getCriteria().add(Restrictions.idEq(id)).uniqueResult();
+            if (t != null && batchList != null) {
+                batchData(t);
+            }
+            return t;
         } catch (Exception e) {
             throw new HibernateException(e);
         } finally {
@@ -45,7 +57,13 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
         try {
             generateJoin();
             generateOrderBy();
-            return getCriteria().list();
+            List<T> list = getCriteria().list();
+            if (list != null && batchList != null) {
+                for (T t : list) {
+                    batchData(t);
+                }
+            }
+            return list;
         } catch (Exception e) {
             throw new HibernateException(e);
         } finally {
@@ -59,7 +77,13 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             generateOrderBy();
             getCriteria().setFirstResult(offset);
             getCriteria().setMaxResults(size);
-            return getCriteria().list();
+            List<T> list = getCriteria().list();
+            if (list != null && batchList != null) {
+                for (T t : list) {
+                    batchData(t);
+                }
+            }
+            return list;
         } catch (Exception e) {
             throw new HibernateException(e);
         } finally {
@@ -83,7 +107,11 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
     public T uniqueResult() {
         try {
             generateJoin();
-            return (T) getCriteria().uniqueResult();
+            T t = (T) getCriteria().uniqueResult();
+            if (t != null && batchList != null) {
+                batchData(t);
+            }
+            return t;
         } catch (Exception e) {
             throw new HibernateException(e);
         } finally {
@@ -107,12 +135,25 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             getCriteria().setFirstResult(pager.getOffset());
             getCriteria().setMaxResults(pager.getPageSize());
             List<T> list = getCriteria().list();
+            if (list != null && batchList != null) {
+                for (T t : list) {
+                    batchData(t);
+                }
+            }
             pager.setList(list);
             return pager;
         } catch (Exception e) {
             throw new HibernateException(e);
         } finally {
             close();
+        }
+    }
+
+    private void batchData(T t) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        for (String batch : batchList) {
+            Object obj = SimplePropertyUtil.getProperty(t, batch);
+            if (obj != null)
+                obj.hashCode();
         }
     }
 

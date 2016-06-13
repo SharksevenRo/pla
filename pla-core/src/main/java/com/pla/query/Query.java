@@ -14,7 +14,7 @@ public interface Query<T> extends QueryExcutor<T> {
 
     Query<T> in(String propertyName, Object[] values);
 
-	Query<T> in(String propertyName, Collection values);
+    Query<T> in(String propertyName, Collection values);
 
     Query<T> isNull(String propertyName);
 
@@ -78,6 +78,8 @@ public interface Query<T> extends QueryExcutor<T> {
     Query<T> fullJoin(String associationPath);
 
     Query<T> fullJoin(String associationPath, String alias);
+
+    Query<T> batch(String property);
 
     //-------------------------- OrderBy --------------------------
     Query<T> asc(String propertyName);

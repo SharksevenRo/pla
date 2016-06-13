@@ -407,6 +407,11 @@ public abstract  class QueryByModelImpl<T> extends QueryByClassImpl<T> implement
         return (QueryByModel<T>) super.fullJoin(associationPath, alias);
     }
 
+    @Override
+    public QueryByModel<T> batch(String property) {
+        return (QueryByModel<T>) super.batch(property);
+    }
+
     //-------------------------- OrderBy --------------------------
     @Override
     public QueryByModel<T> asc(String propertyName) {

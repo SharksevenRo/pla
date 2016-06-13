@@ -1,10 +1,6 @@
 package com.pla.query;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
+import com.pla.utils.TypeUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -14,7 +10,10 @@ import org.hibernate.internal.util.collections.ArrayHelper;
 import org.hibernate.sql.JoinType;
 import org.hibernate.type.Type;
 
-import com.pla.utils.TypeUtil;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class QueryImpl<T> extends QueryExcutorImpl<T> implements Query<T> {
@@ -234,6 +233,11 @@ public abstract class QueryImpl<T> extends QueryExcutorImpl<T> implements Query<
     public Query<T> fullJoin(String associationPath, String alias) {
         JoinSub join = new JoinSub(associationPath, alias, JoinType.FULL_JOIN);
         getJoinList().add(join);
+        return this;
+    }
+
+    public Query<T> batch(String property){
+        getBatchList().add(property);
         return this;
     }
 

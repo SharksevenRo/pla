@@ -103,7 +103,7 @@ public interface QueryByModel<T> extends QueryByClass<T> {
     @Override
     QueryByModel<T> in(String propertyName, Object[] values);
 
-	@Override
+    @Override
     QueryByModel<T> in(String propertyName, Collection values);
 
     @Override
@@ -173,7 +173,7 @@ public interface QueryByModel<T> extends QueryByClass<T> {
     @Override
     QueryByModel<T> join(String associationPath);
 
-	@Override
+    @Override
     QueryByModel<T> join(String associationPath, String alias);
 
     @Override
@@ -199,6 +199,9 @@ public interface QueryByModel<T> extends QueryByClass<T> {
 
     @Override
     QueryByModel<T> fullJoin(String associationPath, String alias);
+
+    @Override
+    QueryByModel<T> batch(String property);
 
     //-------------------------- OrderBy --------------------------
     @Override

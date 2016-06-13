@@ -38,20 +38,37 @@ public class Test01 extends BaseHibernateConfiguration {
      */
     @Test
     public void test01() throws Exception {
-        List<Dic> dicList = Dic.finder(Dic.class).eq("dicKey", "A1").startLike("dicContent", "TTT")
-                .desc("id").list() /*.count() .uniqueResult() .first()*/;
-        for (Dic dic : dicList) {
-            System.out.println(dic.getId() + " " + dic.getDicKey() + " " + dic.getDicValue() + " " + dic.getDicContent());
-        }
+//        List<Dic> dicList = Dic.finder(Dic.class).eq("dicKey", "A1").startLike("dicContent", "TTT")
+//                .desc("id").list() /*.count() .uniqueResult() .first()*/;
+//        for (Dic dic : dicList) {
+//            System.out.println(dic.getId() + " " + dic.getDicKey() + " " + dic.getDicValue() + " " + dic.getDicContent());
+//        }
 
-        Dic dic = new Dic();
-        dic.setDicKey("A1");
-        DModel.create(dic).finder().eq("dicKey").list();
-        dic.setDicContent("TTT");
-        dicList = dic.finder().eq("dicKey").like("dicContent").desc("id").list();
-        for (Dic dic2 : dicList) {
-            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
-        }
+//        Dic dic = new Dic();
+//        dic.setDicKey("A1");
+//        DModel.create(dic).finder().eq("dicKey").list();
+//        dic.setDicContent("TTT");
+//        dicList = dic.finder().eq("dicKey").like("dicContent").desc("id").list();
+//        for (Dic dic2 : dicList) {
+//            System.out.println(dic2.getId() + " " + dic2.getDicKey() + " " + dic2.getDicValue() + " " + dic2.getDicContent());
+//        }
+//        Menu menu = new Menu();
+//        menu.setMenuName("22");
+//        menu.setLevel(1);
+//        menu.setMenuUri("/222");
+//        menu.save();
+
+        Pager<Menu> menus = PModel.finder(Menu.class).batch("roleList").pager(1, 10);
+        menus = menus;
+//        System.out.println(menu.getRoleList().size());
+//        Role role = new Role();
+//        role.setRoleName("22");
+//        role.setMenuList(new HashSet<Menu>());
+//        Menu menu = new Menu();
+//        menu.setId(1l);
+//        role.getMenuList().add(menu);
+//        role.save();
+//        System.out.println(PModel.finder(Role.class).load(1l).getId());
     }
 
     /**
