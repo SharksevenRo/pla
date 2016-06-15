@@ -268,11 +268,8 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             Long count = (Long) getCriteria().uniqueResult();
             pager.setTotalCount(count.intValue());
 
-            ProjectionList projectionList = Projections.projectionList();
-
             addPorjectionList(propertyNames);
-
-            getCriteria().setProjection(projectionList);
+            getCriteria().setProjection(getProjectionList());
 
             if (ascList != null) {
                 for (String asc : ascList) {
