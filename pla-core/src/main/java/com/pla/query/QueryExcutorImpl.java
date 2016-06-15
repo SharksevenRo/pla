@@ -128,19 +128,23 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             Long count = (Long) getCriteria().uniqueResult();
             pager.setTotalCount(count.intValue());
 
-            getCriteria().setProjection(null);
-            getCriteria().setResultTransformer(Criteria.ROOT_ENTITY);
+            if (count != null && count.longValue() > 0) {
+                getCriteria().setProjection(null);
+                getCriteria().setResultTransformer(Criteria.ROOT_ENTITY);
 
-            generateOrderBy();
-            getCriteria().setFirstResult(pager.getOffset());
-            getCriteria().setMaxResults(pager.getPageSize());
-            List<T> list = getCriteria().list();
-            if (list != null && batchList != null) {
-                for (T t : list) {
-                    batchData(t);
+                generateOrderBy();
+                getCriteria().setFirstResult(pager.getOffset());
+                getCriteria().setMaxResults(pager.getPageSize());
+                List<T> list = getCriteria().list();
+                if (list != null && batchList != null) {
+                    for (T t : list) {
+                        batchData(t);
+                    }
                 }
+                pager.setList(list);
+            } else {
+                pager.setList(new ArrayList<T>());
             }
-            pager.setList(list);
             return pager;
         } catch (Exception e) {
             throw new HibernateException(e);
@@ -267,30 +271,33 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             getCriteria().setProjection(Projections.rowCount());
             Long count = (Long) getCriteria().uniqueResult();
             pager.setTotalCount(count.intValue());
+            if (count != null && count.longValue() > 0) {
+                addPorjectionList(propertyNames);
+                getCriteria().setProjection(getProjectionList());
 
-            addPorjectionList(propertyNames);
-            getCriteria().setProjection(getProjectionList());
-
-            if (ascList != null) {
-                for (String asc : ascList) {
-                    getCriteria().addOrder(Order.asc(asc));
+                if (ascList != null) {
+                    for (String asc : ascList) {
+                        getCriteria().addOrder(Order.asc(asc));
+                    }
                 }
-            }
-            if (descList != null) {
-                for (String desc : descList) {
-                    getCriteria().addOrder(Order.desc(desc));
+                if (descList != null) {
+                    for (String desc : descList) {
+                        getCriteria().addOrder(Order.desc(desc));
+                    }
                 }
+                getCriteria().setFirstResult(pager.getOffset());
+                getCriteria().setMaxResults(pager.getPageSize());
+                List list = getCriteria().list();
+                List<T> records = new ArrayList<T>();
+                for (Object obj : list) {
+                    T t = getClazz().newInstance();
+                    setPropertites(obj, t, propertyNames);
+                    records.add(t);
+                }
+                pager.setList(records);
+            } else {
+                pager.setList(new ArrayList<T>());
             }
-            getCriteria().setFirstResult(pager.getOffset());
-            getCriteria().setMaxResults(pager.getPageSize());
-            List list = getCriteria().list();
-            List<T> records = new ArrayList<T>();
-            for (Object obj : list) {
-                T t = getClazz().newInstance();
-                setPropertites(obj, t, propertyNames);
-                records.add(t);
-            }
-            pager.setList(records);
             return pager;
         } catch (Exception e) {
             throw new HibernateException(e);
