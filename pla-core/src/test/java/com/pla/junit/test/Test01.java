@@ -57,9 +57,11 @@ public class Test01 extends BaseHibernateConfiguration {
 //        menu.setLevel(1);
 //        menu.setMenuUri("/222");
 //        menu.save();
+//        Menu.finder(Menu.class).pager(1, 10, "menuName");
 
-        Pager<Menu> menus = PModel.finder(Menu.class).batch("roleList").pager(1, 10);
-        menus = menus;
+        Pager<Menu> menus = PModel.finder(Menu.class).pager(1, 10, "menuName");
+
+//        menus = menus;
 //        System.out.println(menu.getRoleList().size());
 //        Role role = new Role();
 //        role.setRoleName("22");
