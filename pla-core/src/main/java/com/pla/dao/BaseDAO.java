@@ -59,7 +59,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
             for (String fieldName : fields) {
                 //ignore null
                 if (fieldName.endsWith(":INULL")) {
-                    fieldName = fieldName.substring(0, fieldName.length() - 8);
+                    fieldName = fieldName.substring(0, fieldName.length() - 6);
                     Object value = SimplePropertyUtil.getProperty(t, fieldName);
                     if (value != null) {
                         SimplePropertyUtil.setProperty(origT, fieldName, value);
