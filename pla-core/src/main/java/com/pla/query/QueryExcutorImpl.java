@@ -128,7 +128,7 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             Long count = (Long) getCriteria().uniqueResult();
             pager.setTotalCount(count.intValue());
 
-            if (count != null && count.longValue() > 0) {
+            if (count > 0) {
                 getCriteria().setProjection(null);
                 getCriteria().setResultTransformer(Criteria.ROOT_ENTITY);
 
@@ -271,7 +271,7 @@ public abstract class QueryExcutorImpl<T> extends QueryGroupbyImpl<T> implements
             getCriteria().setProjection(Projections.rowCount());
             Long count = (Long) getCriteria().uniqueResult();
             pager.setTotalCount(count.intValue());
-            if (count != null && count.longValue() > 0) {
+            if (count > 0) {
                 addPorjectionList(propertyNames);
                 getCriteria().setProjection(getProjectionList());
 
