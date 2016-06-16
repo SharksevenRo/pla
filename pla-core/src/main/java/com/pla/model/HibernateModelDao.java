@@ -11,16 +11,14 @@ import java.io.Serializable;
 @SuppressWarnings("unchecked")
 public class HibernateModelDao<T> implements ModelDao<T> {
     private SessionBean sessionBean;
-    private boolean inTransaction = false;
 
     HibernateModelDao(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
-        this.inTransaction = sessionBean.inTransaction();
     }
 
     public void save(T t) {
         Session session = sessionBean.getSession();
-        if (!inTransaction) {
+        if (!sessionBean.inTransaction()) {
             Transaction transaction = session.getTransaction();
             try {
                 transaction.begin();
@@ -39,7 +37,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
 
     public void update(T t) {
         Session session = sessionBean.getSession();
-        if (!inTransaction) {
+        if (!sessionBean.inTransaction()) {
             Transaction transaction = session.getTransaction();
             try {
                 transaction.begin();
@@ -58,7 +56,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
 
     public void update(T t, String... fields) {
         Session session = sessionBean.getSession();
-        if (!inTransaction) {
+        if (!sessionBean.inTransaction()) {
             Transaction transaction = session.getTransaction();
             try {
                 transaction.begin();
@@ -107,7 +105,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
 
     public void saveOrUpdate(T t) {
         Session session = sessionBean.getSession();
-        if (!inTransaction) {
+        if (!sessionBean.inTransaction()) {
             Transaction transaction = session.getTransaction();
             try {
                 transaction.begin();
@@ -127,7 +125,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
 
     public void delete(T t) {
         Session session = sessionBean.getSession();
-        if (!inTransaction) {
+        if (!sessionBean.inTransaction()) {
             Transaction transaction = session.getTransaction();
             try {
                 transaction.begin();
