@@ -5,6 +5,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class SimplePropertyUtil {
@@ -36,7 +37,7 @@ public class SimplePropertyUtil {
         }
     }
 
-	public static void setPropertySimple(Object bean, String name, Object value) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public static void setPropertySimple(Object bean, String name, Object value) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         if (bean == null) {
             throw new IllegalArgumentException("No bean specified");
         } else if (name == null) {
@@ -56,12 +57,16 @@ public class SimplePropertyUtil {
         }
     }
 
-	public static <T> T getProperty(Object bean, String name) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public static <T> T getProperty(Object bean, String name) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         if (bean == null) {
             throw new IllegalArgumentException("No bean specified");
         } else if (name == null) {
             throw new IllegalArgumentException("No name specified for bean class '" + bean.getClass() + "'");
         } else {
+            if (bean instanceof Map) {
+                return (T) ((Map) bean).get(name);
+            }
+
             Class clazz = bean.getClass();
             if (name.contains(".")) {
                 String[] items = name.split("\\.");

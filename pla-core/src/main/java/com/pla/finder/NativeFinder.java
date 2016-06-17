@@ -3,11 +3,19 @@ package com.pla.finder;
 import com.pla.bean.SessionBean;
 import com.pla.query.Pager;
 import com.pla.utils.ModelUtil;
+import com.pla.utils.SimplePropertyUtil;
 import com.pla.utils.Util;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class NativeFinder<T> {
@@ -117,4 +125,41 @@ public class NativeFinder<T> {
     public T uniqueResult(String sql) {
         return this.uniqueResult(sql, Util.NULL_PARA_ARRAY);
     }
+
+
+    public List<T> query2(String sql, Object obj) {
+        try {
+            StringBuilder querySql = new StringBuilder();
+            String rex = "#\\{(.*?)}";
+            Pattern p = Pattern.compile(rex);
+            Matcher m = p.matcher(sql);
+            List<String> valueStrs = new ArrayList<String>();
+            while (m.find()) {
+                valueStrs.add(sql.substring(m.start() + 2, m.end() - 1));
+                querySql.append(sql.substring(0, m.start()) + "?" + sql.substring(m.end() + 1));
+            }
+
+            Query query;
+            //single param
+            if (m.groupCount() == 1) {
+                query = this.sqlQueryMapping(sql, obj);
+            } else {
+                List<Object> values = new ArrayList<Object>();
+                for (String valueStr : valueStrs) {
+                    Object value = SimplePropertyUtil.getProperty(obj, valueStr);
+                    if (value == null) {
+                        throw new HibernateException("");
+                    }
+                    values.add(value);
+                }
+                query = this.sqlQueryMapping(sql, values.toArray());
+            }
+            return query.list();
+        } catch (Exception e) {
+            throw new HibernateException(e);
+        } finally {
+            sessionBean.close();
+        }
+    }
+
 }
