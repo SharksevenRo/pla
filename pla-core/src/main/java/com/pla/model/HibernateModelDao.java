@@ -3,6 +3,7 @@ package com.pla.model;
 import com.pla.bean.SessionBean;
 import com.pla.utils.ModelUtil;
 import com.pla.utils.SimplePropertyUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -26,7 +27,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
-                throw new RuntimeException(e);
+                throw new HibernateException(e);
             } finally {
                 sessionBean.close();
             }
@@ -45,7 +46,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
-                throw new RuntimeException(e);
+                throw new HibernateException(e);
             } finally {
                 sessionBean.close();
             }
@@ -64,7 +65,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
-                throw new RuntimeException(e);
+                throw new HibernateException(e);
             } finally {
                 sessionBean.close();
             }
@@ -98,7 +99,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new HibernateException(e);
         }
         session.update(origT);
     }
@@ -113,7 +114,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
-                throw new RuntimeException(e);
+                throw new HibernateException(e);
             } finally {
                 sessionBean.close();
             }
@@ -139,7 +140,7 @@ public class HibernateModelDao<T> implements ModelDao<T> {
                 transaction.commit();
             } catch (Exception e) {
                 transaction.rollback();
-                throw new RuntimeException(e);
+                throw new HibernateException(e);
             } finally {
                 sessionBean.close();
             }

@@ -44,7 +44,7 @@ public class Finder<T> extends QueryByModelImpl<T> implements Query<T> {
     }
 
     public QueryByModel<T> from(T t, Class<T> clazz) {
-        if (t == null) {
+        if (t == null || clazz == null) {
             throw new RuntimeException();
         }
         this.t = t;

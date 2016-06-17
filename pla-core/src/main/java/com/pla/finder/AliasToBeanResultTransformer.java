@@ -107,7 +107,7 @@ public class AliasToBeanResultTransformer extends AliasedTupleSubsetResultTransf
             }
 
         } catch (Exception e) {
-            throw new RuntimeException("Could not find setter for " + alias + " on class "
+            throw new HibernateException("Could not find setter for " + alias + " on class "
                     + model.getClass().getName());
         }
     }

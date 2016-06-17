@@ -32,7 +32,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
 
     protected Session getSession() {
         if (sessionFactory == null) {
-            throw new RuntimeException("No sessionFactory found. ");
+            throw new HibernateException("No sessionFactory found. ");
         }
         return sessionFactory.getCurrentSession();
     }
@@ -70,7 +70,7 @@ public abstract class BaseDAO<T> implements IBaseDAO<T> {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new HibernateException(e);
         }
         getSession().update(origT);
     }
